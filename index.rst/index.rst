@@ -6,7 +6,7 @@
 Welcome to the online user's guide for PyMieScatt!
 ==================================================
 
-Documentation is currently under development and will be available Monday, July 24th.
+Documentation is currently under development and will be available Monday, July 24th. Test.
 
 Install PyMieScatt
 ------------------
