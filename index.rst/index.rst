@@ -6,7 +6,7 @@
 Welcome to the online user's guide for PyMieScatt!
 ==================================================
 
-Documentation is currently under development and will be available Monday, July 24th. Test.
+Documentation is currently under development and will be available Monday, July 24th.
 
 Install PyMieScatt
 ------------------
@@ -19,11 +19,10 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
-   Introduction
-   Theory
-   Functions
-   Examples
+   Introduction <Introduction>
+   Theory <Theory>
+   Functions <Function>
+   Examples <Examples>
 
 
 
