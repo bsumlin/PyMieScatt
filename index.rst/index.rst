@@ -19,6 +19,11 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
+   Introduction
+   Theory
+   Functions
+   Examples
 
 
 
