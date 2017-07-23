@@ -24,7 +24,9 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
    Functions <Function>
    Examples <Examples>
 
+.. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
+   Return Mie efficencies of a spherical particle with a given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True.
 
 Indices and tables
 ==================
