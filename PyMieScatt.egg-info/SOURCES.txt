@@ -1,0 +1,13 @@
+setup.cfg
+setup.py
+PyMieScatt/CoreShell.py
+PyMieScatt/Inverse.py
+PyMieScatt/Mie.py
+PyMieScatt/__init__.py
+PyMieScatt/_version.py
+PyMieScatt.egg-info/PKG-INFO
+PyMieScatt.egg-info/SOURCES.txt
+PyMieScatt.egg-info/dependency_links.txt
+PyMieScatt.egg-info/not-zip-safe
+PyMieScatt.egg-info/requires.txt
+PyMieScatt.egg-info/top_level.txt
