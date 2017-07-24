@@ -11,9 +11,65 @@ def coerceDType(d):
     return d
 
 def MieQ(m, wavelength, diameter, asDict=False):
-  # Calculates extinction, scattering, absorption and backscatter efficiencies,
-  # as well as asymmetry parameter and qratio for a given m = n+ik, wavelength
-  # (in nm) and particle diameter (in nm).
+  """Summary line.
+
+  Extended description of function.
+
+  Args:
+    arg1: Description of arg1
+    arg2: Description of arg2
+
+  Returns:
+    Description of return value
+
+  Compute Mie efficencies of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
+
+    :math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
+
+    :math:`Q_{sca}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)(|a_n|^2+|b_n|^2)`
+
+    :math:`Q_{abs}=Q_{ext}-Q_{sca}`
+
+    :math:`Q_{back}=\frac{1}{x^2}\left|\sum_{n=1}^{n_{max}}(2n+1)(-1)^n(a_n-b_n)\right|^2`
+
+    :math:`Q_{ratio}=\frac{Q_{back}}{Q_{sca}}`
+
+    :math:`g=\frac{4}{Q_{sca}x^2}\left[\sum\limits_{n=1}^{n_{max}}\frac{n(n+2)}{n+1}\text{Re}\left\{a_n a_{n+1}^*+b_n b_{n+1}^*\right\}+\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}\text{Re}\left\{a_n b_n^*\right\}\right]`
+
+    :math:`Q_{pr}=Q_{ext}-gQ_{sca}`
+
+  where asterisks denote the complex conjugates.
+
+  Parameters
+  ----------
+  m : complex
+    The complex refractive index, with the convention :math:`m=n+ik`.
+  wavelength : float
+    The wavelength of incident light, in nanometers.
+  diameter : float
+    The diameter of the particle, in nanometers.
+  asDict : bool, optional
+
+  Returns
+  -------
+  qext, qsca, qabs, g, qpr, qback, qratio : float
+    The Mie efficencies described above.
+  q : dict
+    If asDict==True, :py:func:`MieQ` returns a dict of the above values with appropriate keys.
+
+  For example, compute the Mie efficencies of a particle 300 nm in diameter with m=1.77+0.63i, illuminated by :math:`\lambda` = 375 nm: ::
+    :Example:
+
+    >>> import PyMieScatt as ps
+    >>> ps.MieQ(1.77+0.63j,375,300,asDict=True)
+    {'Qext': 2.8584971991564112,
+    'Qsca': 1.3149276685170939,
+     'Qabs': 1.5435695306393173,
+     'g': 0.7251162362148782,
+     'Qpr': 1.9050217972664911,
+     'Qback': 0.20145510481352547,
+     'Qratio': 0.15320622543498222}
+  """
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
@@ -44,6 +100,9 @@ def MieQ(m, wavelength, diameter, asDict=False):
       return qext, qsca, qabs, g, qpr, qback, qratio
 
 def Mie_ab(m,x):
+  """
+  ugh
+  """
   mx = m*x
   nmax = np.round(2+x+4*(x**(1/3)))
   nmx = np.round(max(nmax,np.abs(mx))+16)
