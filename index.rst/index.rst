@@ -42,9 +42,22 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 
 .. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi d/\lambda << 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`RayleighMie_ab` to calculate :math:`a_n` and :math:`b_n`.
+   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi d/\lambda << 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
+   :math:`Q_{sca}=\frac{8x^4}{3}\left|{\frac{m^2-1}{m^2+2}}\right|^2`
+   :math:`Q_{abs}=4x\:\text{Im}\left\{\frac{m^2-1}{m^2+2}\right\}`
+   :math:`Q_{ext}=Q_{sca}+Q_{abs}`
+   :math:`Q_{back}=\frac{3Q_{sca}}{2}`
+   :math:`Q_{ratio}=1.5`
+   :math:`Q_{pr}=Q_{ext}`      
    
 .. py:Function::`LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
    Returns Mie efficencies of a spherical particle in the low-frequency regime given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate :math:`a_n` and :math:`b_n`.
 
+.. py:Function:: LowFrequencyMie_ab(m,x)
+
+   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi d/\lambda` by on limiting the expansion of :math:`a_n` and :math:`b_n` to second order:
+   :math:`a_1=-\frac{i2x^3}{3}\frac{(m^2-1)}{m^2+2}`
+   :math:`a_2=-\frac{ix^5}{15}\frac{(m^2-1)}{2m^2+3}`
+   :math:`b_1=-\frac{ix^5}{45}(m^2-1)`
+   :math:`b_2=0`
