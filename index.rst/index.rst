@@ -26,7 +26,17 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
-   Return Mie efficencies of a spherical particle with a given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True.
+   Return Mie efficencies of a spherical particle with a given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
+   
+		:math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
+		
+		:math:`Q_{sca}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)(|a_n|^2+|b_n|^2)`
+		
+		:math:`Q_{abs}=Q_{ext}-Q_{sca}`
+		
+		:math:`Q_{back}=\frac{1}{x^2}\left|\sum_{n=1}^{n_{max}}(2n+1)(-1)^n(a_n-b_n)\right|^2`
+		
+		
    
 .. py:Function:: Mie_ab(m,x)
 
