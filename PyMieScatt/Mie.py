@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""
+This is a docstring. Maybe.
+"""
 import numpy as np
 from scipy.special import jv, yv
 from scipy.integrate import trapz
