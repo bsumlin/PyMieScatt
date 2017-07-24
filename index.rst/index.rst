@@ -29,7 +29,7 @@ Functions for homogeneous spheres
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
-   Return Mie efficencies of a spherical particle with a given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
+   Compute Mie efficencies of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
    
 		:math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
 		
@@ -45,7 +45,25 @@ Functions for homogeneous spheres
 		
 		:math:`Q_{pr}=Q_{ext}-gQ_{sca}`
 		
-   where asterisks denote the complex conjugates. For example, compute the Mie efficencies of a particle 300 nm in diameter with m=1.77+0.63i, illuminated by :math:`\lambda` = 375 nm: ::
+   where asterisks denote the complex conjugates.
+   Parameters
+   ----------
+   m : complex
+       The complex refractive index, with the convention :math:`m=n+ik`.
+   wavelength : float
+       The wavelength of incident light, in nanometers.
+   diameter : float
+       The diameter of the particle, in nanometers.
+   asDict : bool, optional
+   
+   Returns
+   -------
+   qext, qsca, qabs, g, qpr, qback, qratio : float
+                                             The Mie efficencies described above.
+   q : dict
+       If asDict==True, :py:func:`MieQ` returns a dict of the above values with appropriate keys.
+   
+   For example, compute the Mie efficencies of a particle 300 nm in diameter with m=1.77+0.63i, illuminated by :math:`\lambda` = 375 nm: ::
    
 		>>> import PyMieScatt as ps
 		>>> ps.MieQ(1.77+0.63j,375,300,asDict=True)
@@ -108,7 +126,7 @@ When an efficency *Q* is integrated over a size distribution :math:`n_d(d_p)`, t
 
 		:math:`\beta=\int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n_d(d_p)(10^{-6})dd_p`
 		
-where :math:`d_p` is the diameter of the particle (in nm), :math:`n_d(d_p)` is the number of particles of diameter :math:`d_p` (per cubic centimeter), and the factor :math:`10^{-6}` is used to cast the result in units of :math:`\text{Mm^{-1}}`.
+where :math:`d_p` is the diameter of the particle (in nm), :math:`n_d(d_p)` is the number of particles of diameter :math:`d_p` (per cubic centimeter), and the factor :math:`10^{-6}` is used to cast the result in units of :math:`\text{Mm}^{-1}`.
 
 The bulk asymmetry parameter *G* is calculated by:
 
