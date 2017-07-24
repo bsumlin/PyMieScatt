@@ -40,19 +40,19 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
    
 .. py:Function:: Mie_ab(m,x)
 
-   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi d/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
 
    $ from PyMieScatt import Mie_ab
 
 .. py:Function:: Mie_cd(m,x)
 
-   Returns internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\pi d/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+   Returns internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
 
    $ from PyMieScatt import Mie_cd
 
 .. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi d/\lambda << 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
+   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda << 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
    
 		:math:`Q_{sca}=\frac{8x^4}{3}\left|{\frac{m^2-1}{m^2+2}}\right|^2`
    
@@ -72,7 +72,7 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 
 .. py:Function:: LowFrequencyMie_ab(m,x)
 
-   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi d/\lambda` by limiting the expansion of :math:`a_n` and :math:`b_n` to second order:
+   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of :math:`a_n` and :math:`b_n` to second order:
    
 		:math:`a_1=-\frac{i2x^3}{3}\frac{(m^2-1)}{m^2+2}`
    
