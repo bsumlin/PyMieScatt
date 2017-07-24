@@ -33,6 +33,7 @@
 # ones.
 extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
+	'sphinx.ext.imgmath',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.githubpages']
