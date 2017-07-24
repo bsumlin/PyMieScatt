@@ -41,11 +41,12 @@ Functions for homogeneous spheres
 		
 		:math:`Q_{ratio}=\frac{Q_{back}}{Q_{sca}}`
 		
-		:math:`g=\frac{4}{Q_{sca}x^2}\left[\sum_{n=1}^{n_{max}}\frac{n(n+2)}{n+1}\text{Re}\left\{a_n a_{n+1}^*+b_n b_{n+1}^*\right\}+\sum_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}\text{Re}\left\{a_n b_n^*\right\}\right]`
+		:math:`g=\frac{4}{Q_{sca}x^2}\left[\sum\limits_{n=1}^{n_{max}}\frac{n(n+2)}{n+1}\text{Re}\left\{a_n a_{n+1}^*+b_n b_{n+1}^*\right\}+\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}\text{Re}\left\{a_n b_n^*\right\}\right]`
 		
 		:math:`Q_{pr}=Q_{ext}-gQ_{sca}`
 		
    where asterisks denote the complex conjugates.
+   
    Parameters
    ----------
    m : complex
