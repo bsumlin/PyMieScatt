@@ -5,6 +5,7 @@
 
 Welcome to PyMieScatt's documentation!
 ======================================
+Since migrating to readthedocs, documentation has broken in many unexpected ways. It is currently under repair and will be available Monday, July 31. Thank you for your patience.
 
 .. toctree::
    :maxdepth: 2
