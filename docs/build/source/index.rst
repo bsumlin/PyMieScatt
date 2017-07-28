@@ -56,7 +56,8 @@ Functions for homogeneous spheres
    diameter : float
 	The diameter of the particle, in nanometers.
    asDict : bool, optional
-   
+	If specified and set to True, returns the results as a dict.
+	
    Returns
    -------
    qext, qsca, qabs, g, qpr, qback, qratio : float
