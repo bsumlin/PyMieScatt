@@ -48,6 +48,7 @@ Functions for homogeneous spheres
    where asterisks denote the complex conjugates.
    
    **Parameters**
+   
    m : complex
 	The complex refractive index, with the convention :math:`m=n+ik`.
    wavelength : float
@@ -58,6 +59,7 @@ Functions for homogeneous spheres
 	If specified and set to True, returns the results as a dict.
 	
    **Returns**
+   
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
    q : dict
