@@ -167,7 +167,7 @@ Functions for homogeneous spheres
 		 'Qsca': 0.00011805645915412197,
 		 'g': 0}
    
-.. py:Function::`LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
+.. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
    Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate :math:`a_n` and :math:`b_n`, and follows the same math as :py:func:'MieQ'.
 
@@ -209,10 +209,11 @@ where :math:`d_p` is the diameter of the particle (in nm), :math:`n_d(d_p)` is t
 The bulk asymmetry parameter *G* is calculated by:
 
 		:math:`G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}`
+		
 
-.. py:Function::`MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])`
+.. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`, and :math:`\beta_{ratio}`.
    
    **Parameters**
    
@@ -236,7 +237,7 @@ The bulk asymmetry parameter *G* is calculated by:
    q : dict
 	If asDict==True, :py:func:`MieQ_withSizeDistribution` returns a dict of the above values with appropriate keys.
 
-.. py:Function::`MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])`
+.. py:Function:: MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])
 
    Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
    
@@ -250,7 +251,7 @@ The bulk asymmetry parameter *G* is calculated by:
    geoStdDev : float
 	The geometric standard deviation :math:`\sigma_g`.
    geoMean : float
-	The geometric mean diameter :math:`\d_{pg}`, in nanometers.
+	The geometric mean diameter :math:`d_{pg}`, in nanometers.
    numberOfParticles : float
 	The total number of particles in the distribution.
    numberOfBins : int, optional
