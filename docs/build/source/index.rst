@@ -210,6 +210,78 @@ The bulk asymmetry parameter *G* is calculated by:
 
 		:math:`G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}`
 
-.. py:Function::`MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
+.. py:Function::`MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])`
 
    Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   sizeDistributionDiameterBins : list, tuple, or numpy.ndarray
+	The diameter bin midpoints of the size distribution, in nanometers.
+   sizeDistribution : list, tuple, or numpy.ndarray
+	The number concentrations of the size distribution bins. Must be the same size as sizeDistributionDiameterBins.
+   asDict : bool, optional
+	If specified and set to True, returns the results as a dict.
+	
+   **Returns**
+   
+   
+   Bext, Bsca, Babs, G, Bpr, Bback, Bratio : float
+	The Mie coefficients calculated by :py:func:`MieQ`, integrated over the size distribution.
+   q : dict
+	If asDict==True, :py:func:`MieQ_withSizeDistribution` returns a dict of the above values with appropriate keys.
+
+.. py:Function::`MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])`
+
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   geoStdDev : float
+	The geometric standard deviation :math:`\sigma_g`.
+   geoMean : float
+	The geometric mean diameter :math:`\d_{pg}`, in nanometers.
+   numberOfParticles : float
+	The total number of particles in the distribution.
+   numberOfBins : int, optional
+	The number of discrete bins in the distribution. Defaults to 1000.
+   lower : float, optional
+	The smallest diameter bin, in nanometers. Defaults to 1 nm.
+   upper : float, optional
+	The largest diameter bin, in nanometers. Defaults to 1000 nm.
+   returnDistribution : bool, optional
+	If True, both the size distribution bins and number concentrations will be returned.
+   asDict : bool, optional
+	If True, returns the results as a dict.
+	
+   **Returns**
+   
+   
+   Bext, Bsca, Babs, G, Bpr, Bback, Bratio : float
+	The Mie coefficients calculated by :py:func:`MieQ`, integrated over the size distribution.
+   diameters, nd : numpy.ndarray
+	The diameter bins and number concentrations per bin, respectively.
+   B : dict
+	If asDict==True, :py:func:`MieQ_withLognormalDistribution` returns a dict of the above values with appropriate keys.
+   
+   For example, compute the Mie coefficients of a lognormal size distribution with 1000000 particles, :math:`\sigma_g`=1.7, and :math:`d_{pg}`=200 nm; with m=1.60+0.08i illuminated by :math:`\lambda` = 532 nm: ::
+   
+		>>> import PyMieScatt as ps
+		>>> ps.MieQ_withLognormalDistribution(1.60+0.08j,532,1.7,200,1e6,asDict=True)
+		{'Babs': 33537.324569179938,
+		'Bback': 10188.473118449627,
+		'Bext': 123051.1109783932,
+		'Bpr': 62038.347528346232,
+		'Bratio': 12701.828124508347,
+		'Bsca': 89513.786409213266,
+		'bigG': 0.6816018615403715}
