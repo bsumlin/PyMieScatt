@@ -167,7 +167,7 @@ Functions for homogeneous spheres
 		 'Qsca': 0.00011805645915412197,
 		 'g': 0}
    
-.. py:Function::`LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
+.. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
    Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate :math:`a_n` and :math:`b_n`, and follows the same math as :py:func:'MieQ'.
 
@@ -212,7 +212,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 derp derp derp
 
-.. py:Function::`MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])`
+.. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
    Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
    
@@ -238,7 +238,7 @@ derp derp derp
    q : dict
 	If asDict==True, :py:func:`MieQ_withSizeDistribution` returns a dict of the above values with appropriate keys.
 
-.. py:Function::`MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])`
+.. py:Function:: MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])
 
    Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
    
