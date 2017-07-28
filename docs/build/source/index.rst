@@ -50,19 +50,19 @@ Functions for homogeneous spheres
    Parameters
    ----------
    m : complex
-       The complex refractive index, with the convention :math:`m=n+ik`.
+	The complex refractive index, with the convention :math:`m=n+ik`.
    wavelength : float
-       The wavelength of incident light, in nanometers.
+	The wavelength of incident light, in nanometers.
    diameter : float
-       The diameter of the particle, in nanometers.
+	The diameter of the particle, in nanometers.
    asDict : bool, optional
    
    Returns
    -------
    qext, qsca, qabs, g, qpr, qback, qratio : float
-                                             The Mie efficencies described above.
+	The Mie efficencies described above.
    q : dict
-       If asDict==True, :py:func:`MieQ` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`MieQ` returns a dict of the above values with appropriate keys.
    
    For example, compute the Mie efficencies of a particle 300 nm in diameter with m=1.77+0.63i, illuminated by :math:`\lambda` = 375 nm: ::
    
