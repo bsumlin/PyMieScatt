@@ -210,6 +210,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 		:math:`G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}`
 
+derp derp derp
 
 .. py:Function::`MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])`
 
