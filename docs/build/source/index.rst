@@ -29,7 +29,7 @@ Functions for homogeneous spheres
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
-   Compute Mie efficencies of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
+   Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
    
 		:math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
 		
@@ -47,8 +47,9 @@ Functions for homogeneous spheres
 		
    where asterisks denote the complex conjugates.
    
-   Parameters
-   ~~~~~~~~~~
+   
+Parameters
+~~~~~~~~~~
    m : complex
 	The complex refractive index, with the convention :math:`m=n+ik`.
    wavelength : float
@@ -58,8 +59,9 @@ Functions for homogeneous spheres
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
 	
-   Returns
-   ~~~~~~~
+	
+Returns
+~~~~~~~
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
    q : dict
