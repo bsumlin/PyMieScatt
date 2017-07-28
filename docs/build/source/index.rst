@@ -81,19 +81,47 @@ Functions for homogeneous spheres
    
 .. py:Function:: Mie_ab(m,x)
 
-   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\frac{\pi\,d_p}{\lambda}`. Typically not available as a top level call but can be specifically imported via ::
+   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
 
    $ from PyMieScatt import Mie_ab
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   x : float
+	The size parameter :math:`x=\pi\,d_p/\lambda`.
+	
+	**Returns**
+	
+	
+   :math:`a_n`, :math:`b_n` : numpy.ndarray
+	Arrays of size :math:`n_{max}=2+x+4x^{1/3}`
 
 .. py:Function:: Mie_cd(m,x)
 
-   Returns internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\frac{\pi\,d_p}{\lambda}`. Typically not available as a top level call but can be specifically imported via ::
+   Returns internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
 
    $ from PyMieScatt import Mie_cd
+   
+  **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   x : float
+	The size parameter :math:`x=\pi\,d_p/\lambda`.
+	
+	**Returns**
+	
+	
+   :math:`c_n`, :math:`d_n` : numpy.ndarray
+	Arrays of size :math:`n_{max}=2+x+4x^{1/3}`
 
 .. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\frac{\pi\,d_p}{\lambda} \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
+   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
    
 		:math:`Q_{sca}=\frac{8x^4}{3}\left|{\frac{m^2-1}{m^2+2}}\right|^2`
    
@@ -106,14 +134,46 @@ Functions for homogeneous spheres
 		:math:`Q_{ratio}=1.5`
    
 		:math:`Q_{pr}=Q_{ext}`      
+		
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   diameter : float
+	The diameter of the particle, in nanometers.
+   asDict : bool, optional
+	If specified and set to True, returns the results as a dict.
+	
+   **Returns**
+   
+   
+   qext, qsca, qabs, g, qpr, qback, qratio : float
+	The Mie efficencies described above.
+   q : dict
+	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above values with appropriate keys.
+   
+   For example, compute the Mie efficencies of a particle 50 nm in diameter with m=1.33+0.01i, illuminated by :math:`\lambda` = 870 nm: ::
+   
+		>>> import PyMieScatt as ps
+		>>> ps.MieQ(1.33+0.01j,870,50,asDict=True)
+		{'Qabs': 0.004057286640269908,
+		 'Qback': 0.00017708468873118297,
+		 'Qext': 0.0041753430994240295,
+		 'Qpr': 0.0041753430994240295,
+		 'Qratio': 1.5,
+		 'Qsca': 0.00011805645915412197,
+		 'g': 0}
    
 .. py:Function::`LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the low-frequency regime given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate :math:`a_n` and :math:`b_n`.
+   Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate :math:`a_n` and :math:`b_n`, and follows the same math as :py:func:'MieQ'.
 
 .. py:Function:: LowFrequencyMie_ab(m,x)
 
-   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\frac{\pi\,d_p}{\lambda}` by limiting the expansion of :math:`a_n` and :math:`b_n` to second order:
+   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of :math:`a_n` and :math:`b_n` to second order:
    
 		:math:`a_1=-\frac{i2x^3}{3}\frac{(m^2-1)}{m^2+2}`
    
@@ -122,6 +182,20 @@ Functions for homogeneous spheres
 		:math:`b_1=-\frac{ix^5}{45}(m^2-1)`
    
 		:math:`b_2=0`
+		
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   x : float
+	The size parameter :math:`x=\pi\,d_p/\lambda`.
+	
+	**Returns**
+   
+   
+   :math:`a_n`, :math:`b_n` : numpy.ndarray
+	Arrays of size 2.
 
 Functions for polydisperse size distributions of homogeneous spheres
 --------------------------------------------------------------------
