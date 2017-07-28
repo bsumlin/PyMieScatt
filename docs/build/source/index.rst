@@ -275,7 +275,7 @@ The bulk asymmetry parameter *G* is calculated by:
    B : dict
 	If asDict==True, :py:func:`MieQ_withLognormalDistribution` returns a dict of the above values with appropriate keys.
    
-   For example, compute the Mie coefficients of a lognormal size distribution with 1000000 particles, :math:`\sigma_g` = 1.7, and :math:`d_{pg}` = 200 nm; with m=1.60+0.08i illuminated by :math:`\lambda` = 532 nm: ::
+   For example, compute the Mie coefficients of a lognormal size distribution with 1000000 particles, σ\ :sub:`g` = 1.7, and d\ :sub:`pg` = 200 nm; with m=1.60+0.08i illuminated by λ = 532 nm: ::
    
 		>>> import PyMieScatt as ps
 		>>> ps.MieQ_withLognormalDistribution(1.60+0.08j,532,1.7,200,1e6,asDict=True)
