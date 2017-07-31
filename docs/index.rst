@@ -2,11 +2,20 @@
    sphinx-quickstart on Sat Jun 24 18:09:26 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents
+   
+   Theory <theory>
+   Forward Functions <forward>
+   Inverse Functions <inverse>
+   Examples <examples>
+   
+Online user's guide for the Python Mie Scattering package (PyMieScatt)
+======================================================================
 
-Online user's guide for the Python Mie Scattering package, PyMieScatt
-=====================================================================
-
-Documentation is currently under development. Migrating to readthedocs broke things in new and exciting ways. Documentation is scheduled to be complete on Monday, July 31st.
+Documentation is currently under development. Migrating to readthedocs broke things in new and exciting ways! Table of contents still doesn't work, so all documentation is currently on one page. Documentation will hopefully be complete on Monday, July 31st.
 
 Install PyMieScatt
 ------------------
@@ -16,14 +25,7 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
    $ pip install PyMieScatt
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents
-   
-   Theory <theory>
-   Forward Functions <forward>
-   Inverse Functions <inverse>
-   Examples <examples>
+
    
 Functions for homogeneous spheres
 ---------------------------------
