@@ -6,7 +6,7 @@ Functions for homogeneous spheres
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
-   Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates Q\ :sub:`i` via:
+   Computes Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates Q\ :sub:`i` via:
    
 		:math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
 		
@@ -58,9 +58,9 @@ Functions for homogeneous spheres
    
 .. py:Function:: Mie_ab(m,x)
 
-   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+   Computes external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
 
-   $ from PyMieScatt import Mie_ab
+   $ from PyMieScatt.Mie import Mie_ab
    
    **Parameters**
    
@@ -78,9 +78,9 @@ Functions for homogeneous spheres
 
 .. py:Function:: Mie_cd(m,x)
 
-   Returns internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+   Computes internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
 
-   $ from PyMieScatt import Mie_cd
+   $ from PyMieScatt.Mie import Mie_cd
    
   **Parameters**
    
@@ -98,7 +98,7 @@ Functions for homogeneous spheres
 
 .. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
+   Computes Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
    
 		:math:`Q_{sca}=\frac{8x^4}{3}\left|{\frac{m^2-1}{m^2+2}}\right|^2`
    
@@ -263,3 +263,138 @@ The bulk asymmetry parameter *G* is calculated by:
 		'Bratio': 12701.828124508347,
 		'Bsca': 89513.786409213266,
 		'bigG': 0.6816018615403715}
+		
+Functions for Coated Spheres (Core-Shell Particles)
+---------------------------------------------------
+
+.. py:Function:: MieQCoreShell(mCore, mShell, wavelength, dCore, dShell[, asDict=False])
+
+   Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, coated particle. Uses :py:func:`CoreShell_ab` to calculate a\ :sub:`n` and b\ :sub:`n` , and then calculates Q\ :sub:`i` following closely from the original BHMIE.
+   
+   **Parameters**
+   
+   
+   mCore : complex
+	The complex refractive index of the core region, with the convention :math:`m=n+ik`.
+   mShell : complex
+	The complex refractive index of the shell region, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   dCore : float
+	The diameter of the core, in nanometers.
+   dShell : float
+	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
+   asDict : bool, optional
+	If True, returns the results as a dict.
+	
+   **Returns**
+   
+   
+   qext, qsca, qabs, g, qpr, qback, qratio : float
+	The Mie efficencies described above.
+   q : dict
+	If asDict==True, :py:func:`MieQCoreShell` returns a dict of the above values with appropriate keys.
+	
+   **Considerations**
+   
+   
+   When using this function in a script, there are three simplifying clauses that can speed up computation when considering both coated and homogeneous particles. Upon determining the size parameters of the core and the shell:
+   
+   - if x\ :sub:`core` == x\ :sub:`shell`, then :py:func:`MieQCoreShell` returns Mie efficencies calculated by :py:func:`MieQ(mCore,wavelength,dShell)`.
+   - If x\ :sub:`core`==0, then :py:func:`MieQCoreShell` returns efficencies calculated by :py:func:`MieQ(mShell,wavelength,dShell)`.
+   - If m\ :sub:`core`==m\ :sub:`shell`, returns efficencies calculated by :py:func:`MieQ(mCore,wavelength,dShell)`.
+   
+.. py:Function: CoreShell_ab(m, x)
+
+   Computes external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+
+   $ from PyMieScatt.CoreShell import CoreShell_ab
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   x : float
+	The size parameter :math:`x=\pi\,d_p/\lambda`.
+	
+	**Returns**
+	
+	
+   :math:`a_n`, :math:`b_n` : numpy.ndarray
+	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
+
+Angular Functions
+-----------------
+
+These functions compute the angle-dependent scattering functions and create arrays that are useful for plotting.
+
+Homogeneous Spheres
+~~~~~~~~~~~~~~~~~~~
+
+.. py:Function: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
+
+   Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
+   
+		:math:`SR(\Theta)=|S_1|^2`
+		:math:`SL(\Theta)=|S_2|^2`
+		:math:`SU(\Theta)=\frac{1}{2}(SR+SL)`
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   diameter : float
+	The diameter of the particle, in nanometers.
+   minAngle : float, optional
+	The minimum scattering angle (in degrees) to be calculated. Defaults to 0.
+   maxAngle : float, optional
+	The maximum scattering angle (in degrees) to be calculated. Defaults to 180.
+   angularResolution : float, optional
+	The resolution of the output. Defaults to 0.5, meaning a value will be calculated for every 0.5 degrees.
+   normed : bool, optional
+	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
+	
+   **Returns**
+   
+   
+   theta : numpy.ndarray
+	An array of the angles used in calculations. Values will be spaced according to *angularResolution*, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
+   SL : numpy.ndarray
+	An array of the scattered intensity of left-polarized (parallel) light. Same size as the *theta* array.
+   SR : numpy.ndarray
+	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the *theta* array.
+   SU : numpy.ndarray
+	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *theta* array.
+
+
+.. py:Function: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
+
+   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   diameter : float
+	The diameter of the particle, in nanometers.
+   normed : bool, optional
+	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
+	
+   **Returns**
+   
+   
+   qR : numpy.ndarray
+	An array of the q-space angles used in calculations. Size is 3600.
+   SL : numpy.ndarray
+	An array of the scattered intensity of left-polarized (parallel) light. Same size as the *qR* array.
+   SR : numpy.ndarray
+	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the *qR* array.
+   SU : numpy.ndarray
+	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *qR* array.
