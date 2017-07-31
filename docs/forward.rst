@@ -1,7 +1,7 @@
-Functions for Forward Mie Calculations
-======================================
+Functions for Forward Mie Calculations of Homogeneous Spheres
+=============================================================
 
-Functions for homogeneous spheres
+Functions for single particles
 ---------------------------------
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
@@ -174,6 +174,86 @@ Functions for homogeneous spheres
    :math:`a_n`, :math:`b_n` : numpy.ndarray
 	Arrays of size 2.
 
+Functions for single particles across various ranges
+----------------------------------------------------
+
+.. py:Function:: MieQ_withDiameterRange(m, wavelength[, diameterRange=[10,1000], nd=1000, logD=False])
+
+   Computes the Mie efficencies of particles across a diameter range using :py:func:`MieQ`.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanomaters
+   diameterRange : list, optional
+	The diameter range, in nanometers. Convention is [*smallest*, *largest*]. Defaults to [10, 1000].
+   nd : int
+	The number of diameter bins in the range. Defaults to 1000.
+   logD : bool, optional
+	If True, will use logarithmically-spaced diameter bins. Defaults to False.
+	
+   **Returns**
+   
+   
+   diameters : numpy.ndarray
+	An array of the diameter bins that calculations were performed on. Size is equal to *nd*.
+   qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
+	The Mie efficencies at each diameter in *diameters*.
+	
+.. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=[100,1600], nw=1000, logW=False])
+
+   Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ`.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   diameter : float
+	The diameter of the particle, in nanometers.
+   wavelengthRange : list, optional
+	The wavelength range of incident light, in nanomaters. Convention is [*smallest*, *largest*]. Defaults to [100, 1600].
+   nw : int
+	The number of wavelength bins in the range. Defaults to 1000.
+   logW : bool, optional
+	If True, will use logarithmically-spaced wavelength bins. Defaults to False.
+	
+   **Returns**
+   
+   
+   wavelengths : numpy.ndarray
+	An array of the wavelength bins that calculations were performed on. Size is equal to *nw*.
+   qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
+	The Mie efficencies at each wavelength in *wavelengths*.
+	
+.. py:Function:: MieQ_withSizeParameterRange(m[, xRange=[1,10], nx=1000, logX=False])
+
+   Computes the Mie efficencies of particles across a size parameter range (\ :math:`x=\pi\,d_p/\lambda`\ ) using :py:func:`MieQ`.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   xRange : list, optional
+	The size parameter range. Convention is [*smallest*, *largest*]. Defaults to [1, 10].
+   nx : int
+	The number of size parameter bins in the range. Defaults to 1000.
+   logX : bool, optional
+	If True, will use logarithmically-spaced size parameter bins. Defaults to False.
+	
+   **Returns**
+   
+   
+   xValues : numpy.ndarray
+	An array of the size parameter bins that calculations were performed on. Size is equal to *nx*.
+   qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
+	The Mie efficencies at each size parameter in *xValues*.
+
+
 Functions for polydisperse size distributions of homogeneous spheres
 --------------------------------------------------------------------
 
@@ -264,74 +344,12 @@ The bulk asymmetry parameter *G* is calculated by:
 		'Bsca': 89513.786409213266,
 		'bigG': 0.6816018615403715}
 		
-Functions for Coated Spheres (Core-Shell Particles)
----------------------------------------------------
 
-.. py:Function:: MieQCoreShell(mCore, mShell, wavelength, dCore, dShell[, asDict=False])
-
-   Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, coated particle. Uses :py:func:`CoreShell_ab` to calculate a\ :sub:`n` and b\ :sub:`n` , and then calculates Q\ :sub:`i` following closely from the original BHMIE.
-   
-   **Parameters**
-   
-   
-   mCore : complex
-	The complex refractive index of the core region, with the convention :math:`m=n+ik`.
-   mShell : complex
-	The complex refractive index of the shell region, with the convention :math:`m=n+ik`.
-   wavelength : float
-	The wavelength of incident light, in nanometers.
-   dCore : float
-	The diameter of the core, in nanometers.
-   dShell : float
-	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
-   asDict : bool, optional
-	If True, returns the results as a dict.
-	
-   **Returns**
-   
-   
-   qext, qsca, qabs, g, qpr, qback, qratio : float
-	The Mie efficencies described above.
-   q : dict
-	If asDict==True, :py:func:`MieQCoreShell` returns a dict of the above values with appropriate keys.
-	
-   **Considerations**
-   
-   
-   When using this function in a script, there are three simplifying clauses that can speed up computation when considering both coated and homogeneous particles. Upon determining the size parameters of the core and the shell:
-   
-   - if x\ :sub:`core` == x\ :sub:`shell`, then :py:func:`MieQCoreShell` returns Mie efficencies calculated by MieQ(mCore,wavelength,dShell).
-   - If x\ :sub:`core` == 0, then :py:func:`MieQCoreShell` returns efficencies calculated by MieQ(mShell,wavelength,dShell).
-   - If m\ :sub:`core` == m\ :sub:`shell`, then :py:func:`MieQCoreShell` returns efficencies calculated by MieQ(mCore,wavelength,dShell).
-   
-.. py:Function: CoreShell_ab(m, x)
-
-   Computes external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
-
-   $ from PyMieScatt.CoreShell import CoreShell_ab
-   
-   **Parameters**
-   
-   
-   m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
-   x : float
-	The size parameter :math:`x=\pi\,d_p/\lambda`.
-	
-	**Returns**
-	
-	
-   :math:`a_n`, :math:`b_n` : numpy.ndarray
-	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
 Angular Functions
 -----------------
 
-These functions compute the angle-dependent scattering functions and create arrays that are useful for plotting.
-
-Homogeneous Spheres
-~~~~~~~~~~~~~~~~~~~
-
+These functions compute the angle-dependent scattered field intensities, scattering matrix elements, and create arrays that are useful for plotting.
 
 .. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
 
@@ -376,7 +394,7 @@ Homogeneous Spheres
 
 .. py:Function:: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
 
-   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`. The scattering angle variable, *qR*, is calculated by :math:`(4\pi /\lambda)\,sin(\theta /2)*(d_p /2)`.
+   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`. The scattering angle variable, *qR*, is calculated by :math:`qR=(4\pi /\lambda)\,sin(\theta /2)\,(d_p /2)`.
    
    **Parameters**
    
@@ -401,3 +419,88 @@ Homogeneous Spheres
 	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the *qR* array.
    SU : numpy.ndarray
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *qR* array.
+	
+	
+.. py:Function:: MatrixElements(m, wavelength, diameter, mu)
+
+   Calculate the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
+   
+		:math:`S_{11}=\frac{1}{2}\left(|S_2|^2+|S_1|^2\right)`
+		
+		:math:`S_{12}=\frac{1}{2}\left(|S_2|^2-|S_1|^2\right)`
+		
+		:math:`S_{33}=\frac{1}{2}(S_2^*S_1^*+S_2S_1^*)`
+		
+		:math:`S_{34}=\frac{i}{2}(S_1S_2^*-S_2S_1^*)`
+		
+		
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   diameter : float
+	The diameter of the particle, in nanometers.
+   mu : float
+	The cosine of the scattering angle.
+
+   **Returns**
+   S11, S12, S33, S34 : float
+	The matrix elements described above.
+	
+
+	
+.. py:Function:: MieS1S2(m,x,mu)
+
+   Calculates S\ :sub:`1` and S\ :sub:`2` at μ=cos(θ), where θ is the scattering angle. Must be explicitly imported via: ::
+   
+   $ from PyMieScatt.Mie import MieS1S2
+   
+   Uses :py:func:`Mie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and :py:func:`MiePiTau` to calculate π\ :sub:`n` and τ\ :sub:`n`. S\ :sub:`1` and S\ :sub:`2` are calculated by:
+   
+		:math:`S_1=\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}(a_n\pi_n+b_n\tau_n)`
+		
+		:math:`S_2=\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}(a_n\tau_n+b_n\pi_n)`
+		
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention :math:`m=n+ik`.
+   x : float
+	The size parameter :math:`x=\pi\,d_p/\lambda`.
+   mu : float
+	The cosine of the scattering angle.
+	
+   **Returns**
+   
+   
+   S1, S2 : complex
+	The S\ :sub:`1` and S\ :sub:`2` values.
+
+.. py:Function:: MiePiTau(mu,nmax)
+
+   Calculates π\ :sub:`n` and τ\ :sub:`n`. Must be explicitly imported via: ::
+   
+   $ from PyMieScatt.Mie import MiePiTau
+   
+   This function uses recurrence relations to calculate π\ :sub:`n` and τ\ :sub:`n`, beginning with π\ :sub:`0` = 1, π\ :sub:`1` = 3μ (where μ is the cosine of the scattering angle), τ\ :sub:`0` = μ, and τ\ :sub:`1` = 3cos(2cos\ :sup:`-1` (μ)):
+   
+		:math:`\pi_n=\frac{2n-1}{n-1}\mu\pi_{n-1}-\frac{n}{n-1}\pi_{n-2}`
+		
+		:math:`\tau_n=n\mu\pi_n-(n+1)\pi_{n-1}`
+		
+   **Parameters**
+   
+   
+   mu : float
+	The cosine of the scattering angle.
+   nmax : int
+	The number of elements to compute, where n\ :sub:`max` = 2+x+4x\ :sup:`1/3`.
+   **Returns**
+   
+   
+   p, t : numpy.ndarray
+	The π\ :sub:`n` and τ\ :sub:`n` arrays, of length *nmax*.

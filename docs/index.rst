@@ -27,7 +27,8 @@ This documentation includes a brief discussion of Mie theory and the development
    
    Documentation Home <index>
    Theory <theory>
-   Forward Functions <forward>
+   Forward Functions for Homogeneous Spheres <forward>
+   Forward Functions for Coated Spheres <forwardCS>
    Inverse Functions <inverse>
    Examples <examples>
    
