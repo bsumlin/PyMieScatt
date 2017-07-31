@@ -1,10 +1,13 @@
+.. role:: underline
+   :class: underline
+
 .. PyMieScatt documentation master file, created by
    sphinx-quickstart on Sat Jun 24 18:09:26 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the online user's guide for PyMieScatt!
-==================================================
+Online user's guide for PyMieScatt, the :underline:`Py`\thon :underline:`Mie` :underline:`Scatt`\ering Package
+===============================================================================
 
 Documentation is currently under development. Migrating to readthedocs broke things in new and exciting ways. Documentation is scheduled to be complete on Monday, July 31st.
 
@@ -97,7 +100,7 @@ Functions for homogeneous spheres
 	
 	
    :math:`a_n`, :math:`b_n` : numpy.ndarray
-	Arrays of size :math:`n_{max}=2+x+4x^{1/3}`
+	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
 .. py:Function:: Mie_cd(m,x)
 
@@ -117,7 +120,7 @@ Functions for homogeneous spheres
 	
 	
    :math:`c_n`, :math:`d_n` : numpy.ndarray
-	Arrays of size :math:`n_{max}=2+x+4x^{1/3}`
+	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
 .. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
 
@@ -155,7 +158,7 @@ Functions for homogeneous spheres
    q : dict
 	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above values with appropriate keys.
    
-   For example, compute the Mie efficencies of a particle 50 nm in diameter with m=1.33+0.01i, illuminated by :math:`\lambda` = 870 nm: ::
+   For example, compute the Mie efficencies of a particle 50 nm in diameter with m = 1.33+0.01i, illuminated by λ = 870 nm: ::
    
 		>>> import PyMieScatt as ps
 		>>> ps.MieQ(1.33+0.01j,870,50,asDict=True)
@@ -275,7 +278,7 @@ The bulk asymmetry parameter *G* is calculated by:
    B : dict
 	If asDict==True, :py:func:`MieQ_withLognormalDistribution` returns a dict of the above values with appropriate keys.
    
-   For example, compute the Mie coefficients of a lognormal size distribution with 1000000 particles, σ\ :sub:`g` = 1.7, and d\ :sub:`pg` = 200 nm; with m=1.60+0.08i illuminated by λ = 532 nm: ::
+   For example, compute the Mie coefficients of a lognormal size distribution with 1000000 particles, σ\ :sub:`g` = 1.7, and d\ :sub:`pg` = 200 nm; with m = 1.60+0.08i and λ = 532 nm: ::
    
 		>>> import PyMieScatt as ps
 		>>> ps.MieQ_withLognormalDistribution(1.60+0.08j,532,1.7,200,1e6,asDict=True)
