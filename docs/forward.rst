@@ -300,9 +300,9 @@ Functions for Coated Spheres (Core-Shell Particles)
    
    When using this function in a script, there are three simplifying clauses that can speed up computation when considering both coated and homogeneous particles. Upon determining the size parameters of the core and the shell:
    
-   - if x\ :sub:`core` == x\ :sub:`shell`, then :py:func:`MieQCoreShell` returns Mie efficencies calculated by :py:func:`MieQ(mCore,wavelength,dShell)`.
-   - If x\ :sub:`core`==0, then :py:func:`MieQCoreShell` returns efficencies calculated by :py:func:`MieQ(mShell,wavelength,dShell)`.
-   - If m\ :sub:`core`==m\ :sub:`shell`, returns efficencies calculated by :py:func:`MieQ(mCore,wavelength,dShell)`.
+   - if x\ :sub:`core` == x\ :sub:`shell`, then :py:func:`MieQCoreShell` returns Mie efficencies calculated by MieQ(mCore,wavelength,dShell).
+   - If x\ :sub:`core` == 0, then :py:func:`MieQCoreShell` returns efficencies calculated by MieQ(mShell,wavelength,dShell).
+   - If m\ :sub:`core` == m\ :sub:`shell`, then :py:func:`MieQCoreShell` returns efficencies calculated by MieQ(mCore,wavelength,dShell).
    
 .. py:Function: CoreShell_ab(m, x)
 
@@ -337,9 +337,11 @@ Homogeneous Spheres
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
-		:math:`SR(\Theta)=|S_1|^2`
-		:math:`SL(\Theta)=|S_2|^2`
-		:math:`SU(\Theta)=\frac{1}{2}(SR+SL)`
+		:math:`SR(\theta)=|S_1|^2`
+		
+		:math:`SL(\theta)=|S_2|^2`
+		
+		:math:`SU(\theta)=\frac{1}{2}(SR+SL)`
    
    **Parameters**
    
@@ -374,7 +376,7 @@ Homogeneous Spheres
 
 .. py:Function:: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
 
-   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light.
+   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`. The scattering angle variable, *qR*, is calculated by :math:`(4\pi /\lambda)\,sin(\theta /2)*(d_p /2)`.
    
    **Parameters**
    
