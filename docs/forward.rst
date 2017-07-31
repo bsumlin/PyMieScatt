@@ -332,7 +332,8 @@ These functions compute the angle-dependent scattering functions and create arra
 Homogeneous Spheres
 ~~~~~~~~~~~~~~~~~~~
 
-.. py:Function: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
+
+.. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
@@ -371,7 +372,7 @@ Homogeneous Spheres
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *theta* array.
 
 
-.. py:Function: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
+.. py:Function:: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
 
    Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light.
    
