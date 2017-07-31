@@ -6,7 +6,7 @@ Functions for single particles
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
-   Computes Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates Q\ :sub:`i` via:
+   Computes Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates *Q* via:
    
 		:math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
 		
@@ -28,7 +28,7 @@ Functions for single particles
    
    
    m : complex
-	The complex refractive index, with the convention :math:`m=n+ik`.
+	The complex refractive index, with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    diameter : float
@@ -44,7 +44,7 @@ Functions for single particles
    q : dict
 	If asDict==True, :py:func:`MieQ` returns a dict of the above values with appropriate keys.
    
-   For example, compute the Mie efficencies of a particle 300 nm in diameter with m=1.77+0.63i, illuminated by :math:`\lambda` = 375 nm: ::
+   For example, compute the Mie efficencies of a particle 300 nm in diameter with m = 1.77+0.63i, illuminated by λ = 375 nm: ::
    
 		>>> import PyMieScatt as ps
 		>>> ps.MieQ(1.77+0.63j,375,300,asDict=True)
@@ -58,7 +58,7 @@ Functions for single particles
    
 .. py:Function:: Mie_ab(m,x)
 
-   Computes external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+   Computes external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Must be explicitly imported via ::
 
    $ from PyMieScatt.Mie import Mie_ab
    
@@ -66,19 +66,19 @@ Functions for single particles
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    x : float
 	The size parameter :math:`x=\pi\,d_p/\lambda`.
 	
 	**Returns**
 	
 	
-   :math:`a_n`, :math:`b_n` : numpy.ndarray
-	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
+   an, bn` : numpy.ndarray
+	Arrays of size n\ :sub:`max` = 2+\ *x*+4\ *x*:sup:`1/3`
 
 .. py:Function:: Mie_cd(m,x)
 
-   Computes internal field coefficients :math:`c_n` and :math:`d_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Typically not available as a top level call but can be specifically imported via ::
+   Computes internal field coefficients c\ :sub:`n` and d\ :sub:`n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Must be explicitly imported via ::
 
    $ from PyMieScatt.Mie import Mie_cd
    
@@ -86,14 +86,14 @@ Functions for single particles
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    x : float
 	The size parameter :math:`x=\pi\,d_p/\lambda`.
 	
 	**Returns**
 	
 	
-   :math:`c_n`, :math:`d_n` : numpy.ndarray
+   cn, dn : numpy.ndarray
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
 .. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
@@ -116,7 +116,7 @@ Functions for single particles
    
    
    m : complex
-	The complex refractive index, with the convention :math:`m=n+ik`.
+	The complex refractive index, with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    diameter : float
@@ -146,11 +146,11 @@ Functions for single particles
    
 .. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate :math:`a_n` and :math:`b_n`, and follows the same math as :py:func:'MieQ'.
+   Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and follows the same math as :py:func:`MieQ`.
 
 .. py:Function:: LowFrequencyMie_ab(m,x)
 
-   Returns external field coefficients :math:`a_n` and :math:`b_n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of :math:`a_n` and :math:`b_n` to second order:
+   Returns external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of a\ :sub:`n` and b\ :sub:`n` to second order:
    
 		:math:`a_1=-\frac{i2x^3}{3}\frac{(m^2-1)}{m^2+2}`
    
@@ -164,14 +164,14 @@ Functions for single particles
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    x : float
 	The size parameter :math:`x=\pi\,d_p/\lambda`.
 	
 	**Returns**
    
    
-   :math:`a_n`, :math:`b_n` : numpy.ndarray
+   an, bn : numpy.ndarray
 	Arrays of size 2.
 
 Functions for single particles across various ranges
@@ -185,12 +185,12 @@ Functions for single particles across various ranges
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanomaters
    diameterRange : list, optional
 	The diameter range, in nanometers. Convention is [*smallest*, *largest*]. Defaults to [10, 1000].
-   nd : int
+   nd : int, optional
 	The number of diameter bins in the range. Defaults to 1000.
    logD : bool, optional
 	If True, will use logarithmically-spaced diameter bins. Defaults to False.
@@ -211,12 +211,12 @@ Functions for single particles across various ranges
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    diameter : float
 	The diameter of the particle, in nanometers.
    wavelengthRange : list, optional
 	The wavelength range of incident light, in nanomaters. Convention is [*smallest*, *largest*]. Defaults to [100, 1600].
-   nw : int
+   nw : int, optional
 	The number of wavelength bins in the range. Defaults to 1000.
    logW : bool, optional
 	If True, will use logarithmically-spaced wavelength bins. Defaults to False.
@@ -237,10 +237,10 @@ Functions for single particles across various ranges
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    xRange : list, optional
 	The size parameter range. Convention is [*smallest*, *largest*]. Defaults to [1, 10].
-   nx : int
+   nx : int, optional
 	The number of size parameter bins in the range. Defaults to 1000.
    logX : bool, optional
 	If True, will use logarithmically-spaced size parameter bins. Defaults to False.
@@ -257,11 +257,11 @@ Functions for single particles across various ranges
 Functions for polydisperse size distributions of homogeneous spheres
 --------------------------------------------------------------------
 
-When an efficency *Q* is integrated over a size distribution :math:`n_d(d_p)`, the result is the *coefficient* :math:`\beta`, which carries units of inverse length. The general form is:
+When an efficiency *Q* is integrated over a size distribution n\ :sub:`d`\ (d\ :sub:`p`), the result is the *coefficient* :math:`\beta`, which carries units of inverse length. The general form is:
 
 		:math:`\beta=\int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n_d(d_p)(10^{-6})dd_p`
 		
-where :math:`d_p` is the diameter of the particle (in nm), :math:`n_d(d_p)` is the number of particles of diameter :math:`d_p` (per cubic centimeter), and the factor :math:`10^{-6}` is used to cast the result in units of :math:`\text{Mm}^{-1}`.
+where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`.
 
 The bulk asymmetry parameter *G* is calculated by:
 
@@ -270,13 +270,13 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`, and :math:`\beta_{ratio}`.
+   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`.
    
    **Parameters**
    
    
    m : complex
-	The complex refractive index, with the convention :math:`m=n+ik`.
+	The complex refractive index, with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    sizeDistributionDiameterBins : list, tuple, or numpy.ndarray
@@ -302,7 +302,7 @@ The bulk asymmetry parameter *G* is calculated by:
    
    
    m : complex
-	The complex refractive index, with the convention :math:`m=n+ik`.
+	The complex refractive index, with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    geoStdDev : float
@@ -365,7 +365,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    diameter : float
@@ -400,7 +400,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    diameter : float
@@ -438,7 +438,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
    diameter : float
@@ -468,7 +468,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    
    m : complex
-	The complex refractive index with the convention :math:`m=n+ik`.
+	The complex refractive index with the convention *m = n+ik*.
    x : float
 	The size parameter :math:`x=\pi\,d_p/\lambda`.
    mu : float

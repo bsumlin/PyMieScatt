@@ -16,8 +16,7 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 
    $ pip install PyMieScatt
    
-This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer
-<www.sciencedirect.com/science/journal/00224073>`_. It is currently under review for publication.
+This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It is currently under review for publication.
 
 
 
@@ -26,9 +25,8 @@ This documentation includes a brief discussion of Mie theory and the development
    :caption: Table of Contents
    
    Documentation Home <index>
-   Theory <theory>
+   Introduction to Mie Theory <theory>
    Forward Functions for Homogeneous Spheres <forward>
    Forward Functions for Coated Spheres <forwardCS>
-   Inverse Functions <inverse>
-   Examples <examples>
+   Inverse Mie Functions for Homogeneous Spheres <inverse>
    
