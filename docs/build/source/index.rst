@@ -1,13 +1,10 @@
-.. role:: underline
-   :class: underline
-
 .. PyMieScatt documentation master file, created by
    sphinx-quickstart on Sat Jun 24 18:09:26 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Online user's guide for PyMieScatt, the :underline:`Py`\thon :underline:`Mie` :underline:`Scatt`\ering Package
-===============================================================================
+Online user's guide for the Python Mie Scattering package, PyMieScatt
+=====================================================================
 
 Documentation is currently under development. Migrating to readthedocs broke things in new and exciting ways. Documentation is scheduled to be complete on Monday, July 31st.
 
@@ -22,17 +19,17 @@ You can install PyMieScatt from `PyPI <https://pypi.python.org/pypi/PyMieScatt>`
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   Introduction <Introduction>
-   Theory <Theory>
-   Functions <Function>
-   Examples <Examples>
+   Theory <theory>
+   Forward Functions <forward>
+   Inverse Functions <inverse>
+   Examples <examples>
    
 Functions for homogeneous spheres
 ---------------------------------
 
 .. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
 
-   Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates :math:`Q_i` via:
+   Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates Q\ :sub:`i` via:
    
 		:math:`Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}`
 		
