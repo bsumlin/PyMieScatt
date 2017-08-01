@@ -508,8 +508,6 @@ These functions compute the angle-dependent scattered field intensities, scatter
 Example
 ~~~~~~~
 
-The angular functions return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. Here's an image of theta-space (left) and q-space (right) scattering intensity functions for a 5 μm particle with m = 1.7+0.5i and λ = 532 nm.
+The angular functions return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. Here's an image of theta-space (left) and q-space (right) scattering intensity functions for a 5 μm particle with m=1.7+0.5i and λ=532 nm.
 
 .. image:: images/sif.png
-
-   :alt: Theta-space (left) and q-space (right) scattering intensity functions for a 5 μm particle with m = 1.7+0.5i and λ = 532 nm.
