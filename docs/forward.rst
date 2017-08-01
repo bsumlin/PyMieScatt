@@ -498,7 +498,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
    mu : float
 	The cosine of the scattering angle.
    nmax : int
-	The number of elements to compute, where n\ :sub:`max` = 2+x+4x\ :sup:`1/3`.
+	The number of elements to compute. Typically, n\ :sub:`max` = 2+x+4x\ :sup:`1/3`, but can be given any integer.
    **Returns**
    
    
