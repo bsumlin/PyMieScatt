@@ -270,7 +270,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
-   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses :py:func:`scipy.integrate.trapz` to compute the integral.
+   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a smooth, continuous, compactly-supported distribution.
    
    **Parameters**
    
@@ -296,7 +296,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`.
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
    
    **Parameters**
    
