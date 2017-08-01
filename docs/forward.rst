@@ -270,7 +270,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
-   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses :ref:`scipy.integrate.trapz <scipy:trapz>` to compute the integral.
+   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses :py:func:`scipy.integrate.trapz` to compute the integral.
    
    **Parameters**
    
