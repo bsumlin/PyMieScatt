@@ -261,7 +261,7 @@ When an efficiency *Q* is integrated over a size distribution n\ :sub:`d`\ (d\ :
 
 		:math:`\beta=\int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n_d(d_p)(10^{-6})dd_p`
 		
-where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`.
+where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`. 
 
 The bulk asymmetry parameter *G* is calculated by:
 
@@ -270,7 +270,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
-   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`.
+   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses :ref:`scipy.integrate.trapz <scipy:trapz>` to compute the integral.
    
    **Parameters**
    
