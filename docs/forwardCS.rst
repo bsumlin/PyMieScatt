@@ -57,3 +57,34 @@ Functions for Coated Spheres (Core-Shell Particles)
 	
    :math:`a_n`, :math:`b_n` : numpy.ndarray
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
+
+.. py:Function:: CoreShellScatteringFunction(mCore, mShell, wavelength, dCore, dShell, thetaSteps)
+
+   This function is under development.
+   
+   Computes the angle-dependent scattering intensity of a coated sphere.
+   
+   **Parameters**
+   
+   
+   mCore : complex
+	The complex refractive index of the core region, with the convention :math:`m=n+ik`.
+   mShell : complex
+	The complex refractive index of the shell region, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   dCore : float
+	The diameter of the core, in nanometers.
+   dShell : float
+	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
+   thetaSteps : int
+	The number of points between 0 and 180 degrees to use in calculations.
+
+   **Returns**
+   
+   
+   incomplete : NaN
+   
+.. py.Function:: CoreShellS1S2(mCore, mShell, xCore, xShell, mu)
+
+   Computes S1 and S2 of a coated sphere as a function of mu, the cosine of the scattering angle.

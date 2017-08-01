@@ -60,7 +60,7 @@ Functions for single particles
 
    Computes external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Must be explicitly imported via ::
 
-   $ from PyMieScatt.Mie import Mie_ab
+   >>> from PyMieScatt.Mie import Mie_ab
    
    **Parameters**
    
@@ -73,14 +73,14 @@ Functions for single particles
 	**Returns**
 	
 	
-   an, bn` : numpy.ndarray
-	Arrays of size n\ :sub:`max` = 2+\ *x*+4\ *x*:sup:`1/3`
+   an, bn : numpy.ndarray
+	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
 .. py:Function:: Mie_cd(m,x)
 
    Computes internal field coefficients c\ :sub:`n` and d\ :sub:`n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda`. Must be explicitly imported via ::
 
-   $ from PyMieScatt.Mie import Mie_cd
+   >>> from PyMieScatt.Mie import Mie_cd
    
   **Parameters**
    
@@ -456,7 +456,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
 
    Calculates S\ :sub:`1` and S\ :sub:`2` at μ=cos(θ), where θ is the scattering angle. Must be explicitly imported via: ::
    
-   $ from PyMieScatt.Mie import MieS1S2
+   >>> from PyMieScatt.Mie import MieS1S2
    
    Uses :py:func:`Mie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and :py:func:`MiePiTau` to calculate π\ :sub:`n` and τ\ :sub:`n`. S\ :sub:`1` and S\ :sub:`2` are calculated by:
    
@@ -484,7 +484,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
 
    Calculates π\ :sub:`n` and τ\ :sub:`n`. Must be explicitly imported via: ::
    
-   $ from PyMieScatt.Mie import MiePiTau
+   >>> from PyMieScatt.Mie import MiePiTau
    
    This function uses recurrence relations to calculate π\ :sub:`n` and τ\ :sub:`n`, beginning with π\ :sub:`0` = 1, π\ :sub:`1` = 3μ (where μ is the cosine of the scattering angle), τ\ :sub:`0` = μ, and τ\ :sub:`1` = 3cos(2cos\ :sup:`-1` (μ)):
    
