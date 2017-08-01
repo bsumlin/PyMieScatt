@@ -504,3 +504,8 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    p, t : numpy.ndarray
 	The π\ :sub:`n` and τ\ :sub:`n` arrays, of length *nmax*.
+
+Examples
+~~~~~~~~
+
+.. image:: images/sif.png
