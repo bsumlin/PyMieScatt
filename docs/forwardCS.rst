@@ -59,8 +59,6 @@ Functions for Coated Spheres (Core-Shell Particles)
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
 .. py:Function:: CoreShellScatteringFunction(mCore, mShell, wavelength, dCore, dShell[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
-
-   This function is under development.
    
    Computes the angle-dependent scattering intensity of a coated sphere.
    
@@ -83,8 +81,70 @@ Functions for Coated Spheres (Core-Shell Particles)
    **Returns**
    
    
-   incomplete : NaN
+   theta : numpy.ndarray
+	An array of the angles used in calculations. Values will be spaced according to *angularResolution*, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
+   SL : numpy.ndarray
+	An array of the scattered intensity of left-polarized (parallel) light. Same size as the *theta* array.
+   SR : numpy.ndarray
+	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the *theta* array.
+   SU : numpy.ndarray
+	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *theta* array.
    
-.. py.Function:: CoreShellS1S2(mCore, mShell, xCore, xShell, mu)
+.. py:Function:: CoreShellS1S2(mCore, mShell, xCore, xShell, mu)
 
    Computes S1 and S2 of a coated sphere as a function of mu, the cosine of the scattering angle.
+   
+   **Parameters**
+   
+   
+   mCore : complex
+	The complex refractive index of the core region, with the convention :math:`m=n+ik`.
+   mShell : complex
+	The complex refractive index of the shell region, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   dCore : float
+	The diameter of the core, in nanometers.
+   dShell : float
+	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
+   mu : float
+	The cosine of the scattering angle.
+	
+   **Returns**
+   
+   
+   S1, S2 : complex
+	The S\ :sub:`1` and S\ :sub:`2` values.
+	
+.. py:Function CoreShellMatrixElements(mCore, mShell, xCore, xShell, mu)
+
+   Calculates the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
+   
+		:math:`S_{11}=\frac{1}{2}\left(|S_2|^2+|S_1|^2\right)`
+		
+		:math:`S_{12}=\frac{1}{2}\left(|S_2|^2-|S_1|^2\right)`
+		
+		:math:`S_{33}=\frac{1}{2}(S_2^*S_1^*+S_2S_1^*)`
+		
+		:math:`S_{34}=\frac{i}{2}(S_1S_2^*-S_2S_1^*)`
+		
+		
+   **Parameters**
+   
+   
+   mCore : complex
+	The complex refractive index of the core region, with the convention :math:`m=n+ik`.
+   mShell : complex
+	The complex refractive index of the shell region, with the convention :math:`m=n+ik`.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   dCore : float
+	The diameter of the core, in nanometers.
+   dShell : float
+	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
+   mu : float
+	The cosine of the scattering angle.
+
+   **Returns**
+   S11, S12, S33, S34 : float
+	The matrix elements described above.

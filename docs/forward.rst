@@ -423,7 +423,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
 	
 .. py:Function:: MatrixElements(m, wavelength, diameter, mu)
 
-   Calculate the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
+   Calculates the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
    
 		:math:`S_{11}=\frac{1}{2}\left(|S_2|^2+|S_1|^2\right)`
 		
