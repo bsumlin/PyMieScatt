@@ -30,8 +30,8 @@ Documentation To-Do List
    :caption: Table of Contents
    
    Documentation Home <index>
-   Introduction to Mie Theory <theory>
+   Introduction to Mie Theory (incomplete) <theory>
    Forward Functions for Homogeneous Spheres <forward>
    Forward Functions for Coated Spheres <forwardCS>
-   Inverse Mie Functions for Homogeneous Spheres <inverse>
+   Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
    
