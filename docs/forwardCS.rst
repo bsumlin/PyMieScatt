@@ -58,7 +58,7 @@ Functions for Coated Spheres (Core-Shell Particles)
    :math:`a_n`, :math:`b_n` : numpy.ndarray
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
-.. py:Function:: CoreShellScatteringFunction(mCore, mShell, wavelength, dCore, dShell, thetaSteps)
+.. py:Function:: CoreShellScatteringFunction(mCore, mShell, wavelength, dCore, dShell[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
 
    This function is under development.
    

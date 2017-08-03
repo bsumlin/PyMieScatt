@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# http://pymiescatt.readthedocs.io/en/latest/inverse.html
 from PyMieScatt.Mie import Mie_ab
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,6 +15,7 @@ def coerceDType(d):
     return d
 
 def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,QbackMeasured=None,gridPoints=200,interpolationFactor=2,maxError=0.005,makePlot=True,axisOption=0,returnGraphElements=False,annotation=True):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if (gridPoints*interpolationFactor) < 400:
     if QbackMeasured is not None:
@@ -183,6 +184,7 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
     return solutionSet,forwardCalculations,solutionErrors
 
 def GraphicalInversion_withSizeDistribution(BscaMeasured,BabsMeasured,wavelength,diameterBins,concentration,nMin=1,nMax=3,kMin=0.00001,kMax=1,gridPoints=60,interpolationFactor=2,maxError=0.005,axisOption=0,returnGraphElements=False,annotation=True,SDinset=False):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion_withSizeDistribution
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   diameterBins = coerceDType(diameterBins)
   concentration = coerceDType(concentration)
@@ -339,6 +341,7 @@ def find_intersections(A,B):
   return xi[arrayAll(xconds)], yi[arrayAll(yconds)]
 
 def IterativeInversion(Qsca,Qabs,wavelength,diameter,tolerance=0.0005,initial_m=1.3+0.0j):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if type(initial_m) not in [list,tuple]:
     initial_m = [initial_m]
@@ -435,6 +438,7 @@ def IterativeInversion(Qsca,Qabs,wavelength,diameter,tolerance=0.0005,initial_m=
   return resultM, resultScaErr, resultAbsErr
 
 def IterativeInversion_withSizeDistribution(Bsca,Babs,wavelength,diameterBins,sizeDistribution,tolerance=0.0005,initial_m=1.3+0.0j):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion_withSizeDistribution
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if type(initial_m) not in [list,tuple]:
     initial_m = [initial_m]
@@ -528,13 +532,14 @@ def IterativeInversion_withSizeDistribution(Bsca,Babs,wavelength,diameterBins,si
     resultM.append(m)
     resultScaErr.append(scaError)
     resultAbsErr.append(absError)
-    
+
   if len(resultM)==1:
     return resultM[0], resultScaErr[0], resultAbsErr[0]
   else:
     return resultM, resultScaErr, resultAbsErr
 
 def fastMie_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#fastMie_WithSizeDistribution
   sizeDistributionDiameterBins = coerceDType(sizeDistributionDiameterBins)
   sizeDistribution = coerceDType(sizeDistribution)
   _length = np.size(sizeDistributionDiameterBins)
@@ -552,6 +557,7 @@ def fastMie_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, si
   return Bsca, Babs
 
 def fastMieQ(m, wavelength, diameter):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#fastMieQ
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0
@@ -566,4 +572,3 @@ def fastMieQ(m, wavelength, diameter):
     qback = (1/x2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
     qabs = qext-qsca
     return qsca, qabs, qback
-

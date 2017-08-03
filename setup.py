@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-
+"""
+Documentation is hosted at http://pymiescatt.readthedocs.io/en/latest/index.html
+PyMieScatt - the Python Mie Scattering Package
+Written by Benjamin Sumlin, Washington University in St. Louis
+Aerosol Impacts and Research Laboratory
+Department of Energy, Environmental, and Chemical Engineering
+Special thanks to Dr. Rajan Chakrabarty, Dr. William Heinson, Claire Fortenberry, and Apoorva Pandey
+"""
 from setuptools import setup
 import re
 VERSIONFILE="PyMieScatt/_version.py"
@@ -14,7 +21,7 @@ else:
 setup(name='PyMieScatt',
       version=verstr,
       description="A collection of forward and inverse Mie solving routines based on Bohren and Huffman's Mie Theory derivations.",
-      long_description=verstr + ' - considerably refactored and commented code to be more human-readable. Added a graphical inversion method.',
+      long_description=verstr + ' - Code base is complete. More features will be added in the future that build upon existing code.\nAdded links to documentation in source code. Docs are hosted at `ReadTheDocs <http://pymiescatt.readthedocs.io/>`_',
       url='http://air.eece.wustl.edu/people/ben-sumlin/',
       author='Benjamin Sumlin',
       author_email='bsumlin@wustl.edu',

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+# http://pymiescatt.readthedocs.io/en/latest/forward.html
 import numpy as np
 from scipy.special import jv, yv
 from scipy.integrate import trapz
@@ -11,6 +11,7 @@ def coerceDType(d):
     return d
 
 def MieQ(m, wavelength, diameter, asDict=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
@@ -41,6 +42,7 @@ def MieQ(m, wavelength, diameter, asDict=False):
       return qext, qsca, qabs, g, qpr, qback, qratio
 
 def Mie_ab(m,x):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_ab
   mx = m*x
   nmax = np.round(2+x+4*(x**(1/3)))
   nmx = np.round(max(nmax,np.abs(mx))+16)
@@ -72,6 +74,7 @@ def Mie_ab(m,x):
   return an, bn
 
 def Mie_cd(m,x):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_cd
   mx = m*x
   nmax = np.round(2+x+4*(x**(1/3)))
   nmx = np.round(max(nmax,np.abs(mx))+16)
@@ -108,6 +111,7 @@ def Mie_cd(m,x):
   return cn, dn
 
 def RayleighMieQ(m, wavelength, diameter, asDict=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#RayleighMieQ
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
@@ -127,8 +131,7 @@ def RayleighMieQ(m, wavelength, diameter, asDict=False):
       return qext, qsca, qabs, g, qpr, qback, qratio
 
 def LowFrequencyMieQ(m, wavelength, diameter, asDict=False):
-  # A computationally-cheap way to do full Mie calculations in the Rayleigh limit.
-  # Only retains two terms in an and bn per pg 131 of B&H
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#LowFrequencyMieQ
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
@@ -159,6 +162,7 @@ def LowFrequencyMieQ(m, wavelength, diameter, asDict=False):
       return qext, qsca, qabs, g, qpr, qback, qratio
 
 def LowFrequencyMie_ab(m,x):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#LowFrequencyMie_ab
   # B&H page 131
   m2 = m**2
   LL = (m**2-1)/(m**2+2)
@@ -175,10 +179,7 @@ def LowFrequencyMie_ab(m,x):
   return an,bn
 
 def MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution, asDict=False):
-  # Calculates Mie efficencies integrated across a size distribution, with bins
-  # given in nm and the distribution given in particles/cm^3. When using a TSI
-  # SMPS, be sure that the units of the output are dW. This function also takes
-  # a given m=n+ik, wavelength (in nm) and particle diameter (in nm).
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withSizeDistribution
   sizeDistributionDiameterBins = coerceDType(sizeDistributionDiameterBins)
   sizeDistribution = coerceDType(sizeDistribution)
   _length = np.size(sizeDistributionDiameterBins)
@@ -210,6 +211,7 @@ def MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeD
     return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio
 
 def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#ScatteringFunction
   x = np.pi*diameter/wavelength
   theta = np.linspace(minAngle,maxAngle,int((maxAngle-minAngle)/angularResolution))*np.pi/180
   thetaSteps = len(theta)
@@ -229,6 +231,7 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
   return theta,SL,SR,SU
 
 def SF_withSizeDistribution(m, wavelength, diameters, bins, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_withSizeDistribution
   theta = np.arange(0,np.pi,angularResolution)
   thetaSteps = len(theta)
   diameters = coerceDType(diameters)
@@ -254,6 +257,7 @@ def SF_withSizeDistribution(m, wavelength, diameters, bins, maxAngle=180, angula
   return measure,SL,SR,SU
 
 def qSpaceScatteringFunction(m,wavelength,diameter,normed=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#qSpaceScatteringFunction
   x = np.pi*diameter/wavelength
   theta = np.linspace(1,3600,num=3600,endpoint=False)*np.pi/3600
   qR = (4*np.pi/wavelength)*np.sin(theta/2)*(diameter/2)
@@ -273,7 +277,7 @@ def qSpaceScatteringFunction(m,wavelength,diameter,normed=False):
   return qR,SL,SR,SU
 
 def MieS1S2(m,x,mu):
-  # B&H eqs. 4.74, mu=cos(theta)
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieS1S2
   nmax = np.round(2+x+4*np.power(x,1/3))
   an, bn = Mie_ab(m,x)
   pin, taun = MiePiTau(mu,nmax)
@@ -284,8 +288,7 @@ def MieS1S2(m,x,mu):
   return S1, S2
 
 def MiePiTau(mu,nmax):
-  # B&H eqs. 4.47 modified for proper list indexing
-  # mu = cosine of scattering angle
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MiePiTau
   p = np.zeros(int(nmax))
   t = np.zeros(int(nmax))
   p[0] = 1
@@ -298,6 +301,7 @@ def MiePiTau(mu,nmax):
   return p, t
 
 def MatrixElements(m,wavelength,diameter,mu):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MatrixElements
   x = np.pi*diameter/wavelength
   # B&H eqs. 4.77, where mu=cos(theta)
   S1,S2 = MieS1S2(m,x,mu)
@@ -308,6 +312,7 @@ def MatrixElements(m,wavelength,diameter,mu):
   return S11, S12, S33, S34
 
 def MieQ_withDiameterRange(m, wavelength, diameterRange=[10,1000], nd=1000, logD=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withDiameterRange
   if logD:
     diameters = np.logspace(np.log10(diameterRange[0]),np.log10(diameterRange[1]),nd)
   else:
@@ -323,6 +328,7 @@ def MieQ_withDiameterRange(m, wavelength, diameterRange=[10,1000], nd=1000, logD
   return diameters, qext, qsca, qabs, g, qpr, qback, qratio
 
 def MieQ_withWavelengthRange(m, diameter, wavelengthRange=[100,1600], nw=1000, logW=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withWavelengthRange
   if logW:
     wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
   else:
@@ -338,6 +344,7 @@ def MieQ_withWavelengthRange(m, diameter, wavelengthRange=[100,1600], nw=1000, l
   return wavelengths, qext, qsca, qabs, g, qpr, qback, qratio
 
 def MieQ_withSizeParameterRange(m, xRange=[1,10], nx=1000, logX=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withSizeParameterRange
   if logX:
     xValues = list(np.logspace(np.log10(xRange[0]),np.log10(xRange[1]),nx))
   else:
@@ -354,6 +361,7 @@ def MieQ_withSizeParameterRange(m, xRange=[1,10], nx=1000, logX=False):
   return xValues, qext, qsca, qabs, g, qpr, qback, qratio
 
 def MieQ_withLognormalDistribution(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=1000,lower=1,upper=1000,returnDistribution=False,asDict=False):
+  #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withLognormalDistribution
   def Lognormal(GSD,numberOfParticles,geometricMean,diameters,numberOfBins):
     # Lognormal distribution per Friedlander eq. 1.27
     n_r = (numberOfParticles/np.sqrt(2*np.pi))*(1/np.log(GSD))*(1/diameters)*(np.exp(-1.0*np.square(np.log(diameters)-np.log(geometricMean))/(2*np.square(np.log(GSD)))))
