@@ -1,2 +1,3 @@
-Coming soon
-===========
+Inverse Mie Theory Functions
+============================
+

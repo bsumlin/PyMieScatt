@@ -147,6 +147,38 @@ Functions for single particles
 .. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
    Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and follows the same math as :py:func:`MieQ`.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index, with the convention *m = n+ik*.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   diameter : float
+	The diameter of the particle, in nanometers.
+   asDict : bool, optional
+	If specified and set to True, returns the results as a dict.
+	
+   **Returns**
+   
+   
+   qext, qsca, qabs, g, qpr, qback, qratio : float
+	The Mie efficencies described above.
+   q : dict
+	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above values with appropriate keys.
+   
+   For example, compute the Mie efficencies of a particle 100 nm in diameter with m = 1.33+0.01i, illuminated by λ = 1600 nm: ::
+   
+		>>> import PyMieScatt as ps
+		>>> ps.LowFrequencyMieQ(1.33+0.01j,1600,100,asDict=True)
+		{'Qabs': 0.0044765816617916582,
+		 'Qback': 0.00024275862007727458,
+		 'Qext': 0.0046412326004135135,
+		 'Qpr': 0.0046400675577583459,
+		 'Qratio': 1.4743834569616665,
+		 'Qsca': 0.00016465093862185558,
+		 'g': 0.0070758336692078412}
 
 .. py:Function:: LowFrequencyMie_ab(m,x)
 
@@ -203,7 +235,7 @@ Functions for single particles across various ranges
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
 	The Mie efficencies at each diameter in *diameters*.
 	
-.. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=[100,1600], nw=1000, logW=False])
+.. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=(100,1600), nw=1000, logW=False])
 
    Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ`.
    
@@ -214,7 +246,7 @@ Functions for single particles across various ranges
 	The complex refractive index with the convention *m = n+ik*.
    diameter : float
 	The diameter of the particle, in nanometers.
-   wavelengthRange : list, optional
+   wavelengthRange : tuple or list, optional
 	The wavelength range of incident light, in nanomaters. Convention is [*smallest*, *largest*]. Defaults to [100, 1600].
    nw : int, optional
 	The number of wavelength bins in the range. Defaults to 1000.
