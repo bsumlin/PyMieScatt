@@ -146,7 +146,7 @@ Functions for single particles
    
 .. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
 
-   Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and follows the same math as :py:func:`MieQ`.
+   Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index **m**, **wavelength**, and **diameter**. Optionally returns the parameters as a dict when **asDict** is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and follows the same math as :py:func:`MieQ`.
    
    **Parameters**
    
@@ -182,7 +182,7 @@ Functions for single particles
 
 .. py:Function:: LowFrequencyMie_ab(m,x)
 
-   Returns external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of *m* and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of a\ :sub:`n` and b\ :sub:`n` to second order:
+   Returns external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of **m** and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of a\ :sub:`n` and b\ :sub:`n` to second order:
    
 		:math:`a_1=-\frac{i2x^3}{3}\frac{(m^2-1)}{m^2+2}`
    
@@ -231,19 +231,19 @@ Functions for single particles across various ranges
    
    
    diameters : numpy.ndarray
-	An array of the diameter bins that calculations were performed on. Size is equal to *nd*.
+	An array of the diameter bins that calculations were performed on. Size is equal to **nd**.
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
-	The Mie efficencies at each diameter in *diameters*.
+	The Mie efficencies at each diameter in **diameters**.
 	
 .. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=(100,1600), nw=1000, logW=False])
 
-   Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ`.
+   Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ`. This function can optionally take a list, tuple, or numpy.ndarray for **m**. If your particles have a wavelength-dependent refractive index, you can study it by specifying **m** as list-like. When doing so, **m** must be the same size as **nd**.
    
    **Parameters**
    
    
-   m : complex
-	The complex refractive index with the convention *m = n+ik*.
+   m : complex or list-like
+	The complex refractive index with the convention *m = n+ik*. If dealing with a dispersive material, the length of **m** must be equal to **nw**.
    diameter : float
 	The diameter of the particle, in nanometers.
    wavelengthRange : tuple or list, optional
@@ -257,9 +257,9 @@ Functions for single particles across various ranges
    
    
    wavelengths : numpy.ndarray
-	An array of the wavelength bins that calculations were performed on. Size is equal to *nw*.
+	An array of the wavelength bins that calculations were performed on. Size is equal to **nw**.
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
-	The Mie efficencies at each wavelength in *wavelengths*.
+	The Mie efficencies at each wavelength in **wavelengths**.
 	
 .. py:Function:: MieQ_withSizeParameterRange(m[, xRange=(1,10), nx=1000, logX=False])
 
@@ -281,9 +281,9 @@ Functions for single particles across various ranges
    
    
    xValues : numpy.ndarray
-	An array of the size parameter bins that calculations were performed on. Size is equal to *nx*.
+	An array of the size parameter bins that calculations were performed on. Size is equal to **nx**.
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
-	The Mie efficencies at each size parameter in *xValues*.
+	The Mie efficencies at each size parameter in **xValues**.
 
 
 Functions for polydisperse size distributions of homogeneous spheres
@@ -302,7 +302,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
-   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a smooth, continuous, compactly-supported distribution.
+   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a continuous, compactly-supported distribution.
    
    **Parameters**
    
@@ -415,18 +415,18 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    
    theta : numpy.ndarray
-	An array of the angles used in calculations. Values will be spaced according to *angularResolution*, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
+	An array of the angles used in calculations. Values will be spaced according to **angularResolution**, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
    SL : numpy.ndarray
-	An array of the scattered intensity of left-polarized (parallel) light. Same size as the *theta* array.
+	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **theta** array.
    SR : numpy.ndarray
-	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the *theta* array.
+	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **theta** array.
    SU : numpy.ndarray
-	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *theta* array.
+	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 
 
 .. py:Function:: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
 
-   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`. The scattering angle variable, *qR*, is calculated by :math:`qR=(4\pi /\lambda)\,sin(\theta /2)\,(d_p /2)`.
+   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`. The scattering angle variable, **qR**, is calculated by :math:`qR=(4\pi /\lambda)\,sin(\theta /2)\,(d_p /2)`.
    
    **Parameters**
    
@@ -446,11 +446,11 @@ These functions compute the angle-dependent scattered field intensities, scatter
    qR : numpy.ndarray
 	An array of the q-space angles used in calculations. Size is 3600.
    SL : numpy.ndarray
-	An array of the scattered intensity of left-polarized (parallel) light. Same size as the *qR* array.
+	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **qR** array.
    SR : numpy.ndarray
-	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the *qR* array.
+	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **qR** array.
    SU : numpy.ndarray
-	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the *qR* array.
+	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **qR** array.
 	
 	
 .. py:Function:: MatrixElements(m, wavelength, diameter, mu)
@@ -530,12 +530,12 @@ These functions compute the angle-dependent scattered field intensities, scatter
    mu : float
 	The cosine of the scattering angle.
    nmax : int
-	The number of elements to compute. Typically, n\ :sub:`max` = 2+x+4x\ :sup:`1/3`, but can be given any integer.
+	The number of elements to compute. Typically, n\ :sub:`max` = floor(2+x+4x\ :sup:`1/3`\ ), but can be given any integer.
    **Returns**
    
    
    p, t : numpy.ndarray
-	The π\ :sub:`n` and τ\ :sub:`n` arrays, of length *nmax*.
+	The π\ :sub:`n` and τ\ :sub:`n` arrays, of length **nmax**.
 
 Example
 ~~~~~~~
