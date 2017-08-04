@@ -209,7 +209,7 @@ Functions for single particles
 Functions for single particles across various ranges
 ----------------------------------------------------
 
-.. py:Function:: MieQ_withDiameterRange(m, wavelength[, diameterRange=[10,1000], nd=1000, logD=False])
+.. py:Function:: MieQ_withDiameterRange(m, wavelength[, diameterRange=(10,1000), nd=1000, logD=False])
 
    Computes the Mie efficencies of particles across a diameter range using :py:func:`MieQ`.
    
@@ -220,8 +220,8 @@ Functions for single particles across various ranges
 	The complex refractive index with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanomaters
-   diameterRange : list, optional
-	The diameter range, in nanometers. Convention is [*smallest*, *largest*]. Defaults to [10, 1000].
+   diameterRange : tuple or list, optional
+	The diameter range, in nanometers. Convention is (smallest, largest). Defaults to (10, 1000).
    nd : int, optional
 	The number of diameter bins in the range. Defaults to 1000.
    logD : bool, optional
@@ -247,7 +247,7 @@ Functions for single particles across various ranges
    diameter : float
 	The diameter of the particle, in nanometers.
    wavelengthRange : tuple or list, optional
-	The wavelength range of incident light, in nanomaters. Convention is [*smallest*, *largest*]. Defaults to [100, 1600].
+	The wavelength range of incident light, in nanomaters. Convention is (smallest, largest). Defaults to (100, 1600).
    nw : int, optional
 	The number of wavelength bins in the range. Defaults to 1000.
    logW : bool, optional
@@ -261,7 +261,7 @@ Functions for single particles across various ranges
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
 	The Mie efficencies at each wavelength in *wavelengths*.
 	
-.. py:Function:: MieQ_withSizeParameterRange(m[, xRange=[1,10], nx=1000, logX=False])
+.. py:Function:: MieQ_withSizeParameterRange(m[, xRange=(1,10), nx=1000, logX=False])
 
    Computes the Mie efficencies of particles across a size parameter range (\ :math:`x=\pi\,d_p/\lambda`\ ) using :py:func:`MieQ`.
    
@@ -270,8 +270,8 @@ Functions for single particles across various ranges
    
    m : complex
 	The complex refractive index with the convention *m = n+ik*.
-   xRange : list, optional
-	The size parameter range. Convention is [*smallest*, *largest*]. Defaults to [1, 10].
+   xRange : tuple or list, optional
+	The size parameter range. Convention is (smallest, largest). Defaults to (1, 10).
    nx : int, optional
 	The number of size parameter bins in the range. Defaults to 1000.
    logX : bool, optional
