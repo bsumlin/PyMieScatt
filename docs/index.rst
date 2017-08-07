@@ -7,7 +7,16 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-Documentation is currently under development.
+Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It is currently under review for publication.
+
+
+Install PyMieScatt
+------------------
+
+You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+
+   $ pip install PyMieScatt
+   
 
 
 .. toctree::
@@ -21,15 +30,6 @@ Documentation is currently under development.
    Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
    
    
-
-Install PyMieScatt
-------------------
-
-You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
-
-   $ pip install PyMieScatt
-   
-This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It is currently under review for publication.
 
 Documentation To-Do List
 ------------------------
