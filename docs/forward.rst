@@ -249,9 +249,9 @@ Functions for single particles across various ranges
    wavelengthRange : tuple or list, optional
 	The wavelength range of incident light, in nanomaters. Convention is (smallest, largest). Defaults to (100, 1600). When **m** is list-like, len(**wavelengthRange**) must be equal to len(**m**).
    nw : int, optional
-	The number of wavelength bins in the range. Defaults to 1000.
+	The number of wavelength bins in the range. Defaults to 1000. This parameter is ignored if **m** is list-like.
    logW : bool, optional
-	If True, will use logarithmically-spaced wavelength bins. Defaults to False.
+	If True, will use logarithmically-spaced wavelength bins. Defaults to False. This parameter is ignored if **m** is list-like.
 	
    **Returns**
    
