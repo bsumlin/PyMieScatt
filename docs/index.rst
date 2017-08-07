@@ -9,6 +9,19 @@ Online user's guide for the Python Mie Scattering package (PyMieScatt)
 
 Documentation is currently under development.
 
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Table of Contents
+   
+   Documentation Home <index>
+   Introduction to Mie Theory (incomplete) <theory>
+   Forward Functions for Homogeneous Spheres <forward>
+   Forward Functions for Coated Spheres <forwardCS>
+   Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
+   
+   
+
 Install PyMieScatt
 ------------------
 
@@ -31,13 +44,3 @@ PyMieScatt was written by `Benjamin Sumlin <https://air.eece.wustl.edu/people/be
 Email: `bsumlin@wustl.edu <mailto:bsumlin@wustl.edu?subject=PyMieScatt>`_
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Table of Contents
-   
-   Documentation Home <index>
-   Introduction to Mie Theory (incomplete) <theory>
-   Forward Functions for Homogeneous Spheres <forward>
-   Forward Functions for Coated Spheres <forwardCS>
-   Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
-   
