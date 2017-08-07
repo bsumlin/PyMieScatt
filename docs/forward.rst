@@ -257,7 +257,7 @@ Functions for single particles across various ranges
    
    
    wavelengths : numpy.ndarray
-	An array of the wavelength bins that calculations were performed on. Size is equal to **nw**.
+	An array of the wavelength bins that calculations were performed on. Size is equal to **nw**, unless **m** was list-like. Then **wavelengths** = **wavelengthRange**.
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
 	The Mie efficencies at each wavelength in **wavelengths**.
 	
