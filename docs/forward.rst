@@ -243,11 +243,11 @@ Functions for single particles across various ranges
    
    
    m : complex or list-like
-	The complex refractive index with the convention *m = n+ik*. If dealing with a dispersive material, the length of **m** must be equal to len(**wavelengthRange**).
+	The complex refractive index with the convention *m = n+ik*. If dealing with a dispersive material, then len(**m**) must be equal to len(**wavelengthRange**).
    diameter : float
 	The diameter of the particle, in nanometers.
    wavelengthRange : tuple or list, optional
-	The wavelength range of incident light, in nanomaters. Convention is (smallest, largest). Defaults to (100, 1600).
+	The wavelength range of incident light, in nanomaters. Convention is (smallest, largest). Defaults to (100, 1600). When **m** is list-like, len(**wavelengthRange**) must be equal to len(**m**).
    nw : int, optional
 	The number of wavelength bins in the range. Defaults to 1000.
    logW : bool, optional
