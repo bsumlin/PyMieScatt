@@ -24,6 +24,12 @@ Documentation To-Do List
 - Intro and Overview of Mie Theory
 - Inverse Mie Theory functions
 
+Author Contact Information
+--------------------------
+PyMieScatt was written by `Benjamin Sumlin <https://air.eece.wustl.edu/people/ben-sumlin/>`_. Special thanks to Dr. William Heinson, Dr. Rajan Chakrabarty, Claire Fortenberry, and Apoorva Pandey for their insights and support.
+
+Email: `bsumlin@wustl.edu <mailto:bsumlin@wustl.edu?subject=PyMieScatt>`_
+
 
 .. toctree::
    :maxdepth: 2
