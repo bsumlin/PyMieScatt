@@ -3,6 +3,7 @@
 import numpy as np
 from scipy.special import jv, yv
 from scipy.integrate import trapz
+import warnings
 
 def coerceDType(d):
   if type(d) is not np.ndarray:
@@ -311,39 +312,47 @@ def MatrixElements(m,wavelength,diameter,mu):
   S34 = 0.5j*(S1*np.conjugate(S2)-S2*np.conjugate(S1))
   return S11, S12, S33, S34
 
-def MieQ_withDiameterRange(m, wavelength, diameterRange=[10,1000], nd=1000, logD=False):
+def MieQ_withDiameterRange(m, wavelength, diameterRange=(10,1000), nd=1000, logD=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withDiameterRange
   if logD:
     diameters = np.logspace(np.log10(diameterRange[0]),np.log10(diameterRange[1]),nd)
   else:
     diameters = np.linspace(diameterRange[0],diameterRange[1],nd)
-  _qD = [MieQ(m,wavelength,d) for d in diameters]
-  qext = [q[0] for q in _qD]
-  qsca = [q[1] for q in _qD]
-  qabs = [q[2] for q in _qD]
-  g = [q[3] for q in _qD]
-  qpr = [q[4] for q in _qD]
-  qback = [q[5] for q in _qD]
-  qratio = [q[6] for q in _qD]
+  _qD = [MieQ(m,wavelength,diameter) for diameter in diameters]
+  qext = np.array([q[0] for q in _qD])
+  qsca = np.array([q[1] for q in _qD])
+  qabs = np.array([q[2] for q in _qD])
+  g = np.array([q[3] for q in _qD])
+  qpr = np.array([q[4] for q in _qD])
+  qback = np.array([q[5] for q in _qD])
+  qratio = np.array([q[6] for q in _qD])
   return diameters, qext, qsca, qabs, g, qpr, qback, qratio
 
-def MieQ_withWavelengthRange(m, diameter, wavelengthRange=[100,1600], nw=1000, logW=False):
+def MieQ_withWavelengthRange(m, diameter, wavelengthRange=(100,1600), nw=1000, logW=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withWavelengthRange
-  if logW:
-    wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
+  if type(m) == complex and len(wavelengthRange)==2:
+    if logW:
+      wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
+    else:
+      wavelengths = np.linspace(wavelengthRange[0],wavelengthRange[1],nw)
+    _qD = [MieQ(m,wavelength,diameter) for wavelength in wavelengths]
+  elif type(m) in [np.ndarray,list,tuple] and len(wavelengthRange)==len(m):
+    wavelengths=wavelengthRange
+    _qD = [MieQ(emm,wavelength,diameter) for emm,wavelength in zip(m,wavelengths)]
   else:
-    wavelengths = np.linspace(wavelengthRange[0],wavelengthRange[1],nw)
-  _qD = [MieQ(m,wavelength,diameter) for wavelength in wavelengths]
-  qext = [q[0] for q in _qD]
-  qsca = [q[1] for q in _qD]
-  qabs = [q[2] for q in _qD]
-  g = [q[3] for q in _qD]
-  qpr = [q[4] for q in _qD]
-  qback = [q[5] for q in _qD]
-  qratio = [q[6] for q in _qD]
+    warnings.warn("Error: the size of the input data is minmatched. Please examine your inputs and try again.")
+    return
+
+  qext = np.array([q[0] for q in _qD])
+  qsca = np.array([q[1] for q in _qD])
+  qabs = np.array([q[2] for q in _qD])
+  g = np.array([q[3] for q in _qD])
+  qpr = np.array([q[4] for q in _qD])
+  qback = np.array([q[5] for q in _qD])
+  qratio = np.array([q[6] for q in _qD])
   return wavelengths, qext, qsca, qabs, g, qpr, qback, qratio
 
-def MieQ_withSizeParameterRange(m, xRange=[1,10], nx=1000, logX=False):
+def MieQ_withSizeParameterRange(m, xRange=(1,10), nx=1000, logX=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withSizeParameterRange
   if logX:
     xValues = list(np.logspace(np.log10(xRange[0]),np.log10(xRange[1]),nx))
@@ -351,13 +360,13 @@ def MieQ_withSizeParameterRange(m, xRange=[1,10], nx=1000, logX=False):
     xValues = list(np.linspace(xRange[0],xRange[1], nx))
   dValues = [1000*x/np.pi for x in xValues]
   _qD = [MieQ(m,1000,d) for d in dValues]
-  qext = [q[0] for q in _qD]
-  qsca = [q[1] for q in _qD]
-  qabs = [q[2] for q in _qD]
-  g = [q[3] for q in _qD]
-  qpr = [q[4] for q in _qD]
-  qback = [q[5] for q in _qD]
-  qratio = [q[6] for q in _qD]
+  qext = np.array([q[0] for q in _qD])
+  qsca = np.array([q[1] for q in _qD])
+  qabs = np.array([q[2] for q in _qD])
+  g = np.array([q[3] for q in _qD])
+  qpr = np.array([q[4] for q in _qD])
+  qback = np.array([q[5] for q in _qD])
+  qratio = np.array([q[6] for q in _qD])
   return xValues, qext, qsca, qabs, g, qpr, qback, qratio
 
 def MieQ_withLognormalDistribution(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=1000,lower=1,upper=1000,returnDistribution=False,asDict=False):
