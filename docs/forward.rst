@@ -237,7 +237,7 @@ Functions for single particles across various ranges
 	
 .. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=(100,1600), nw=1000, logW=False])
 
-   Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ`. This function can optionally take a list, tuple, or numpy.ndarray for **m**. If your particles have a wavelength-dependent refractive index, you can study it by specifying **m** as list-like. When doing so, **m** must be the same size as **nw**.
+   Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ`. This function can optionally take a list, tuple, or numpy.ndarray for **m**. If your particles have a wavelength-dependent refractive index, you can study it by specifying **m** as list-like. When doing so, **m** must be the same size as **wavelengthRange**, which is also specified as list-like in this situation. Otherwise, the function will construct a range from **wavelengthRange[0]** to **wavelengthRange[1]** with **nw** entries.
    
    **Parameters**
    
