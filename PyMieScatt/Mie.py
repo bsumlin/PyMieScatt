@@ -203,12 +203,12 @@ def MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeD
   for i in range(_length):
     Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = MieQ(m,wavelength,sizeDistributionDiameterBins[i])
 
-  Bext = trapz(Q_ext*aSDn)
-  Bsca = trapz(Q_sca*aSDn)
+  Bext = trapz(Q_ext*aSDn,sizeDistributionDiameterBins)
+  Bsca = trapz(Q_sca*aSDn,sizeDistributionDiameterBins)
   Babs = Bext-Bsca
-  Bback = trapz(Q_back*aSDn)
-  Bratio = trapz(Q_ratio*aSDn)
-  bigG = trapz(g*Q_sca*aSDn)/trapz(Q_sca*aSDn)
+  Bback = trapz(Q_back*aSDn,sizeDistributionDiameterBins)
+  Bratio = trapz(Q_ratio*aSDn,sizeDistributionDiameterBins)
+  bigG = trapz(g*Q_sca*aSDn,sizeDistributionDiameterBins)/trapz(Q_sca*aSDn,sizeDistributionDiameterBins)
   Bpr = Bext - bigG*Bsca
 
   if asDict:

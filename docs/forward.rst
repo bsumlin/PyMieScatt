@@ -291,7 +291,7 @@ Functions for polydisperse size distributions of homogeneous spheres
 
 When an efficiency *Q* is integrated over a size distribution n\ :sub:`d`\ (d\ :sub:`p`), the result is the *coefficient* :math:`\beta`, which carries units of inverse length. The general form is:
 
-		:math:`\beta=\int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n_d(d_p)(10^{-6})dd_p`
+		:math:`\beta=10^{-6} \int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n_d(d_p)dd_p`
 		
 where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`. 
 
