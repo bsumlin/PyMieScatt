@@ -5,6 +5,7 @@ PyMieScatt/Inverse.py
 PyMieScatt/Mie.py
 PyMieScatt/__init__.py
 PyMieScatt/_version.py
+PyMieScatt/graphicalWithError.py
 PyMieScatt.egg-info/PKG-INFO
 PyMieScatt.egg-info/SOURCES.txt
 PyMieScatt.egg-info/dependency_links.txt

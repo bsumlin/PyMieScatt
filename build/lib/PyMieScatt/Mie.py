@@ -3,6 +3,7 @@
 import numpy as np
 from scipy.special import jv, yv
 from scipy.integrate import trapz
+import warnings
 
 def coerceDType(d):
   if type(d) is not np.ndarray:
@@ -15,7 +16,9 @@ def MieQ(m, wavelength, diameter, asDict=False):
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
-  elif x>0:
+  elif x<=0.05:
+    return RayleighMieQ(m, wavelength, diameter, asDict)
+  elif x>0.05:
     nmax = np.round(2+x+4*(x**(1/3)))
     n = np.arange(1,nmax+1)
     n1 = 2*n+1
@@ -29,7 +32,10 @@ def MieQ(m, wavelength, diameter, asDict=False):
     qsca = (2/x2)*np.sum(n1*(an.real**2+an.imag**2+bn.real**2+bn.imag**2))
     qabs = qext-qsca
 
-    g1 = [an.real[1:int(nmax)],an.imag[1:int(nmax)],bn.real[1:int(nmax)],bn.imag[1:int(nmax)]]
+    g1 = [an.real[1:int(nmax)],
+          an.imag[1:int(nmax)],
+          bn.real[1:int(nmax)],
+          bn.imag[1:int(nmax)]]
     g1 = [np.append(x, 0.0) for x in g1]
     g = (4/(qsca*x2))*np.sum((n2*(an.real*g1[0]+an.imag*g1[1]+bn.real*g1[2]+bn.imag*g1[3]))+(n3*(an.real*bn.real+an.imag*bn.imag)))
 
@@ -329,14 +335,19 @@ def MieQ_withDiameterRange(m, wavelength, diameterRange=(10,1000), nd=1000, logD
 
 def MieQ_withWavelengthRange(m, diameter, wavelengthRange=(100,1600), nw=1000, logW=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withWavelengthRange
-  if logW:
-    wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
-  else:
-    wavelengths = np.linspace(wavelengthRange[0],wavelengthRange[1],nw)
-  if type(m) == complex:
+  if type(m) == complex and len(wavelengthRange)==2:
+    if logW:
+      wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
+    else:
+      wavelengths = np.linspace(wavelengthRange[0],wavelengthRange[1],nw)
     _qD = [MieQ(m,wavelength,diameter) for wavelength in wavelengths]
-  elif type(m) in [np.ndarray,list,tuple]:
+  elif type(m) in [np.ndarray,list,tuple] and len(wavelengthRange)==len(m):
+    wavelengths=wavelengthRange
     _qD = [MieQ(emm,wavelength,diameter) for emm,wavelength in zip(m,wavelengths)]
+  else:
+    warnings.warn("Error: the size of the input data is minmatched. Please examine your inputs and try again.")
+    return
+
   qext = np.array([q[0] for q in _qD])
   qsca = np.array([q[1] for q in _qD])
   qabs = np.array([q[2] for q in _qD])
