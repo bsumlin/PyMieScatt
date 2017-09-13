@@ -332,11 +332,11 @@ The bulk asymmetry parameter *G* is calculated by:
    
    The general form of a k-modal lognormal distribution is given by:
    
-		:math:`n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{d_p\ln\sigma_{gi}}\exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{gi}}\right\}`
+		:math:`n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{d_p\ln\sigma_{g_i}}\exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{g_i}}\right\}`
 		
-   where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), N\ :sub:`∞` is the total number of particles in the distribution, σ\ :sub:`gi` is the geometric standard deviation of mode *i*, and d\ :sub:`pg i` is the geometric mean diameter (in nm) of the *i*th moment. γ\ :sub:`i` is a porportionality constant that determines the fraction of total particles in the *i*th moment.
+   where :math:`d_{p}` is the diameter of the particle (in nm), :math:`n(d_{p})` is the number of particles of diameter :math:`d_{p}` (per cubic centimeter), :math:`N_\infty` is the total number of particles in the distribution, :math:`\sigma_{g_i}` is the geometric standard deviation of mode :math:`i`, and :math:`d_{pg_i}` is the geometric mean diameter (in nm) of the *i*\ :sup:`th` moment. :math:`\gamma_i` is a porportionality constant that determines the fraction of total particles in the *i*\ :sup:`th` moment.
    
-   This function, like :py:func:`Mie_OtherDistribution`, is essentially a wrapper for :py:func:`Mie_withSizeDistribution`. A warning will be raised if the high end of the distribution does not effectlvely go to zero, that is, if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
+   This function, like :py:func:`Mie_OtherDistribution`, is essentially a wrapper for :py:func:`Mie_withSizeDistribution`. A warning will be raised if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
    
    
    **Parameters**
@@ -349,7 +349,7 @@ The bulk asymmetry parameter *G* is calculated by:
    geoStdDev : float or list-like
 	The geometric standard deviation(s) :math:`\sigma_g` or :math:`\sigma_gi` if list-like.
    geoMean : float or list-like
-	The geometric mean diameter(s) :math:`d_{pg}` or :math:`d_{pg_i} if list-like, in nanometers.
+	The geometric mean diameter(s) :math:`d_{pg}` or :math:`d_{pg_i}` if list-like, in nanometers.
    numberOfParticles : float
 	The total number of particles in the distribution.
    numberOfBins : int, optional
