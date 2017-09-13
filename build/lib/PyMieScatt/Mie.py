@@ -401,7 +401,7 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=
     ndp = numberOfParticles*ithPart(1,dp,geoMean,geoStdDev)
   if ndp[-1]>np.max(ndp)/100 or ndp[0]>np.max(ndp)/100:
     warnings.warn("Warning: distribution may not be compact on the specified interval. Consider using a higher upper bound.")
-  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = MieQ_withSizeDistribution(m,wavelength,dp,ndp)
+  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_withSizeDistribution(m,wavelength,dp,ndp)
   if returnDistribution:
     if decomposeMultimodal:
       if asDict==True:

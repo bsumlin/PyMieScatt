@@ -347,7 +347,7 @@ The bulk asymmetry parameter *G* is calculated by:
    wavelength : float
 	The wavelength of incident light, in nanometers.
    geoStdDev : float or list-like
-	The geometric standard deviation(s) :math:`\sigma_g` or :math:`\sigma_gi` if list-like.
+	The geometric standard deviation(s) :math:`\sigma_g` or :math:`\sigma_{g_i}` if list-like.
    geoMean : float or list-like
 	The geometric mean diameter(s) :math:`d_{pg}` or :math:`d_{pg_i}` if list-like, in nanometers.
    numberOfParticles : float
@@ -382,7 +382,7 @@ The bulk asymmetry parameter *G* is calculated by:
    For example, compute the Mie coefficients of a lognormal size distribution with 1000000 particles, σ\ :sub:`g` = 1.7, and d\ :sub:`pg` = 200 nm; with m = 1.60+0.08i and λ = 532 nm: ::
    
 		>>> import PyMieScatt as ps
-		>>> ps.MieQ_withLognormalDistribution(1.60+0.08j,532,1.7,200,1e6,asDict=True)
+		>>> ps.MieQ_Lognormal(1.60+0.08j,532,1.7,200,1e6,asDict=True)
 		{'Babs': 33537.324569179938,
 		'Bback': 10188.473118449627,
 		'Bext': 123051.1109783932,
@@ -391,7 +391,11 @@ The bulk asymmetry parameter *G* is calculated by:
 		'Bsca': 89513.786409213266,
 		'bigG': 0.6816018615403715}
 		
+.. py:Function:: Mie_OtherDistribution(m, wavelength, numberOfParticles[, distribution='powerlaw', params=[numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated unimodal particle number distribution of a specified type. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
+   
+   Not yet implemented.
 
 Angular Functions
 -----------------
