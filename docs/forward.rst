@@ -332,7 +332,7 @@ The bulk asymmetry parameter *G* is calculated by:
    
    The general form of a k-modal lognormal distribution is given by:
    
-		:math:`n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{\ln\sigma_{gi}\,d_p} \exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{gi}}\right\}`
+.. math:: n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{d_p\,\ln\sigma_{gi}} \exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{gi}}\right\}
    
    **Parameters**
    
