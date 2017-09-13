@@ -291,9 +291,9 @@ Functions for polydisperse size distributions of homogeneous spheres
 
 When an efficiency *Q* is integrated over a size distribution n\ :sub:`d`\ (d\ :sub:`p`), the result is the *coefficient* :math:`\beta`, which carries units of inverse length. The general form is:
 
-		:math:`\beta=10^{-6} \int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n_d(d_p)dd_p`
+		:math:`\beta=10^{-6} \int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n(d_p)dd_p`
 		
-where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`. 
+where d\ :sub:`p` is the diameter of the particle (in nm), n(d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`. 
 
 The bulk asymmetry parameter *G* is calculated by:
 
@@ -328,11 +328,16 @@ The bulk asymmetry parameter *G* is calculated by:
 
 .. py:Function:: Mie_Lognormal(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, gamma=[1], returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated uni- or multi-modal lognormal particle number distribution. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated k-modal lognormal particle number distribution. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
    
    The general form of a k-modal lognormal distribution is given by:
    
 		:math:`n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{d_p\ln\sigma_{gi}}\exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{gi}}\right\}`
+		
+   where d\ :sub:`p` is the diameter of the particle (in nm), n\ :sub:`d`\ (d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), N\ :sub:`∞` is the total number of particles in the distribution, σ\ :sub:`gi` is the geometric standard deviation of mode *i*, and d\ :sub:`pg i` is the geometric mean diameter (in nm) of the *i*th moment. γ\ :sub:`i` is a porportionality constant that determines the fraction of total particles in the *i*th moment.
+   
+   This function, like :py:func:`Mie_OtherDistribution`, is essentially a wrapper for :py:func:`Mie_withSizeDistribution`. A warning will be raised if the high end of the distribution does not effectlvely go to zero, that is, if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
+   
    
    **Parameters**
    
@@ -341,10 +346,10 @@ The bulk asymmetry parameter *G* is calculated by:
 	The complex refractive index, with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanometers.
-   geoStdDev : float
-	The geometric standard deviation :math:`\sigma_g`.
-   geoMean : float
-	The geometric mean diameter :math:`d_{pg}`, in nanometers.
+   geoStdDev : float or list-like
+	The geometric standard deviation(s) :math:`\sigma_g` or :math:`\sigma_gi` if list-like.
+   geoMean : float or list-like
+	The geometric mean diameter(s) :math:`d_{pg}` or :math:`d_{pg_i} if list-like, in nanometers.
    numberOfParticles : float
 	The total number of particles in the distribution.
    numberOfBins : int, optional

@@ -184,7 +184,7 @@ def LowFrequencyMie_ab(m,x):
   bn = np.append(b1,b2)
   return an,bn
 
-def MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution, asDict=False):
+def Mie_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution, asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withSizeDistribution
   sizeDistributionDiameterBins = coerceDType(sizeDistributionDiameterBins)
   sizeDistribution = coerceDType(sizeDistribution)
@@ -399,9 +399,9 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=
     # unimodal
     decomposeMultimodal = False
     ndp = numberOfParticles*ithPart(1,dp,geoMean,geoStdDev)
-  if ndp[-1]>np.max(ndp)/100:
+  if ndp[-1]>np.max(ndp)/100 or ndp[0]>np.max(ndp)/100:
     warnings.warn("Warning: distribution may not be compact on the specified interval. Consider using a higher upper bound.")
-  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = ps.MieQ_withSizeDistribution(m,wavelength,dp,ndp)
+  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = MieQ_withSizeDistribution(m,wavelength,dp,ndp)
   if returnDistribution:
     if decomposeMultimodal:
       if asDict==True:
@@ -419,3 +419,5 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=
     else:
       return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio
 
+def Mie_OtherDistribution():
+  print("lol not yet")
