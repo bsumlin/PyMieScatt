@@ -21,7 +21,7 @@ else:
 setup(name='PyMieScatt',
       version=verstr,
       description="A collection of forward and inverse Mie solving routines based on Bohren and Huffman's Mie Theory derivations.",
-      long_description=verstr + ' - Added a dispersion feature to MieQ_withWavelengthRange.\nAdded links to documentation in source code. Docs are hosted at `ReadTheDocs <http://pymiescatt.readthedocs.io/>`_.',
+      long_description=verstr + ' - Added error bounds as an option for the graphical inversion method. \nDocs are hosted at `ReadTheDocs <http://pymiescatt.readthedocs.io/>`_.',
       url='http://air.eece.wustl.edu/people/ben-sumlin/',
       author='Benjamin Sumlin',
       author_email='bsumlin@wustl.edu',

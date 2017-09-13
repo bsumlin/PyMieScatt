@@ -375,7 +375,7 @@ def MieQ_withSizeParameterRange(m, xRange=(1,10), nx=1000, logX=False):
   return xValues, qext, qsca, qabs, g, qpr, qback, qratio
 
 def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=1000,lower=1,upper=1000,gamma=[1],returnDistribution=False,decomposeMultimodal=False,asDict=False):
-#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_Lognormal 
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_Lognormal
   ithPart = lambda gammai, dp, dpgi, sigmagi: (gammai/(np.sqrt(2*np.pi)*np.log(sigmagi)*dp))*np.exp(-(np.log(dp)-np.log(dpgi))**2/(2*np.log(sigmagi)**2))
   dp = np.logspace(np.log10(lower),np.log10(upper),numberOfBins)
   if all([type(x) in [list, tuple, np.ndarray] for x in [geoStdDev, geoMean]]):
@@ -418,6 +418,3 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=
       return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, bigG=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio)
     else:
       return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio
-
-def Mie_OtherDistribution():
-  print("lol not yet")
