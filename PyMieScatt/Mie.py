@@ -374,20 +374,45 @@ def MieQ_withSizeParameterRange(m, xRange=(1,10), nx=1000, logX=False):
   qratio = np.array([q[6] for q in _qD])
   return xValues, qext, qsca, qabs, g, qpr, qback, qratio
 
-def MieQ_withLognormalDistribution(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=1000,lower=1,upper=1000,returnDistribution=False,asDict=False):
-  #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withLognormalDistribution
-  def Lognormal(GSD,numberOfParticles,geometricMean,diameters,numberOfBins):
-    # Lognormal distribution per Friedlander eq. 1.27
-    n_r = (numberOfParticles/np.sqrt(2*np.pi))*(1/np.log(GSD))*(1/diameters)*(np.exp(-1.0*np.square(np.log(diameters)-np.log(geometricMean))/(2*np.square(np.log(GSD)))))
-    return n_r
-  diameters = np.linspace(lower,upper,numberOfBins)
-  nd = Lognormal(geoStdDev,numberOfParticles,geoMean,diameters,numberOfBins)
-  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = MieQ_withSizeDistribution(m,wavelength,diameters,nd)
-  if returnDistribution:
-    if asDict==True:
-      return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, bigG=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio), diameters, nd
+def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=1000,lower=1,upper=1000,gamma=[1],returnDistribution=False,decomposeMultimodal=False,asDict=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_Lognormal 
+  ithPart = lambda gammai, dp, dpgi, sigmagi: (gammai/(np.sqrt(2*np.pi)*np.log(sigmagi)*dp))*np.exp(-(np.log(dp)-np.log(dpgi))**2/(2*np.log(sigmagi)**2))
+  dp = np.logspace(np.log10(lower),np.log10(upper),numberOfBins)
+  if all([type(x) in [list, tuple, np.ndarray] for x in [geoStdDev, geoMean]]):
+    # multimodal
+    if len(gamma)==1 and (len(geoStdDev)==len(geoMean)>1):
+      # gamma is distributed equally among modes
+      gamma = [1 for x in geoStdDev]
+      gamma = [float(x/np.sum(gamma)) for x in gamma]
+      ndpi = [numberOfParticles*ithPart(g,dp,dpg,sg) for g,dpg,sg in zip(gamma,geoMean,geoStdDev)]
+      ndp = np.sum(ndpi,axis=0)
+    elif len(gamma)==len(geoStdDev)==len(geoMean):
+      # gamma is fully specified for each mode
+      gamma = [float(x/np.sum(gamma)) for x in gamma]
+      ndpi = [numberOfParticles*ithPart(g,dp,dpg,sg) for g,dpg,sg in zip(gamma,geoMean,geoStdDev)]
+      ndp = np.sum(ndpi,axis=0)
     else:
-      return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio, diameters, nd
+      # user fucked up
+      warnings.warn("Not enough parameters to fully specify each mode.")
+      return None
+  else:
+    # unimodal
+    decomposeMultimodal = False
+    ndp = numberOfParticles*ithPart(1,dp,geoMean,geoStdDev)
+  if ndp[-1]>np.max(ndp)/100:
+    warnings.warn("Warning: distribution may not be compact on the specified interval. Consider using a higher upper bound.")
+  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = ps.MieQ_withSizeDistribution(m,wavelength,dp,ndp)
+  if returnDistribution:
+    if decomposeMultimodal:
+      if asDict==True:
+        return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, bigG=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio), dp, ndp, ndpi
+      else:
+        return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio, dp, ndp, ndpi
+    else:
+      if asDict==True:
+        return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, bigG=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio), dp, ndp
+      else:
+        return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio, dp, ndp
   else:
     if asDict==True:
       return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, bigG=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio)

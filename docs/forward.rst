@@ -326,9 +326,13 @@ The bulk asymmetry parameter *G* is calculated by:
    q : dict
 	If asDict==True, :py:func:`MieQ_withSizeDistribution` returns a dict of the above values with appropriate keys.
 
-.. py:Function:: MieQ_withLognormalDistribution(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, asDict=False])
+.. py:Function:: Mie_Lognormal(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, gamma=[1], returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated uni- or multi-modal lognormal particle number distribution. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
+   
+   The general form of a k-modal lognormal distribution is given by:
+   
+		:math:`n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k} \frac{\gamma_i}{\ln(\sigma_{gi}) \exp\{ \frac{-(\ln(d_p)-\ln(d_{pg_i}))^2}{2 \ln^2{\sigma_gi}}}`
    
    **Parameters**
    
@@ -349,8 +353,12 @@ The bulk asymmetry parameter *G* is calculated by:
 	The smallest diameter bin, in nanometers. Defaults to 1 nm.
    upper : float, optional
 	The largest diameter bin, in nanometers. Defaults to 1000 nm.
+   gamma : list-like, optional
+	The porportionality coefficients for dividing total particles among modes.
    returnDistribution : bool, optional
 	If True, both the size distribution bins and number concentrations will be returned.
+   decomposeMultimodal: bool, optional
+	If True (and returnDistribution==True), then the function returns an additional parameter containing the individual modes of the distribution.
    asDict : bool, optional
 	If True, returns the results as a dict.
 	
@@ -360,7 +368,9 @@ The bulk asymmetry parameter *G* is calculated by:
    Bext, Bsca, Babs, G, Bpr, Bback, Bratio : float
 	The Mie coefficients calculated by :py:func:`MieQ`, integrated over the size distribution.
    diameters, nd : numpy.ndarray
-	The diameter bins and number concentrations per bin, respectively.
+	The diameter bins and number concentrations per bin, respectively. Only if returnDistribution is True.
+   ndi : list of numpy.ndarray objects
+	A list whose entries are the individual modes that created the multimodal distribution. Only returned if both returnDistribution and decomposeMultimodal are True.
    B : dict
 	If asDict==True, :py:func:`MieQ_withLognormalDistribution` returns a dict of the above values with appropriate keys.
    
