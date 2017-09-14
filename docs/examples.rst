@@ -90,6 +90,7 @@ The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#
    fig1.show()
    plt.tight_layout(rect=[0.01,0.05,0.915,0.95])
 
+
 This produces the following image:
 
 .. image:: images/sif.png
