@@ -43,7 +43,7 @@ Consider the 405 nm Mie coefficients of 105 particles/cm\ :sup:`3`, with m = 1.5
 Plotting Angular Functions
 --------------------------
 
-The angular functions return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. For example, plot the angular scattering functions of a 5 μm particle with m=1.7+0.5i, illuminated by 532 nm light: ::
+The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#angular-functions>`_ return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. For example, plot the angular scattering functions of a 5 μm particle with m=1.7+0.5i, illuminated by 532 nm light: ::
 
 	>>> import PyMieScatt as ps
 	>>> import numpy as np
@@ -86,5 +86,7 @@ The angular functions return arrays that are suitable for plotting with `MatPlot
 	>>> fig1.suptitle("Scattering Intensity Functions",fontsize=18)
 	>>> fig1.show()
 	>>> plt.tight_layout(rect=[0.01,0.05,0.915,0.95])
+
+This produces the following image:
 
 .. image:: images/sif.png
