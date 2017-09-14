@@ -18,7 +18,7 @@ You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.p
    $ pip install PyMieScatt
 
 
-or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.1.2.
+or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.2.0.
    
 
 .. toctree::
@@ -26,18 +26,18 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version i
    :caption: Table of Contents
    
    Documentation Home <index>
-   Introduction to Mie Theory (incomplete) <theory>
    Forward Functions for Homogeneous Spheres <forward>
    Forward Functions for Coated Spheres <forwardCS>
    Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
+   Example Scripts (incomplete) <examples>
    
    
 
 Documentation To-Do List
 ------------------------
 
-- Intro and Overview of Mie Theory
 - Inverse Mie Theory functions
+- More example scripts
 
 Author Contact Information
 --------------------------
