@@ -29,7 +29,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version i
    Forward Functions for Homogeneous Spheres <forward>
    Forward Functions for Coated Spheres <forwardCS>
    Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
-   Example Scripts (incomplete) <examples>
+   General Usage tips and Example Scripts (incomplete) <examples>
    
    
 
