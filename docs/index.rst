@@ -16,8 +16,10 @@ Install PyMieScatt
 You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
-   
 
+
+or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.1.2.
+   
 
 .. toctree::
    :maxdepth: 2
