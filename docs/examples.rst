@@ -6,7 +6,7 @@ General Usage tips and Example Scripts
 Mie Efficiencies of a Single Homogeneous Particle
 -------------------------------------------------
 
-To calculate the efficencies of a single homogeneous particle, use the :py:func:`MieQ` function. ::
+To calculate the efficencies of a single homogeneous particle, use the :py:func:`MieQ` function.
 
 .. code-block:: pycon
    
@@ -24,7 +24,7 @@ To calculate the efficencies of a single homogeneous particle, use the :py:func:
 Mie Efficencies of a Weibull Distribution
 -----------------------------------------
 
-Consider the 405 nm Mie coefficients of 105 particles/cm\ :sup:`3`, with m = 1.5+0.5i, in a `Weibull distribution <https://en.wikipedia.org/wiki/Weibull_distribution>`_ with shape parameter sh = 5 and scale parameter sc = 200: ::
+Consider the 405 nm Mie coefficients of 105 particles/cm\ :sup:`3`, with m = 1.5+0.5i, in a `Weibull distribution <https://en.wikipedia.org/wiki/Weibull_distribution>`_ with shape parameter sh = 5 and scale parameter sc = 200:
 
 .. code-block:: pycon
    
