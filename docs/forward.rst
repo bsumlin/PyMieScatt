@@ -184,13 +184,13 @@ Functions for single particles
 
    Returns external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of **m** and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of a\ :sub:`n` and b\ :sub:`n` to second order:
    
-		:math:`a_1=\frac{m^2-1}{m^2+2} \left[ -\frac{i2x^3}{3}-\frac{2ix^5}{5}\left( \frac{m^2-2}{m^2+2}\right) +\frac{4x^6}{9}\left( \frac{m^2-1}{m^2+2} \right) \right]`
+		:math:`${\displaystyle a_1=\frac{m^2-1}{m^2+2} \left[ -\frac{i2x^3}{3}-\frac{2ix^5}{5}\left( \frac{m^2-2}{m^2+2}\right) +\frac{4x^6}{9}\left( \frac{m^2-1}{m^2+2} \right) \right]}$`
    
-		:math:`a_2=-\frac{ix^5}{15}\frac{(m^2-1)}{2m^2+3}`
+		:math:`${\displaystyle a_2=-\frac{ix^5}{15}\frac{(m^2-1)}{2m^2+3}}$`
    
-		:math:`b_1=-\frac{ix^5}{45}(m^2-1)`
+		:math:`${\displaystyle b_1=-\frac{ix^5}{45}(m^2-1)}$`
    
-		:math:`b_2=0`
+		:math:`${\displaystyle b_2=0}$`
 		
    **Parameters**
    
