@@ -50,7 +50,6 @@ Plotting Angular Functions
 The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#angular-functions>`_ return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. For example, plot the angular scattering functions of a 5 μm particle with m=1.7+0.5i, illuminated by 532 nm light:
 
 .. code-block:: python
-   :linenos:
    
    import PyMieScatt as ps
    import numpy as np
