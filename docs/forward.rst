@@ -100,17 +100,17 @@ Functions for single particles
 
    Computes Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
    
-		:math:`Q_{sca}=\frac{8x^4}{3}\left|{\frac{m^2-1}{m^2+2}}\right|^2`
+		:math:`${\displaystyle Q_{sca}=\frac{8x^4}{3}\left|{\frac{m^2-1}{m^2+2}}\right|^2}$`
    
-		:math:`Q_{abs}=4x\:\text{Im}\left\{\frac{m^2-1}{m^2+2}\right\}`
+		:math:`${\displaystyle Q_{abs}=4x\:\text{Im}\left\{\frac{m^2-1}{m^2+2}\right\}}$`
    
-		:math:`Q_{ext}=Q_{sca}+Q_{abs}`
+		:math:`${\displaystyle Q_{ext}=Q_{sca}+Q_{abs}}$`
    
-		:math:`Q_{back}=\frac{3Q_{sca}}{2}`
+		:math:`${\displaystyle Q_{back}=\frac{3Q_{sca}}{2}}$`
    
-		:math:`Q_{ratio}=1.5`
+		:math:`${\displaystyle Q_{ratio}=1.5}$`
    
-		:math:`Q_{pr}=Q_{ext}`      
+		:math:`${\displaystyle Q_{pr}=Q_{ext}}$`
 		
    **Parameters**
    
