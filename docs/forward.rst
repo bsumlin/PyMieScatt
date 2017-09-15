@@ -184,7 +184,7 @@ Functions for single particles
 
    Returns external field coefficients a\ :sub:`n` and b\ :sub:`n` based on inputs of **m** and :math:`x=\pi\,d_p/\lambda` by limiting the expansion of a\ :sub:`n` and b\ :sub:`n` to second order:
    
-		:math:`a_1=-\frac{i2x^3}{3}\frac{(m^2-1)}{m^2+2}`
+		:math:`a_1=\frac{m^2-1}{m^2+2}\left\[ -\frac{i2x^3}{3}-\frac{2ix^5}{5}\left\(\frac{m^2-2}{m^2+2}\right\)+\frac{4x^6}{9}\left\(\frac{m^2-1}{m^2+2}\right\) \right\]`
    
 		:math:`a_2=-\frac{ix^5}{15}\frac{(m^2-1)}{2m^2+3}`
    
@@ -336,7 +336,7 @@ The bulk asymmetry parameter *G* is calculated by:
 		
    where :math:`d_{p}` is the diameter of the particle (in nm), :math:`n(d_{p})` is the number of particles of diameter :math:`d_{p}` (per cubic centimeter), :math:`N_\infty` is the total number of particles in the distribution, :math:`\sigma_{g_i}` is the geometric standard deviation of mode :math:`i`, and :math:`d_{pg_i}` is the geometric mean diameter (in nm) of the *i*\ :sup:`th` moment. :math:`\gamma_i` is a porportionality constant that determines the fraction of total particles in the *i*\ :sup:`th` moment.
    
-   This function, like :py:func:`Mie_OtherDistribution`, is essentially a wrapper for :py:func:`Mie_withSizeDistribution`. A warning will be raised if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
+   This function is essentially a wrapper for :py:func:`Mie_withSizeDistribution`. A warning will be raised if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
    
    
    **Parameters**
