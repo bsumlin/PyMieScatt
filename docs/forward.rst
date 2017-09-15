@@ -498,6 +498,8 @@ These functions compute the angle-dependent scattered field intensities, scatter
 	The cosine of the scattering angle.
 
    **Returns**
+   
+   
    S11, S12, S33, S34 : float
 	The matrix elements described above.
 	
@@ -550,6 +552,7 @@ These functions compute the angle-dependent scattered field intensities, scatter
 	The cosine of the scattering angle.
    nmax : int
 	The number of elements to compute. Typically, n\ :sub:`max` = floor(2+x+4x\ :sup:`1/3`\ ), but can be given any integer.
+	
    **Returns**
    
    
