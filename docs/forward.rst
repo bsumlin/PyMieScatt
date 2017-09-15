@@ -10,17 +10,17 @@ Functions for single particles
    
 		:math:`${\displaystyle Q_{ext}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)\:\text{Re}\left\{a_n+b_n\right\}}$`
 		
-		:math:`Q_{sca}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)(|a_n|^2+|b_n|^2)`
+		:math:`${\displaystyle Q_{sca}=\frac{2}{x^2}\sum_{n=1}^{n_{max}}(2n+1)(|a_n|^2+|b_n|^2)}$`
 		
-		:math:`Q_{abs}=Q_{ext}-Q_{sca}`
+		:math:`${\displaystyle Q_{abs}=Q_{ext}-Q_{sca}}$`
 		
-		:math:`Q_{back}=\frac{1}{x^2} \left| \sum_{n=1}^{n_{max}}(2n+1)(-1)^n(a_n-b_n) \right| ^2`
+		:math:`${\displaystyle Q_{back}=\frac{1}{x^2} \left| \sum_{n=1}^{n_{max}}(2n+1)(-1)^n(a_n-b_n) \right| ^2}$`
 		
-		:math:`Q_{ratio}=\frac{Q_{back}}{Q_{sca}}`
+		:math:`${\displaystyle Q_{ratio}=\frac{Q_{back}}{Q_{sca}}}$`
 		
-		:math:`g=\frac{4}{Q_{sca}x^2}\left[\sum\limits_{n=1}^{n_{max}}\frac{n(n+2)}{n+1}\text{Re}\left\{a_n a_{n+1}^*+b_n b_{n+1}^*\right\}+\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}\text{Re}\left\{a_n b_n^*\right\}\right]`
+		:math:`${\displaystyle g=\frac{4}{Q_{sca}x^2}\left[\sum\limits_{n=1}^{n_{max}}\frac{n(n+2)}{n+1}\text{Re}\left\{a_n a_{n+1}^*+b_n b_{n+1}^*\right\}+\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}\text{Re}\left\{a_n b_n^*\right\}\right]}$`
 		
-		:math:`Q_{pr}=Q_{ext}-gQ_{sca}`
+		:math:`${\displaystyle Q_{pr}=Q_{ext}-gQ_{sca}}$`
 		
    where asterisks denote the complex conjugates.
    
@@ -291,13 +291,13 @@ Functions for polydisperse size distributions of homogeneous spheres
 
 When an efficiency *Q* is integrated over a size distribution n\ :sub:`d`\ (d\ :sub:`p`), the result is the *coefficient* :math:`\beta`, which carries units of inverse length. The general form is:
 
-		:math:`\beta=10^{-6} \int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n(d_p)dd_p`
+		:math:`${\displaystyle \beta=10^{-6} \int\limits_{0}^{\infty}\frac{\pi d_p^2}{4}Q(m,\lambda,d_p)n(d_p)dd_p}$`
 		
 where d\ :sub:`p` is the diameter of the particle (in nm), n(d\ :sub:`p`) is the number of particles of diameter d\ :sub:`p` (per cubic centimeter), and the factor 10\ :sup:`-6` is used to cast the result in units of Mm\ :sup:`-1`. 
 
 The bulk asymmetry parameter *G* is calculated by:
 
-		:math:`G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}`
+		:math:`${\displaystyle G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}}$`
 		
 
 .. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
@@ -332,7 +332,7 @@ The bulk asymmetry parameter *G* is calculated by:
    
    The general form of a k-modal lognormal distribution is given by:
    
-		:math:`n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{d_p\ln\sigma_{g_i}}\exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{g_i}}\right\}`
+		:math:`${\displaystyle n(d_p)=\frac{N_\infty}{\sqrt{2\pi}} \sum_{i}^{k}\frac{\gamma_i}{d_p\ln\sigma_{g_i}}\exp\left\{ \frac{-(\ln d_p-\ln d_{pg_i})^2}{2 \ln^2\sigma_{g_i}}\right\}}$`
 		
    where :math:`d_{p}` is the diameter of the particle (in nm), :math:`n(d_{p})` is the number of particles of diameter :math:`d_{p}` (per cubic centimeter), :math:`N_\infty` is the total number of particles in the distribution, :math:`\sigma_{g_i}` is the geometric standard deviation of mode :math:`i`, and :math:`d_{pg_i}` is the geometric mean diameter (in nm) of the *i*\ :sup:`th` moment. :math:`\gamma_i` is a porportionality constant that determines the fraction of total particles in the *i*\ :sup:`th` moment.
    
@@ -511,9 +511,9 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    Uses :py:func:`Mie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and :py:func:`MiePiTau` to calculate π\ :sub:`n` and τ\ :sub:`n`. S\ :sub:`1` and S\ :sub:`2` are calculated by:
    
-		:math:`S_1=\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}(a_n\pi_n+b_n\tau_n)`
+		:math:`${\displaystyle S_1=\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}(a_n\pi_n+b_n\tau_n)}$`
 		
-		:math:`S_2=\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}(a_n\tau_n+b_n\pi_n)`
+		:math:`${\displaystyle S_2=\sum\limits_{n=1}^{n_{max}}\frac{2n+1}{n(n+1)}(a_n\tau_n+b_n\pi_n)}$`
 		
    **Parameters**
    
