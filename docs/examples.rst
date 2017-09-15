@@ -24,6 +24,8 @@ Mie Efficencies of a Weibull Distribution
 
 Consider the 405 nm Mie coefficients of 105 particles/cm\ :sup:`3`, with m = 1.5+0.5i, in a `Weibull distribution <https://en.wikipedia.org/wiki/Weibull_distribution>`_ with shape parameter sh = 5 and scale parameter sc = 200: ::
 
+.. code-block:: pycon
+
 	>>> import PyMieScatt as ps
 	>>> import numpy as np
 	>>> import matplotlib.pyplot as plt
