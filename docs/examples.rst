@@ -162,5 +162,5 @@ This produces a nice video.
 .. raw:: html 
 
 	<video controls>
-		<source src="https://github.com/bsumlin/PyMieScatt/docs/images/mie_ripples.mp4" type="video/mp4">
+	    <source src="mie_ripples.mp4" type="video/mp4">
 	</video>
