@@ -14,7 +14,9 @@ def coerceDType(d):
   else:
     return d
 
-def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0,kMax=1,spaceSize=120,interp=2):
+def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0,kMax=1,scatteringPrecision=0.02,absorptionPrecision=0.03,spaceSize=120,interp=2):
+  error = lambda measured,calculated: np.abs((calculated-measured)/measured)
+  
   nRange = np.linspace(nMin,nMax,spaceSize)
   kRange = np.linspace(kMin,kMax,spaceSize)
   scaSpace = np.zeros((spaceSize,spaceSize))
@@ -30,16 +32,17 @@ def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0,kMax=1,spaceSiz
     kRange = zoom(kRange,interp)
     scaSpace = zoom(scaSpace,interp)
     absSpace = zoom(absSpace,interp)
-
-  scaP = 0.02
-  absP = 0.03
-  scaSolutions = np.where(np.logical_and(Qsca*(1-scaP)<scaSpace, scaSpace<Qsca*(1+scaP)))
-  absSolutions = np.where(np.logical_and(Qabs*(1-absP)<absSpace, absSpace<Qabs*(1+absP)))
+    
+  scaSolutions = np.where(np.logical_and(Qsca*(1-scatteringPrecision)<scaSpace, scaSpace<Qsca*(1+scatteringPrecision)))
+  absSolutions = np.where(np.logical_and(Qabs*(1-absorptionPrecision)<absSpace, absSpace<Qabs*(1+absorptionPrecision)))
 
   validScattering = nRange[scaSolutions[0]]+1j*kRange[scaSolutions[1]]
   validAbsorption = nRange[absSolutions[0]]+1j*kRange[absSolutions[1]]
+  
+  solution = np.intersect1d(validScattering,validAbsorption)
+#  errors = [error()]
 
-  return np.intersect1d(validScattering,validAbsorption)
+  return solution
 
 def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,spaceSize=40,interp=2):
   dp = coerceDType(dp)
@@ -486,7 +489,7 @@ def find_intersections(A,B):
 def IterativeInversion(Qsca,Qabs,wavelength,diameter,tolerance=0.0005):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
-  initial_m = Inversion(Qsca,Qabs,wavelength,diameter,spaceSize=125,interp=2)
+  initial_m = Inversion(Qsca,Qabs,wavelength,diameter,scatteringPrecision=0.01,absorptionPrecision=0.02,spaceSize=125,interp=2)
   factors = [2.5, 5.0, 10.0, 25.0, 50.0]
   errors = [tolerance*x for x in [25,15,5,3,1]]
   resultM = []

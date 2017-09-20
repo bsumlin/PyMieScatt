@@ -400,17 +400,17 @@ The bulk asymmetry parameter *G* is calculated by:
 Angular Functions
 -----------------
 
-These functions compute the angle-dependent scattered field intensities, scattering matrix elements, and create arrays that are useful for plotting.
+These functions compute the angle-dependent scattered field intensities and scattering matrix elements. They return arrays that are useful for plotting.
 
-.. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
+.. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False])
 
-   Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
+   Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step. This angle can be in either degrees, radians, or gradians for some reason. The angles can either be geometrical angle or the qR vector (see `Sorensen, M. Q-space analysis of scattering by particles: a review. J. Quant. Spectrosc. Radiat. Transfer 2013, 131, 3-12 <http://www.sciencedirect.com/science/article/pii/S0022407313000083>`_). Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
-		:math:`SR(\theta)=|S_1|^2`
+		:math:`${\displaystyle SR(\theta)=|S_1|^2}$`
 		
-		:math:`SL(\theta)=|S_2|^2`
+		:math:`${\displaystyle SL(\theta)=|S_2|^2}$`
 		
-		:math:`SU(\theta)=\frac{1}{2}(SR+SL)`
+		:math:`${\displaystyle SU(\theta)=\frac{1}{2}(SR+SL)}$`
    
    **Parameters**
    
@@ -427,6 +427,10 @@ These functions compute the angle-dependent scattered field intensities, scatter
 	The maximum scattering angle (in degrees) to be calculated. Defaults to 180.
    angularResolution : float, optional
 	The resolution of the output. Defaults to 0.5, meaning a value will be calculated for every 0.5 degrees.
+   space : str, optional
+	The measure of scattering angle. Can be 'theta' or 'qspace'. Defaults to 'theta'.
+   angleMeasure : str, optional
+	The units for the scattering angle
    normed : bool, optional
 	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
 	
@@ -476,13 +480,13 @@ These functions compute the angle-dependent scattered field intensities, scatter
 
    Calculates the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
    
-		:math:`S_{11}=\frac{1}{2}\left(|S_2|^2+|S_1|^2\right)`
+		:math:`${\displaystyle S_{11}=\frac{1}{2}\left(|S_2|^2+|S_1|^2\right)}$`
 		
-		:math:`S_{12}=\frac{1}{2}\left(|S_2|^2-|S_1|^2\right)`
+		:math:`${\displaystyle S_{12}=\frac{1}{2}\left(|S_2|^2-|S_1|^2\right)}$`
 		
-		:math:`S_{33}=\frac{1}{2}(S_2^*S_1^*+S_2S_1^*)`
+		:math:`${\displaystyle S_{33}=\frac{1}{2}(S_2^*S_1^*+S_2S_1^*)}$`
 		
-		:math:`S_{34}=\frac{i}{2}(S_1S_2^*-S_2S_1^*)`
+		:math:`${\displaystyle S_{34}=\frac{i}{2}(S_1S_2^*-S_2S_1^*)}$`
 		
 		
    **Parameters**
@@ -541,9 +545,9 @@ These functions compute the angle-dependent scattered field intensities, scatter
    
    This function uses recurrence relations to calculate π\ :sub:`n` and τ\ :sub:`n`, beginning with π\ :sub:`0` = 1, π\ :sub:`1` = 3μ (where μ is the cosine of the scattering angle), τ\ :sub:`0` = μ, and τ\ :sub:`1` = 3cos(2cos\ :sup:`-1` (μ)):
    
-		:math:`\pi_n=\frac{2n-1}{n-1}\mu\pi_{n-1}-\frac{n}{n-1}\pi_{n-2}`
+		:math:`${\displaystyle \pi_n=\frac{2n-1}{n-1}\mu\pi_{n-1}-\frac{n}{n-1}\pi_{n-2}}$`
 		
-		:math:`\tau_n=n\mu\pi_n-(n+1)\pi_{n-1}`
+		:math:`${\displaystyle \tau_n=n\mu\pi_n-(n+1)\pi_{n-1}}$`
 		
    **Parameters**
    

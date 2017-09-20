@@ -3,6 +3,8 @@
 General Usage tips and Example Scripts
 ======================================
 
+PyMieScatt's functions are designed to work as a standalone calculator or as part of larger, more customized scripts. This page has a few selected examples which will expand as more innovative use cases appear. If you use PyMieScatt in your research in an unexpected or novel way, please `contact the author <mailto:bsumlin@wustl.edu>`_ to post an example here.
+
 Mie Efficiencies of a Single Homogeneous Particle
 -------------------------------------------------
 
@@ -47,7 +49,7 @@ Consider the 405 nm Mie coefficients of 105 particles/cm\ :sup:`3`, with m = 1.5
 Plotting Angular Functions
 --------------------------
 
-The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#angular-functions>`_ return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. For example, plot the angular scattering functions of a 5 μm particle with m=1.7+0.5i, illuminated by 532 nm light:
+The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#angular-functions>`_ return arrays that are suitable for plotting with `MatPlotLib <https://matplotlib.org/>`_. For example, plot the angular scattering functions of a 5 μm particle with m=1.7+0.5i, illuminated by 532 nm light. Note that the Mie calculations themselves only need two lines, the rest is making the plot look nice:
 
 .. code-block:: python
    
@@ -97,3 +99,64 @@ The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#
 This produces the following image:
 
 .. image:: images/sif.png
+
+We can do better, though! Suppose we wanted to, for educational purposes, demonstrate how the "Mie ripples" develop as we increase size parameter. This script uses 405 nm light incident upon a particle of m=1.536+0.05i. Its diameter increases from 10 to 10000 nm and the result is plotted and a figure file is saved. The final few lines gather the figures into an mp4 video. Note that the Mie mathematics need only one line per loop, and the rest is generating images and movies.
+
+.. code-block: python
+
+   import PyMieScatt as ps
+   import numpy as np
+   import matplotlib.pyplot as plt
+   import imageio
+   import os
+   
+   wavelength=450.0
+   m=1.536+0.5j
+   drange = np.logspace(1,4,250)
+   for i,d in enumerate(drange):
+     theta,SL,SR,SU = ps.ScatteringFunction(m,wavelength,d,space='theta',normed=True)
+   
+     plt.close('all')
+     
+     fig1 = plt.figure(figsize=(10.08,6.08))
+     ax1 = fig1.add_subplot(1,1,1)
+     #ax2 = fig1.add_subplot(1,2,2)
+   
+     ax1.semilogy(theta,SL,'b',ls='dashdot',lw=1,label="Parallel Polarization")
+     ax1.semilogy(theta,SR,'r',ls='dashed',lw=1,label="Perpendicular Polarization")
+     ax1.semilogy(theta,SU,'k',lw=1,label="Unpolarized")
+   
+     x_label = ["0", r"$\mathregular{\frac{\pi}{4}}$", r"$\mathregular{\frac{\pi}{2}}$",r"$\mathregular{\frac{3\pi}{4}}$",r"$\mathregular{\pi}$"]
+     x_tick = [0,np.pi/4,np.pi/2,3*np.pi/4,np.pi]
+     ax1.set_xticks(x_tick)
+     ax1.set_xticklabels(x_label,fontsize=14)
+     ax1.tick_params(which='both',direction='in')
+     ax1.set_xlabel("ϴ",fontsize=16)
+     ax1.set_ylabel(r"Intensity ($\mathregular{|S|^2}$)",fontsize=16,labelpad=10)
+     ax1.set_ylim([1e-7,1])
+     ax1.set_xlim([0,np.pi])
+     ax1.annotate("dp = {dd:1.0f} nm".format(dd=d), xy=(3, 1e-6),  xycoords='data',
+               xytext=(0.7, 0.1), textcoords='axes fraction',
+               horizontalalignment='left', verticalalignment='top',
+               fontsize=18
+               )
+     handles, labels = ax1.get_legend_handles_labels()
+     fig1.legend(handles,labels,fontsize=14,ncol=3,loc=8)
+   
+     fig1.suptitle("Scattering Intensity Functions",fontsize=18)
+     fig1.show()
+     plt.tight_layout(rect=[0.01,0.05,0.915,0.95])
+   
+     plt.savefig('output\\' + str(i).rjust(3,'0') + '.png')
+   
+   filenames = os.listdir('output\\')
+   with imageio.get_writer('movie.mp4', mode='I', fps=10) as writer:
+       for filename in filenames:
+           image = imageio.imread('output\\' + filename)
+           writer.append_data(image)
+
+This produces a nice video.
+
+.. raw:: html 
+
+   <video controls src="images/mie_ripples.mp4"></video> 

@@ -216,16 +216,29 @@ def Mie_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDi
   else:
     return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio
 
-def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False):
+def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#ScatteringFunction
   x = np.pi*diameter/wavelength
-  theta = np.linspace(minAngle,maxAngle,int((maxAngle-minAngle)/angularResolution))*np.pi/180
-  thetaSteps = len(theta)
-  SL = np.zeros(thetaSteps)
-  SR = np.zeros(thetaSteps)
-  SU = np.zeros(thetaSteps)
-  for j in range(thetaSteps):
-    u = np.cos(theta[j])
+  _steps = int(1+(maxAngle-minAngle)/angularResolution) # default 361
+
+  if angleMeasure in ['radians','RADIANS','rad','RAD']:
+    adjust = np.pi/180
+  elif angleMeasure in ['gradians','GRADIANS','grad','GRAD']:
+    adjust = 1/200
+  else:
+    adjust = 1
+
+  if space in ['q','qspace','QSPACE','qSpace']:
+    if minAngle==0:
+      minAngle = 1e-5
+    measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*adjust
+  else:
+    measure = np.linspace(minAngle,maxAngle,_steps)*adjust
+  SL = np.zeros(_steps)
+  SR = np.zeros(_steps)
+  SU = np.zeros(_steps)
+  for j in range(_steps):
+    u = np.cos(measure[j])
     S1, S2 = MieS1S2(m,x,u)
     SL[j] = (np.sum(np.conjugate(S1)*S1)).real
     SR[j] = (np.sum(np.conjugate(S2)*S2)).real
@@ -234,43 +247,18 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     SL /= np.max(SL)
     SR /= np.max(SR)
     SU /= np.max(SU)
-  return theta,SL,SR,SU
-
-def SF_withSizeDistribution(m, wavelength, diameters, bins, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
-#  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_withSizeDistribution
-  theta = np.arange(0,np.pi,angularResolution)
-  thetaSteps = len(theta)
-  diameters = coerceDType(diameters)
-  bins = coerceDType(bins)
-  SL = np.zeros(thetaSteps)
-  SR = np.zeros(thetaSteps)
-  SU = np.zeros(thetaSteps)
-  for num,size in zip(diameters,bins):
-    if space=='qspace':
-      measure,l,r,u = qSpaceScatteringFunction(m,wavelength,size)
-    else:
-      measure,l,r,u = ScatteringFunction(m,wavelength,size,thetaSteps)
-    SL += l*num
-    SR += r*num
-    SU += u*num
-  SL /= np.sum(diameters)
-  SR /= np.sum(diameters)
-  SU /= np.sum(diameters)
-  if normed:
-    SL /= np.max(SL)
-    SR /= np.max(SR)
-    SU /= np.max(SU)
   return measure,SL,SR,SU
 
-def qSpaceScatteringFunction(m,wavelength,diameter,normed=False):
+def qSpaceScatteringFunction(m,wavelength,diameter,minAngle=0,maxAngle=180,angularResolution=0.5,normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#qSpaceScatteringFunction
   x = np.pi*diameter/wavelength
-  theta = np.linspace(1,3600,num=3600,endpoint=False)*np.pi/3600
+  _steps = int(1+(maxAngle-minAngle)/angularResolution)
+  theta = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
   qR = (4*np.pi/wavelength)*np.sin(theta/2)*(diameter/2)
-  SL = np.zeros(3600)
-  SR = np.zeros(3600)
-  SU = np.zeros(3600)
-  for j in range(3600):
+  SL = np.zeros(_steps)
+  SR = np.zeros(_steps)
+  SU = np.zeros(_steps)
+  for j in range(_steps):
     u = np.cos(theta[j])
     S1, S2 = MieS1S2(m,x,u)
     SL[j] = (np.sum(np.conjugate(S1)*S1)).real
@@ -281,6 +269,31 @@ def qSpaceScatteringFunction(m,wavelength,diameter,normed=False):
     SR /= np.max(SR)
     SU /= np.max(SU)
   return qR,SL,SR,SU
+
+def SF_withSizeDistribution(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_withSizeDistribution
+  _steps = int(1+maxAngle/angularResolution)
+  ndp = coerceDType(ndp)
+  dp = coerceDType(dp)
+  SL = np.zeros(_steps)
+  SR = np.zeros(_steps)
+  SU = np.zeros(_steps)
+  for num,size in zip(ndp,dp):
+    if space=='qspace':
+      measure,l,r,u = qSpaceScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
+    else:
+      measure,l,r,u = ScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
+    SL += l*num
+    SR += r*num
+    SU += u*num
+  SL /= np.sum(ndp)
+  SR /= np.sum(ndp)
+  SU /= np.sum(ndp)
+  if normed:
+    SL /= np.max(SL)
+    SR /= np.max(SR)
+    SU /= np.max(SU)
+  return measure,SL,SR,SU
 
 def MieS1S2(m,x,mu):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieS1S2
