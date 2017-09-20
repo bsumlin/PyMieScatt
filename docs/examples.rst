@@ -162,7 +162,7 @@ First, install ffmpeg exe using conda:
            writer.append_data(image)
 
 		   
-This produces a nice video, which I'll show you just as soon as ReadTheDocs can embed mp4 files. For now, you can find it `here <https://github.com/bsumlin/PyMieScatt/blob/master/docs/images/mie_ripples.mp4>`_.
+This produces a nice video, which I'll show you just as soon as ReadTheDocs can embed mp4 files. For now, you can find it `here <https://github.com/bsumlin/PyMieScatt/blob/master/docs/images/mie_ripples.mp4?raw=true>`_.
 
 
 .. raw:: html 
