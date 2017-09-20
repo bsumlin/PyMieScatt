@@ -102,7 +102,7 @@ This produces the following image:
 
 We can do better, though! Suppose we wanted to, for educational purposes, demonstrate how the "Mie ripples" develop as we increase size parameter. This script uses 405 nm light incident upon a particle of m=1.536+0.05i. Its diameter increases from 10 to 10000 nm and the result is plotted and a figure file is saved. The final few lines gather the figures into an mp4 video. Note that the Mie mathematics need only one line per loop, and the rest is generating images and movies.
 
-.. code-block: python
+.. code-block:: python
 
    import PyMieScatt as ps
    import numpy as np
@@ -155,8 +155,10 @@ We can do better, though! Suppose we wanted to, for educational purposes, demons
            image = imageio.imread('output\\' + filename)
            writer.append_data(image)
 
+		   
 This produces a nice video.
+
 
 .. raw:: html 
 
-   <video controls src="images/mie_ripples.mp4"></video> 
+   <video controls src="_source/mie_ripples.mp4"></video> 
