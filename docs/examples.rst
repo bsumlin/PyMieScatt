@@ -161,4 +161,4 @@ This produces a nice video.
 
 .. raw:: html 
 
-   <video controls src="_source/mie_ripples.mp4"></video> 
+   <video controls src="https://github.com/bsumlin/PyMieScatt/tree/master/docs/images/mie_ripples.mp4"></video> 
