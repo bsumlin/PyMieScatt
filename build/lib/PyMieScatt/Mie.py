@@ -229,11 +229,15 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     adjust = 1
 
   if space in ['q','qspace','QSPACE','qSpace']:
+    _steps *= 10
     if minAngle==0:
       minAngle = 1e-5
-    measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*adjust
+    measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
+    _q = True
   else:
     measure = np.linspace(minAngle,maxAngle,_steps)*adjust
+    _q = False
+    
   SL = np.zeros(_steps)
   SR = np.zeros(_steps)
   SU = np.zeros(_steps)
@@ -247,6 +251,8 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     SL /= np.max(SL)
     SR /= np.max(SR)
     SU /= np.max(SU)
+  if _q:
+    measure = (4*np.pi/wavelength)*np.sin(measure/2)*(diameter/2)
   return measure,SL,SR,SU
 
 def qSpaceScatteringFunction(m,wavelength,diameter,minAngle=0,maxAngle=180,angularResolution=0.5,normed=False):

@@ -100,7 +100,7 @@ This produces the following image:
 
 .. image:: images/sif.png
 
-We can do better, though! Suppose we wanted to, for educational purposes, demonstrate how the "Mie ripples" develop as we increase size parameter. This script uses 405 nm light incident upon a particle of m=1.536+0.05i. Its diameter increases from 10 to 10000 nm and the result is plotted and a figure file is saved. The final few lines gather the figures into an mp4 video. Note that the Mie mathematics need only one line per loop, and the rest is generating images and movies.
+We can do better, though! Suppose we wanted to, for educational purposes, demonstrate how the "Mie ripples" develop as we increase size parameter. This script considers a weakly absorbing particle of m=1.536+0.0015i. Its size parameter increases from 0.08 to 500 nm, the scattering function is plotted and a figure file is saved. The final few lines gather the figures into an mp4 video. Note that the Mie mathematics need only one line per loop, and the rest is generating images and movies.
 
 First, install ffmpeg exe using conda:
 .. code-block::
@@ -117,21 +117,23 @@ First, install ffmpeg exe using conda:
    import os
    
    wavelength=450.0
-   m=1.536+0.5j
-   drange = np.logspace(1,4,250)
+   m=1.536+0.0015j
+   drange = np.logspace(1,np.log10(500*405/np.pi),250)
    for i,d in enumerate(drange):
+     if 250%(i+1)==0:
+       print("Working on image " + str(i) + "...",flush=True)
      theta,SL,SR,SU = ps.ScatteringFunction(m,wavelength,d,space='theta',normed=True)
-   
+       
      plt.close('all')
      
      fig1 = plt.figure(figsize=(10.08,6.08))
      ax1 = fig1.add_subplot(1,1,1)
      #ax2 = fig1.add_subplot(1,2,2)
-   
+     
      ax1.semilogy(theta,SL,'b',ls='dashdot',lw=1,label="Parallel Polarization")
      ax1.semilogy(theta,SR,'r',ls='dashed',lw=1,label="Perpendicular Polarization")
      ax1.semilogy(theta,SU,'k',lw=1,label="Unpolarized")
-   
+     
      x_label = ["0", r"$\mathregular{\frac{\pi}{4}}$", r"$\mathregular{\frac{\pi}{2}}$",r"$\mathregular{\frac{3\pi}{4}}$",r"$\mathregular{\pi}$"]
      x_tick = [0,np.pi/4,np.pi/2,3*np.pi/4,np.pi]
      ax1.set_xticks(x_tick)
@@ -139,16 +141,16 @@ First, install ffmpeg exe using conda:
      ax1.tick_params(which='both',direction='in')
      ax1.set_xlabel("ϴ",fontsize=16)
      ax1.set_ylabel(r"Intensity ($\mathregular{|S|^2}$)",fontsize=16,labelpad=10)
-     ax1.set_ylim([1e-7,1])
-     ax1.set_xlim([0,np.pi])
-     ax1.annotate("dp = {dd:1.0f} nm".format(dd=d), xy=(3, 1e-6),  xycoords='data',
-               xytext=(0.7, 0.1), textcoords='axes fraction',
+     ax1.set_ylim([1e-9,1])
+     ax1.set_xlim([1e-3,theta[-1]])
+     ax1.annotate("x = πd/λ = {dd:1.2f}".format(dd=np.round(np.pi*d/405,2)), xy=(3, 1e-6),  xycoords='data',
+               xytext=(0.05, 0.1), textcoords='axes fraction',
                horizontalalignment='left', verticalalignment='top',
                fontsize=18
                )
      handles, labels = ax1.get_legend_handles_labels()
      fig1.legend(handles,labels,fontsize=14,ncol=3,loc=8)
-   
+     
      fig1.suptitle("Scattering Intensity Functions",fontsize=18)
      fig1.show()
      plt.tight_layout(rect=[0.01,0.05,0.915,0.95])
@@ -156,13 +158,15 @@ First, install ffmpeg exe using conda:
      plt.savefig('output\\' + str(i).rjust(3,'0') + '.png')
    
    filenames = os.listdir('output\\')
-   with imageio.get_writer('movie.mp4', mode='I', fps=10) as writer:
+   dur = [0.1 for x in range(250)]
+   dur[249]=10
+   with imageio.get_writer('mie_ripples.mp4', mode='I', fps=10) as writer:
        for filename in filenames:
            image = imageio.imread('output\\' + filename)
            writer.append_data(image)
 
 		   
-This produces a nice video, which I'll show you just as soon as ReadTheDocs can embed mp4 files. For now, you can find it `here <https://github.com/bsumlin/PyMieScatt/blob/master/docs/images/mie_ripples.mp4?raw=true>`_.
+This produces a nice video, which I'll embed here just as soon as ReadTheDocs supports Github content embedding. For now, you can download it `here <https://github.com/bsumlin/PyMieScatt/blob/master/docs/images/mie_ripples.mp4?raw=true>`_.
 
 
 .. raw:: html 

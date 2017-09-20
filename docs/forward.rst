@@ -446,34 +446,6 @@ These functions compute the angle-dependent scattered field intensities and scat
    SU : numpy.ndarray
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 
-
-.. py:Function:: qSpaceScatteringFunction(m, wavelength, diameter[, normed=False])
-
-   Creates arrays for plotting the angular scattering intensity functions in q-space with parallel, perpendicular, and unpolarized light. Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`. The scattering angle variable, **qR**, is calculated by :math:`qR=(4\pi /\lambda)\,sin(\theta /2)\,(d_p /2)`.
-   
-   **Parameters**
-   
-   
-   m : complex
-	The complex refractive index with the convention *m = n+ik*.
-   wavelength : float
-	The wavelength of incident light, in nanometers.
-   diameter : float
-	The diameter of the particle, in nanometers.
-   normed : bool, optional
-	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
-	
-   **Returns**
-   
-   
-   qR : numpy.ndarray
-	An array of the q-space angles used in calculations. Size is 3600.
-   SL : numpy.ndarray
-	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **qR** array.
-   SR : numpy.ndarray
-	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **qR** array.
-   SU : numpy.ndarray
-	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **qR** array.
 	
 	
 .. py:Function:: MatrixElements(m, wavelength, diameter, mu)
