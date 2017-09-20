@@ -39,6 +39,11 @@ Documentation To-Do List
 - Inverse Mie Theory functions
 - More example scripts
 
+PyMieScatt To-Do List
+---------------------
+
+- Upload package to Anaconda cloud
+
 Author Contact Information
 --------------------------
 PyMieScatt was written by `Benjamin Sumlin <https://air.eece.wustl.edu/people/ben-sumlin/>`_. Special thanks to Dr. William Heinson, Dr. Rajan Chakrabarty, Claire Fortenberry, and Apoorva Pandey for their insights and support.
