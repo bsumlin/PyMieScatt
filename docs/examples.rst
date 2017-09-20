@@ -167,5 +167,7 @@ This produces a nice video, which I'll show you just as soon as ReadTheDocs can 
 
 .. raw:: html 
 
-	<iframe src="https://github.com/bsumlin/PyMieScatt/blob/master/docs/images/mie_ripples.mp4?raw=true">
-	</iframe>
+	<video width="320" height="240" controls>
+	  <source src="mir_ripples.mp4" type="video/mp4">
+	Your browser does not support the video tag.
+	</video>
