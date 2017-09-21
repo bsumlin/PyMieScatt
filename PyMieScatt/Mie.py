@@ -255,27 +255,6 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     measure = (4*np.pi/wavelength)*np.sin(measure/2)*(diameter/2)
   return measure,SL,SR,SU
 
-def qSpaceScatteringFunction(m,wavelength,diameter,minAngle=0,maxAngle=180,angularResolution=0.5,normed=False):
-#  http://pymiescatt.readthedocs.io/en/latest/forward.html#qSpaceScatteringFunction
-  x = np.pi*diameter/wavelength
-  _steps = int(1+(maxAngle-minAngle)/angularResolution)
-  theta = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
-  qR = (4*np.pi/wavelength)*np.sin(theta/2)*(diameter/2)
-  SL = np.zeros(_steps)
-  SR = np.zeros(_steps)
-  SU = np.zeros(_steps)
-  for j in range(_steps):
-    u = np.cos(theta[j])
-    S1, S2 = MieS1S2(m,x,u)
-    SL[j] = (np.sum(np.conjugate(S1)*S1)).real
-    SR[j] = (np.sum(np.conjugate(S2)*S2)).real
-    SU[j] = (SR[j]+SL[j])/2
-  if normed:
-    SL /= np.max(SL)
-    SR /= np.max(SR)
-    SU /= np.max(SU)
-  return qR,SL,SR,SU
-
 def SF_withSizeDistribution(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_withSizeDistribution
   _steps = int(1+maxAngle/angularResolution)
