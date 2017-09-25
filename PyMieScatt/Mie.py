@@ -265,7 +265,7 @@ def SF_withSizeDistribution(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, an
   SU = np.zeros(_steps)
   for num,size in zip(ndp,dp):
     if space=='qspace':
-      measure,l,r,u = qSpaceScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
+      measure,l,r,u = ScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution,space='qspace')
     else:
       measure,l,r,u = ScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
     SL += l*num

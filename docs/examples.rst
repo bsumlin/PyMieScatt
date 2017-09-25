@@ -247,3 +247,6 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
                arrowprops=dict(arrowstyle="->",
                                connectionstyle="arc3"),
                )
+
+
+.. image:: images/saltsif.png

@@ -697,8 +697,11 @@ def fastMie_SD(m, wavelength, ndpdp, ndp):
   for i in range(_length):
     Q_sca[i],Q_abs[i],_ = fastMieQ(m,wavelength,ndpdp[i])
 
-  Bsca = trapz(Q_sca*aSDn)
-  Babs = trapz(Q_abs*aSDn)
+#  Bsca = trapz(Q_sca*aSDn,ndpdp)
+#  Babs = trapz(Q_abs*aSDn,ndpdp)
+  
+  Bsca = np.sum(Q_sca*aSDn)
+  Babs = np.sum(Q_abs*aSDn)
 
   return Bsca, Babs
 
