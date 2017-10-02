@@ -684,21 +684,21 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
   else:
     return resultM, resultScaErr, resultAbsErr
 
-def fastMie_SD(m, wavelength, ndpdp, ndp):
+def fastMie_SD(m, wavelength, dp, ndp):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#fastMie_SD
-  ndpdp = coerceDType(ndpdp)
+  dp = coerceDType(dp)
   ndp = coerceDType(ndp)
-  _length = np.size(ndpdp)
+  _length = np.size(dp)
   Q_sca = np.zeros(_length)
   Q_abs = np.zeros(_length)
 
-  aSDn = np.pi*((ndpdp/2)**2)*ndp*(1e-6)
+  aSDn = np.pi*((dp/2)**2)*ndp*(1e-6)
 
   for i in range(_length):
-    Q_sca[i],Q_abs[i],_ = fastMieQ(m,wavelength,ndpdp[i])
+    Q_sca[i],Q_abs[i],_ = fastMieQ(m,wavelength,dp[i])
 
-  Bsca = trapz(Q_sca*aSDn,ndpdp)
-  Babs = trapz(Q_abs*aSDn,ndpdp)
+  Bsca = trapz(Q_sca*aSDn)
+  Babs = trapz(Q_abs*aSDn)
 
   return Bsca, Babs
 
@@ -706,7 +706,7 @@ def fastMieQ(m, wavelength, diameter):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#fastMieQ
   x = np.pi*diameter/wavelength
   if x==0:
-    return 0, 0
+    return 0, 0, 0
   elif x>0:
     nmax = np.round(2+x+4*(x**(1/3)))
     n = np.arange(1,nmax+1)
