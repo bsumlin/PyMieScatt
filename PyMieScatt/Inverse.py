@@ -285,7 +285,7 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
   else:
     return solutionSet,forwardCalculations,solutionErrors
 
-def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,axisOption=0,returnGraphElements=False,annotation=True,SDinset=False):
+def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,axisOption=0,returnGraphElements=False,annotation=True,SDinset=False,fig=None,ax=None):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion_withndp
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   labels = []
@@ -314,7 +314,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,
     backError = None
 
   dp = coerceDType(dp)
-  concentration = coerceDType(concentration)
+  ndp = coerceDType(ndp)
   nRange = np.linspace(nMin,nMax,gridPoints)
   kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
   solutionSet = []
@@ -325,7 +325,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,
     a = []
     for k in kRange:
       m = n+k*1.0j
-      Bsca,Babs = fastMie_SD(m,wavelength,dp,concentration)
+      Bsca,Babs = fastMie_SD(m,wavelength,dp,ndp)
       s.append(Bsca)
       a.append(Babs)
     BscaList.append(s)
@@ -335,9 +335,13 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,
 
   n = zoom(nRange,interpolationFactor)
   k = zoom(kRange,interpolationFactor)
-
-  fig = plt.figure(figsize=(8.5,8.5))
-  ax = fig.gca()
+  
+  if fig is None and ax is None:
+    fig, ax = plt.subplots()
+  elif fig is None:
+    fig = ax.get_figure()
+  elif ax is None:
+    ax = fig.gca()
 
   scaLevels = np.array([BscaMeasured])
   absLevels = np.array([BabsMeasured])
@@ -375,7 +379,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,
 
   forwardCalculations = []
   for s in solutionSet:
-    _s,_a = fastMie_SD(s,wavelength,dp,concentration)
+    _s,_a = fastMie_SD(s,wavelength,dp,ndp)
     forwardCalculations.append([_s,_a])
   solutionErrors = []
   for f in forwardCalculations:
@@ -406,7 +410,6 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,
   ax.set_xlabel('n',fontsize=16)
   ax.set_ylabel('k',fontsize=16)
 
-  plt.title("Graphical Solution for λ={w} nm".format(w=wavelength),fontsize=18)
 
   ax.set_xlim((np.min(nRange),np.max(nRange)))
   ax.set_ylim((np.min(kRange),np.max(kRange)))
@@ -448,16 +451,8 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,concentration,
 #    lines.append(backChart.collections[0])
 #    graphelements.append(backChart)
 
-  if(SDinset):
-    left,bottom,width,height = [0.55,0.5,0.3,0.25]
-    ax2=fig.add_axes([left,bottom,width,height],zorder=5)
-    ax2.semilogx(dp,concentration,color='k')
-    ax2.set_xlabel("Diameter (nm)")
-    ax2.set_ylabel("Concentration $\mathregular{(cm^{-3})}$")
-    ax2.patch.set_alpha(0.85)
-    ax2.tick_params(which='both',direction='in')
   if returnGraphElements:
-    return solutionSet,forwardCalculations,solutionErrors,(fig,ax,st,scaChart,absChart,solutions)
+    return solutionSet,forwardCalculations,solutionErrors,fig,ax,scaChart,absChart,solutions
   else:
     return solutionSet,forwardCalculations,solutionErrors
 
@@ -691,11 +686,12 @@ def fastMie_SD(m, wavelength, dp, ndp):
   _length = np.size(dp)
   Q_sca = np.zeros(_length)
   Q_abs = np.zeros(_length)
+  Q_back = np.zeros(_length)
 
   aSDn = np.pi*((dp/2)**2)*ndp*(1e-6)
 
   for i in range(_length):
-    Q_sca[i],Q_abs[i],_ = fastMieQ(m,wavelength,dp[i])
+    Q_sca[i],Q_abs[i],Q_back[i] = fastMieQ(m,wavelength,dp[i])
 
   Bsca = trapz(Q_sca*aSDn)
   Babs = trapz(Q_abs*aSDn)

@@ -3,6 +3,7 @@
 import numpy as np
 from scipy.special import jv, yv
 from scipy.integrate import trapz
+from scipy.ndimage import zoom
 import warnings
 
 def coerceDType(d):
@@ -184,11 +185,11 @@ def LowFrequencyMie_ab(m,x):
   bn = np.append(b1,b2)
   return an,bn
 
-def Mie_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution, asDict=False):
-#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withSizeDistribution
-  sizeDistributionDiameterBins = coerceDType(sizeDistributionDiameterBins)
-  sizeDistribution = coerceDType(sizeDistribution)
-  _length = np.size(sizeDistributionDiameterBins)
+def Mie_SD(m, wavelength, dp, ndp, interpolate=False, asDict=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_SD
+  dp = coerceDType(dp)
+  ndp = coerceDType(ndp)
+  _length = np.size(dp)
   Q_ext = np.zeros(_length)
   Q_sca = np.zeros(_length)
   Q_abs = np.zeros(_length)
@@ -196,12 +197,13 @@ def Mie_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDi
   Q_back = np.zeros(_length)
   Q_ratio = np.zeros(_length)
   g = np.zeros(_length)
-
-  # scaling of 1e-6 to cast in units of inverse megameters
-  aSDn = np.pi*((sizeDistributionDiameterBins/2)**2)*sizeDistribution*(1e-6)
+  
+  # scaling of 1e-6 to cast in units of inverse megameters - see docs
+  aSDn = np.pi*((dp/2)**2)*ndp*(1e-6)
+#  _logdp = np.log10(dp)
 
   for i in range(_length):
-    Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = MieQ(m,wavelength,sizeDistributionDiameterBins[i])
+    Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = MieQ(m,wavelength,dp[i])
 
   Bext = trapz(Q_ext*aSDn)
   Bsca = trapz(Q_sca*aSDn)
@@ -255,8 +257,8 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     measure = (4*np.pi/wavelength)*np.sin(measure/2)*(diameter/2)
   return measure,SL,SR,SU
 
-def SF_withSizeDistribution(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
-#  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_withSizeDistribution
+def SF_SD(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_SD
   _steps = int(1+maxAngle/angularResolution)
   ndp = coerceDType(ndp)
   dp = coerceDType(dp)
@@ -372,7 +374,7 @@ def MieQ_withSizeParameterRange(m, xRange=(1,10), nx=1000, logX=False):
   qratio = np.array([q[6] for q in _qD])
   return xValues, qext, qsca, qabs, g, qpr, qback, qratio
 
-def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=1000,lower=1,upper=1000,gamma=[1],returnDistribution=False,decomposeMultimodal=False,asDict=False):
+def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=10000,lower=1,upper=1000,gamma=[1],returnDistribution=False,decomposeMultimodal=False,asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_Lognormal
   ithPart = lambda gammai, dp, dpgi, sigmagi: (gammai/(np.sqrt(2*np.pi)*np.log(sigmagi)*dp))*np.exp(-(np.log(dp)-np.log(dpgi))**2/(2*np.log(sigmagi)**2))
   dp = np.logspace(np.log10(lower),np.log10(upper),numberOfBins)
@@ -399,7 +401,7 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,numberOfBins=
     ndp = numberOfParticles*ithPart(1,dp,geoMean,geoStdDev)
   if ndp[-1]>np.max(ndp)/100 or ndp[0]>np.max(ndp)/100:
     warnings.warn("Warning: distribution may not be compact on the specified interval. Consider using a higher upper bound.")
-  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_withSizeDistribution(m,wavelength,dp,ndp)
+  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_SD(m,wavelength,dp,ndp)
   if returnDistribution:
     if decomposeMultimodal:
       if asDict==True:
