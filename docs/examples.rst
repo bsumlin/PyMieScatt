@@ -255,9 +255,11 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
 Modeling Behavior of a Self-Preserving Distribution
 ----------------------------------------------------
 
-This code example will (after several hours on a typical PC) produce a ten-second video of the scattering and absorption behavior of a δ-distribution of 300 nm particles, considered as the limit of a lognormal distribution where the geometric standard deviation σ\ :sub:`g` goes from 1 to 2. Atmospheric aerosol distributions are typically modeled as lognormal distributions with σ\ :sub:`g` around 1.7. The animation also includes the solution for the refractive index given some assumed optical measurements (that is, scattering and absorption measurements when m=1.60+0.36j and λ = 405 nm).
+This code example will (after several hours on a typical PC) produce a ten-second video of the scattering and absorption behavior of a δ-distribution of 300 nm particles, which can be considered the limiting case of a lognormal distribution where the geometric standard deviation σ\ :sub:`g` equals 1. Atmospheric aerosol distributions are typically modeled as lognormal distributions with σ\ :sub:`g` around 1.7, and here we animate from 1 to 2. The animation also includes the solution for the refractive index given some assumed optical measurements (that is, scattering and absorption measurements when m=1.60+0.36j and λ = 405 nm).
 
 There is a commented block on lines 37-39 that can be uncommented to produce a single image with random σ\ :sub:`g` between 1 and 2. The revelent PyMieScatt calculations are on lines 45 and 136. That's it! The rest is preparing inputs and making pretty graphs.
+
+I'm still working on optimizing a few things. For now, it takes about 15 minutes to make each frame on my computer. At 50 frames, that's about 12.5 hours.
 
 .. code-block:: python
 
@@ -284,7 +286,7 @@ There is a commented block on lines 37-39 that can be uncommented to produce a s
    ithPart = lambda gammai, dp, dpgi, sigmagi: (gammai/(np.sqrt(2*np.pi)*np.log(sigmagi)*dp))*np.exp(-(np.log(dp)-np.log(dpgi))**2/(2*np.log(sigmagi)**2))
    dp = np.logspace(np.log10(1), np.log10(maxDiameter), numDiams)
    
-   sigmaList = np.logspace(np.log10(1.005), np.log10(2.9), 29)
+   sigmaList = np.logspace(np.log10(1.005), np.log10(2), 49)
    
    mu=300
    
@@ -297,7 +299,7 @@ There is a commented block on lines 37-39 that can be uncommented to produce a s
    sigmaList = np.insert(sigmaList,0,1)
    
    ## Test region - uncomment for a single graph
-   #testCase = np.random.randint(1,29)
+   #testCase = np.random.randint(1,49)
    #lognormalList = [lognormalList[testCase]]
    #sigmaList = [sigmaList[testCase]]
    
