@@ -252,10 +252,10 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
 .. image:: images/saltsif.png
 
 
-Modelling Behavior of a Self-Preserving Distribution
+Modeling Behavior of a Self-Preserving Distribution
 ----------------------------------------------------
 
-This code example will (after several hours on a typical PC) produce a ten-second video of the scattering and absorption behavior of a δ-distribution of 300 nm particles, considered as the limit of a lognormal distribution where the geometric standard deviation σ\ :sub:`g` goes from 1 to 2. Atmospheric aerosol distributions are typically modelled as lognormal distributions with σ\ :sub:`g` around 1.7. The animation also includes the solution for the refractive index given some assumed optical measurements (that is, scattering and absorption measurements when m=1.60+0.36j).
+This code example will (after several hours on a typical PC) produce a ten-second video of the scattering and absorption behavior of a δ-distribution of 300 nm particles, considered as the limit of a lognormal distribution where the geometric standard deviation σ\ :sub:`g` goes from 1 to 2. Atmospheric aerosol distributions are typically modeled as lognormal distributions with σ\ :sub:`g` around 1.7. The animation also includes the solution for the refractive index given some assumed optical measurements (that is, scattering and absorption measurements when m=1.60+0.36j and λ = 405 nm).
 
 There is a commented block on lines 37-39 that can be uncommented to produce a single image with random σ\ :sub:`g` between 1 and 2. The revelent PyMieScatt calculations are on lines 45 and 136. That's it! The rest is preparing inputs and making pretty graphs.
 
