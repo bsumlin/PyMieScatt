@@ -147,7 +147,7 @@ Functions for single particles
    
 .. py:Function:: AutoMieQ(m, wavelength, diameter[, crossover=0.5, asDict=False])
 
-   Returns Mie efficencies of a spherical particle according to either :py:func`MieQ` or :py:func`RayleighMieQ` depending on the magnitude of the size parameter. Good for studying parameter ranges or size distributions.
+   Returns Mie efficencies of a spherical particle according to either :py:func:`MieQ` or :py:func:`RayleighMieQ` depending on the magnitude of the size parameter. Good for studying parameter ranges or size distributions.
    
    **Parameters**
    
@@ -238,7 +238,7 @@ Functions for single particles across various ranges
 
 .. py:Function:: MieQ_withDiameterRange(m, wavelength[, diameterRange=(10,1000), nd=1000, logD=False])
 
-   Computes the Mie efficencies of particles across a diameter range using :py:func:`MieQ` or :py:func:`AutoMieQ`, depending on the size parameters.
+   Computes the Mie efficencies of particles across a diameter range using :py:func:`AutoMieQ`.
    
    **Parameters**
    
@@ -264,7 +264,7 @@ Functions for single particles across various ranges
 	
 .. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=(100,1600), nw=1000, logW=False])
 
-   Computes the Mie efficencies of particles across a wavelength range using :py:func:`MieQ` or :py:func:`AutoMieQ`, depending on the size parameters. This function can optionally take a list, tuple, or numpy.ndarray for **m**. If your particles have a wavelength-dependent refractive index, you can study it by specifying **m** as list-like. When doing so, **m** must be the same size as **wavelengthRange**, which is also specified as list-like in this situation. Otherwise, the function will construct a range from **wavelengthRange[0]** to **wavelengthRange[1]** with **nw** entries.
+   Computes the Mie efficencies of particles across a wavelength range using :py:func:`AutoMieQ`. This function can optionally take a list, tuple, or numpy.ndarray for **m**. If your particles have a wavelength-dependent refractive index, you can study it by specifying **m** as list-like. When doing so, **m** must be the same size as **wavelengthRange**, which is also specified as list-like in this situation. Otherwise, the function will construct a range from **wavelengthRange[0]** to **wavelengthRange[1]** with **nw** entries.
    
    **Parameters**
    
@@ -290,7 +290,7 @@ Functions for single particles across various ranges
 	
 .. py:Function:: MieQ_withSizeParameterRange(m[, xRange=(1,10), nx=1000, logX=False])
 
-   Computes the Mie efficencies of particles across a size parameter range (\ :math:`x=\pi\,d_p/\lambda`\ ) using :py:func:`MieQ` or :py:func:`AutoMieQ`.
+   Computes the Mie efficencies of particles across a size parameter range (\ :math:`x=\pi\,d_p/\lambda`\ ) using :py:func:`AutoMieQ`.
    
    **Parameters**
    
@@ -349,7 +349,7 @@ The bulk asymmetry parameter *G* is calculated by:
    
    
    Bext, Bsca, Babs, G, Bpr, Bback, Bratio : float
-	The Mie coefficients calculated by :py:func:`MieQ`, integrated over the size distribution.
+	The Mie coefficients calculated by :py:func:`AutoMieQ`, integrated over the size distribution.
    q : dict
 	If asDict==True, :py:func:`MieQ_withSizeDistribution` returns a dict of the above values with appropriate keys.
 
