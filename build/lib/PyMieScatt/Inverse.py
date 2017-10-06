@@ -286,7 +286,7 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
     return solutionSet,forwardCalculations,solutionErrors
 
 def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,axisOption=0,returnGraphElements=False,annotation=True,SDinset=False,fig=None,ax=None):
-#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion_withndp
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion_SD
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   labels = []
   if type(BscaMeasured) in [list, tuple, np.ndarray]:

@@ -137,6 +137,15 @@ def RayleighMieQ(m, wavelength, diameter, asDict=False):
     else:
       return qext, qsca, qabs, g, qpr, qback, qratio
 
+def AutoMieQ(m, wavelength, diameter, asDict=False):
+  x = np.pi*diameter/wavelength
+  if x==0:
+    return 0, 0, 0, 1.5, 0, 0, 0
+  elif x<0.5:
+    return RayleighMieQ(m, wavelength, diameter, asDict=asDict)
+  else:
+    return MieQ(m, wavelength, diameter, asDict=asDict)
+
 def LowFrequencyMieQ(m, wavelength, diameter, asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#LowFrequencyMieQ
   x = np.pi*diameter/wavelength
@@ -203,7 +212,7 @@ def Mie_SD(m, wavelength, dp, ndp, interpolate=False, asDict=False):
 #  _logdp = np.log10(dp)
 
   for i in range(_length):
-    Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = MieQ(m,wavelength,dp[i])
+    Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = AutoMieQ(m,wavelength,dp[i])
 
   Bext = trapz(Q_ext*aSDn)
   Bsca = trapz(Q_sca*aSDn)
