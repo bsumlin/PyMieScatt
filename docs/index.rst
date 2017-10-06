@@ -18,7 +18,7 @@ You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.p
    $ pip install PyMieScatt
 
 
-or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.2.6.
+or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.3.0.
    
 
 .. toctree::
@@ -38,6 +38,7 @@ Documentation To-Do List
 
 - Inverse Mie Theory functions
 - More example scripts
+- Revision history and update notes
 
 PyMieScatt To-Do List
 ---------------------

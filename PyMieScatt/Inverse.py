@@ -74,11 +74,16 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,spaceSi
 
   return np.intersect1d(validScattering,validAbsorption)
 
-def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,QbackMeasured=None,gridPoints=200,interpolationFactor=2,maxError=0.005,makePlot=True,axisOption=0,returnGraphElements=False,annotation=True):
+def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,QbackMeasured=None,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
+  if QbackMeasured is not None:
+    if gridPoints*interpolationFactor<400:
+      gridPoints = 2*gridPoints
   labels = []
+  incErrors = False
   if type(QscaMeasured) in [list, tuple, np.ndarray]:
+    incErrors = True
     scaError = QscaMeasured[1]
     QscaMeasured = QscaMeasured[0]
     labels.append("Qsca = {b:1.3f}±{e:1.3f}".format(b=QscaMeasured,e=scaError))
@@ -102,21 +107,11 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
   else:
     backError = None
 
-  if (gridPoints*interpolationFactor) < 400:
-    if QbackMeasured is not None:
-      warnings.warn("If the product of gridPoints and interpolationFactor is less than 400, a unique solution may not be found!")
-    else:
-      warnings.warn("If the product of gridPoints and interpolationFactor is less than 400, not all solutions may be found, and errors may be high. Increase gridPoints to improve performance.")
-
   nRange = np.linspace(nMin,nMax,gridPoints)
   kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
-  QscaList = []
-  QabsList = []
-  QbackList = []
+  QscaList, QabsList, QbackList = [], [], []
   for n in nRange:
-    s = []
-    a = []
-    b = []
+    s, a, b = [], [], []
     for k in kRange:
       m = n+k*1.0j
       Qsca,Qabs,Qback = fastMieQ(m,wavelength,diameter)
@@ -133,8 +128,12 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
   n = zoom(nRange,interpolationFactor)
   k = zoom(kRange,interpolationFactor)
 
-  fig = plt.figure(figsize=(8.5,8.5))
-  ax = fig.gca()
+  if fig is None and ax is None:
+    fig, ax = plt.subplots()
+  elif fig is None:
+    fig = ax.get_figure()
+  elif ax is None:
+    ax = fig.gca()
 
   scaLevels = np.array([QscaMeasured])
   absLevels = np.array([QabsMeasured])
@@ -151,16 +150,19 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
 
   if scaError is not None:
     scaErrorLevels = np.array([QscaMeasured+x for x in [-scaError, scaError]])
-    scaErrorChart = ax.contourf(n,k,QscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
+    ax.contourf(n,k,QscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
     ax.contour(n,k,QscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
+
   if absError is not None:
     absErrorLevels = np.array([QabsMeasured+x for x in [-absError, absError]])
-    absErrorChart = ax.contourf(n,k,QabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
+    ax.contourf(n,k,QabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
     ax.contour(n,k,QabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
+
   if backError is not None:
     backErrorLevels = np.array([QbackMeasured+x for x in [-backError, backError]])
-    backErrorChart = ax.contourf(n,k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
+    ax.contourf(n,k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,QbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
+
   distinctScaPaths = len(scaChart.collections[0].get_paths())
   distinctAbsPaths = len(absChart.collections[0].get_paths())
   if QbackMeasured is not None:
@@ -183,10 +185,10 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
     backVertices = np.concatenate(backVertices)
 
   nSolution,kSolution = find_intersections(scaVertices,absVertices)
-  trials = [(x+(0+1j)*y) for x,y in zip(nSolution,kSolution)]
+  trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
   if QbackMeasured is not None:
     oneTrueN,oneTrueK = find_intersections(backVertices,absVertices)
-    _these = [np.round(x+(0+1j)*y,3) for x,y in zip(oneTrueN,oneTrueK)]
+    _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
     _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
     if len(_match) > 0:
       _matchIndex = list(np.round(trials,2)).index(np.round(_match[0],2))
@@ -196,7 +198,7 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
   if type(nSolution)==np.float64:
     solutionSet = [nSolution + (0+1j)*kSolution]
   else:
-    solutionSet = [(x+(0+1j)*y) for x,y in zip(nSolution,kSolution)]
+    solutionSet = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
 
   forwardCalculations = []
   for s in solutionSet:
@@ -221,95 +223,107 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
   solutionSet = solutionSet[solution]
   forwardCalculations = forwardCalculations[solution]
   solutionErrors = solutionErrors[solution]
-  _sS = [x[0] for x in solutionErrors]
-  _sA = [x[1] for x in solutionErrors]
-  _sR = [[np.min(_sS), np.max(_sS)],[np.min(_sA), np.max(_sA)]]
   nSolutionsToPlot,kSolutionsToPlot = [x.real for x in solutionSet],[x.imag for x in solutionSet]
 
-  solutions = ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=1.5,edgecolor='k',facecolor='none',zorder=3)
-  solutions = ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=0,edgecolor='none',facecolor='c',zorder=1,alpha=0.25)
+  ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=1.5,edgecolor='k',facecolor='none',zorder=3)
+  ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=0,edgecolor='none',facecolor='c',zorder=1,alpha=0.25)
+  
   for x,y,s in zip(nSolutionsToPlot,kSolutionsToPlot,solutionErrors):
-    plt.axhline(y,linewidth=0.5,color=str(np.interp(s[0],_sR[0],[0.15,1])),zorder=0)
-    plt.axvline(x,linewidth=0.5,color=str(np.interp(s[1],_sR[1],[0.15,1])),zorder=0)
+    ax.axhline(y,linewidth=0.5,alpha=0.5,zorder=0)
+    ax.axvline(x,linewidth=0.5,alpha=0.5,zorder=0)
 
   ax.set_xlabel('n',fontsize=16)
   ax.set_ylabel('k',fontsize=16)
 
-  plt.title("Graphical Inversion for λ={w} nm, d={d} nm".format(w=wavelength,d=diameter),fontsize=18)
-
   ax.set_xlim((np.min(nRange),np.max(nRange)))
   ax.set_ylim((np.min(kRange),np.max(kRange)))
   ax.tick_params(which='both',direction='in')
-  if annotation:
-    solutionText = ''
-    if len(solutionSet)==0:
-      solutionText = "No solutions found!"
-    else:
-      for i,(s,f,e) in enumerate(zip(solutionSet,forwardCalculations,solutionErrors)):
-        solutionText += "m{num}={n:1.3f}+{k:1.3f}i Esca={se:1.3f}% Eabs={ae:1.3f}%\n".format(num=i+1,n=s.real,k=s.imag,se=100*e[0],ae=100*e[1])
-    st = AnchoredText(solutionText[:-1],loc=2)
-    st.prop.set_size(14)
-    st.patch.set_edgecolor('k')
-    st.patch.set_alpha(0.85)
-    ax.add_artist(st)
 
-  if axisOption ==0:
+  if axisOption == 0:
     if max(kSolutionsToPlot) <= 0.5 or kMax <= 1:
       ax.set_yscale('log')
     else:
       ax.set_yscale('linear')
   elif axisOption == 1:
-    ax.set_yscale('log')
+    ax.set_xscale('linear')
+    ax.set_yscale('linear')
   elif axisOption == 2:
-    ax.set_xscale('log')
+    ax.set_yscale('log')
   elif axisOption == 3:
+    ax.set_xscale('log')
+  elif axisOption == 4:
     ax.set_xscale('log')
     ax.set_yscale('log')
   else:
     pass
 
-  lines = [scaChart.collections[0], absChart.collections[0]]
-  graphelements = [fig,ax,st,solutions,scaChart,absChart]
-  if QbackMeasured is not None:
-    lines.append(backChart.collections[0])
-    graphelements.append(backChart)
-
-  plt.legend(lines,labels,fontsize=16)
-  if makePlot:
-    plt.show(fig)
+  _c = ax.get_children()
+  if QbackMeasured is None:
+    if incErrors:
+      # no Qback, with error bounds
+      graphElements = {'Qsca':_c[0],'Qabs':_c[1], # contours
+                       'QscaErrFill':_c[2],'QscaErrOutline1':_c[3],'QscaErrOutline2':_c[4],
+                       'QabsErrFill':_c[5],'QabsErrOutline1':_c[6],'QabsErrOutline2':_c[7],
+                       'SolMark':_c[8],'SolFill':_c[9], # the circly thingies at each solutions
+                       'CrosshairsH':_c[10:-10:2],'CrosshairsV':_c[11:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+    else:
+      # no Qback, no error bounds
+      graphElements = {'Qsca':_c[0],'Qabs':_c[1], # contours
+                       'SolFill':_c[2],'SolMark':_c[3], # the circly thingies at each solutions
+                       'CrosshairsH':_c[4:-10:2],'CrosshairsV':_c[5:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+                       
   else:
-    plt.close(fig)
+    if incErrors:
+      # with Qback and error bounds
+      graphElements = {'Qsca':_c[0],'Qabs':_c[1],'Qback':_c[2], # contours
+                       'QscaErrFill':_c[4],'QscaErrOutline1':_c[5],'QscaErrOutline2':_c[6],
+                       'QabsErrFill':_c[7],'QabsErrOutline1':_c[8],'QabsErrOutline2':_c[9],
+                       'SolMark':_c[10],'SolFill':_c[11], # the circly thingies at each solutions
+                       'CrosshairsH':_c[12:-10:2],'CrosshairsV':_c[13:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+    else:
+      # with Qback, no error bounds
+      graphElements = {'Qsca':_c[0],'Qabs':_c[1],'Qback':_c[2], # contours
+                       'SolFill':_c[3],'SolMark':_c[4], # the circly thingies at each solution
+                       'CrosshairsH':_c[5:-10:2],'CrosshairsV':_c[6:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
 
-  if returnGraphElements:
-    return solutionSet,forwardCalculations,solutionErrors, graphelements
-  else:
-    return solutionSet,forwardCalculations,solutionErrors
+  return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
-def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,axisOption=0,returnGraphElements=False,annotation=True,SDinset=False,fig=None,ax=None):
+def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion_SD
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
+  if BbackMeasured is not None:
+    if gridPoints*interpolationFactor<120:
+      gridPoints = 2*gridPoints
   labels = []
   if type(BscaMeasured) in [list, tuple, np.ndarray]:
     scaError = BscaMeasured[1]
     BscaMeasured = BscaMeasured[0]
-    labels.append("Bsca = {b:1.1f}±{e:1.1f}".format(b=BscaMeasured,e=scaError))
+    labels.append("Bsca = {b:1.3f}±{e:1.3f}".format(b=BscaMeasured,e=scaError))
   else:
     scaError = None
-    labels.append("Bsca = {b:1.1f}".format(b=BscaMeasured))
+    labels.append("Bsca = {b:1.3f}".format(b=BscaMeasured))
   if type(BabsMeasured) in [list, tuple, np.ndarray]:
     absError = BabsMeasured[1]
     BabsMeasured = BabsMeasured[0]
-    labels.append("Babs = {b:1.1f}±{e:1.1f}".format(b=BabsMeasured,e=absError))
+    labels.append("Babs = {b:1.3f}±{e:1.3f}".format(b=BabsMeasured,e=absError))
   else:
     absError = None
-    labels.append("Babs = {b:1.1f}".format(b=BabsMeasured))
+    labels.append("Babs = {b:1.3f}".format(b=BabsMeasured))
   if type(BbackMeasured) in [list, tuple, np.ndarray]:
     backError = BbackMeasured[1]
     BbackMeasured = BbackMeasured[0]
-    labels.append("Bback = {b:1.1f}±{e:1.1f}".format(b=BbackMeasured,e=backError))
+    labels.append("Bback = {b:1.3f}±{e:1.3f}".format(b=BbackMeasured,e=backError))
   elif BbackMeasured is not None:
     backError = None
-    labels.append("Qback - {b:1.3f}".format(b=BbackMeasured))
+    labels.append("Bback - {b:1.3f}".format(b=BbackMeasured))
   else:
     backError = None
 
@@ -317,25 +331,25 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
   ndp = coerceDType(ndp)
   nRange = np.linspace(nMin,nMax,gridPoints)
   kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
-  solutionSet = []
-  BscaList = []
-  BabsList = []
+  BscaList, BabsList, BbackList = [], [], []
   for n in nRange:
-    s = []
-    a = []
+    s, a, b = [], [], []
     for k in kRange:
       m = n+k*1.0j
-      Bsca,Babs = fastMie_SD(m,wavelength,dp,ndp)
+      Bsca,Babs,Bback = fastMie_SD(m,wavelength,dp,ndp)
       s.append(Bsca)
       a.append(Babs)
+      b.append(Bback)
     BscaList.append(s)
     BabsList.append(a)
+    BbackList.append(b)
   BscaList = zoom(np.transpose(np.array(BscaList)),interpolationFactor)
   BabsList = zoom(np.transpose(np.array(BabsList)),interpolationFactor)
+  BbackList = zoom(np.transpose(np.array(BbackList)),interpolationFactor)
 
   n = zoom(nRange,interpolationFactor)
   k = zoom(kRange,interpolationFactor)
-  
+
   if fig is None and ax is None:
     fig, ax = plt.subplots()
   elif fig is None:
@@ -346,40 +360,71 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
   scaLevels = np.array([BscaMeasured])
   absLevels = np.array([BabsMeasured])
 
+  if BbackMeasured is not None:
+    backLevels = np.array([BbackMeasured])
+    if backError is not None:
+      backErrorLevels = np.array([BbackMeasured+x for x in [-backError,backError]])
+
   scaChart = ax.contour(n,k,BscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
   absChart = ax.contour(n,k,BabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
+  if BbackMeasured is not None:
+    backChart = ax.contour(n,k,BbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
 
   if scaError is not None:
     scaErrorLevels = np.array([BscaMeasured+x for x in [-scaError, scaError]])
-    scaErrorChart = ax.contourf(n,k,BscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
+    ax.contourf(n,k,BscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
     ax.contour(n,k,BscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
+
   if absError is not None:
     absErrorLevels = np.array([BabsMeasured+x for x in [-absError, absError]])
-    absErrorChart = ax.contourf(n,k,BabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
+    ax.contourf(n,k,BabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
     ax.contour(n,k,BabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
-#  if backError is not None:
-#    backErrorLevels = np.array([BbackMeasured+x for x in [-backError, backError]])
-#    backErrorChart = ax.contourf(n,k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
-#    ax.contour(n,k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
+
+  if backError is not None:
+    backErrorLevels = np.array([BbackMeasured+x for x in [-backError, backError]])
+    ax.contourf(n,k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
+    ax.contour(n,k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
   distinctScaPaths = len(scaChart.collections[0].get_paths())
   distinctAbsPaths = len(absChart.collections[0].get_paths())
+  if BbackMeasured is not None:
+    distinctBackPaths = len(backChart.collections[0].get_paths())
   scaVertices = []
   absVertices = []
+  if BbackMeasured is not None:
+    backVertices = []
   for i in range(distinctScaPaths):
     scaVertices.append(scaChart.collections[0].get_paths()[i].vertices)
   for i in range(distinctAbsPaths):
     absVertices.append(absChart.collections[0].get_paths()[i].vertices)
+  if BbackMeasured is not None:
+    for i in range(distinctBackPaths):
+      backVertices.append(backChart.collections[0].get_paths()[i].vertices)
 
   scaVertices = np.concatenate(scaVertices)
   absVertices = np.concatenate(absVertices)
+  if BbackMeasured is not None:
+    backVertices = np.concatenate(backVertices)
 
   nSolution,kSolution = find_intersections(scaVertices,absVertices)
-  solutionSet = [(x+(0+1j)*y) for x,y in zip(nSolution,kSolution)]
+  trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
+  if BbackMeasured is not None:
+    oneTrueN,oneTrueK = find_intersections(backVertices,absVertices)
+    _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
+    _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
+    if len(_match) > 0:
+      _matchIndex = list(np.round(trials,2)).index(np.round(_match[0],2))
+      nSolution = nSolution[_matchIndex]
+      kSolution = kSolution[_matchIndex]
+
+  if type(nSolution)==np.float64:
+    solutionSet = [nSolution + kSolution*1j]
+  else:
+    solutionSet = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
 
   forwardCalculations = []
   for s in solutionSet:
-    _s,_a = fastMie_SD(s,wavelength,dp,ndp)
+    _s,_a,_ = fastMie_SD(s,wavelength,dp,ndp)
     forwardCalculations.append([_s,_a])
   solutionErrors = []
   for f in forwardCalculations:
@@ -400,61 +445,78 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
   solutionSet = solutionSet[solution]
   forwardCalculations = forwardCalculations[solution]
   solutionErrors = solutionErrors[solution]
+  nSolutionsToPlot,kSolutionsToPlot = [x.real for x in solutionSet],[x.imag for x in solutionSet]
 
-  solutions = ax.scatter(nSolution,kSolution,marker='o',s=128,linewidth=1.5,edgecolor='k',facecolor='none',zorder=3)
-  solutions = ax.scatter(nSolution,kSolution,marker='o',s=128,linewidth=0,edgecolor='none',facecolor='c',zorder=1,alpha=0.25)
-  for x,y in zip(nSolution,kSolution):
-    plt.axhline(y,linewidth=0.5,color='0.85',zorder=0)
-    plt.axvline(x,linewidth=0.5,color='0.85',zorder=0)
+  ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=1.5,edgecolor='k',facecolor='none',zorder=3)
+  ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=0,edgecolor='none',facecolor='c',zorder=1,alpha=0.25)
+  
+  for x,y,s in zip(nSolutionsToPlot,kSolutionsToPlot,solutionErrors):
+    ax.axhline(y,linewidth=0.5,alpha=0.5,zorder=0)
+    ax.axvline(x,linewidth=0.5,alpha=0.5,zorder=0)
 
   ax.set_xlabel('n',fontsize=16)
   ax.set_ylabel('k',fontsize=16)
 
-
   ax.set_xlim((np.min(nRange),np.max(nRange)))
   ax.set_ylim((np.min(kRange),np.max(kRange)))
-
   ax.tick_params(which='both',direction='in')
 
-  if annotation:
-    solutionText = ''
-    if len(solutionSet)==0:
-      solutionText = "No solutions found!"
-    else:
-      for i,(s,f,e) in enumerate(zip(solutionSet,forwardCalculations,solutionErrors)):
-        solutionText += "m={n:1.3f}+{k:1.3f}i Esca={se:1.3f}% Eabs={ae:1.3f}%\n".format(n=s.real,k=s.imag,se=100*e[0],ae=100*e[1])
-    st = AnchoredText(solutionText[:-1],loc=4)
-    st.prop.set_size(16)
-    st.patch.set_edgecolor('k')
-    st.patch.set_alpha(0.85)
-    ax.add_artist(st)
-
   if axisOption == 0:
-    if max(kSolution) <= 0.5 or kMax <= 1:
+    if max(kSolutionsToPlot) <= 0.5 or kMax <= 1:
       ax.set_yscale('log')
     else:
       ax.set_yscale('linear')
   elif axisOption == 1:
-    ax.set_yscale('log')
+    ax.set_xscale('linear')
+    ax.set_yscale('linear')
   elif axisOption == 2:
-    ax.set_xscale('log')
+    ax.set_yscale('log')
   elif axisOption == 3:
+    ax.set_xscale('log')
+  elif axisOption == 4:
     ax.set_xscale('log')
     ax.set_yscale('log')
   else:
     pass
 
-  lines = [scaChart.collections[0], absChart.collections[0]]
-  plt.legend(lines,labels,fontsize=16)
-
-#  if BbackMeasured is not None:
-#    lines.append(backChart.collections[0])
-#    graphelements.append(backChart)
-
-  if returnGraphElements:
-    return solutionSet,forwardCalculations,solutionErrors,fig,ax,scaChart,absChart,solutions
+  _c = ax.get_children()
+  if BbackMeasured is None:
+    if incErrors:
+      # no Bback, with error bounds
+      graphElements = {'Bsca':_c[0],'Babs':_c[1], # contours
+                       'BscaErrFill':_c[2],'BscaErrOutline1':_c[3],'BscaErrOutline2':_c[4],
+                       'BabsErrFill':_c[5],'BabsErrOutline1':_c[6],'BabsErrOutline2':_c[7],
+                       'SolMark':_c[8],'SolFill':_c[9], # the circly thingies at each solutions
+                       'CrosshairsH':_c[10:-10:2],'CrosshairsV':_c[11:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+    else:
+      # no Bback, no error bounds
+      graphElements = {'Bsca':_c[0],'Babs':_c[1], # contours
+                       'SolFill':_c[2],'SolMark':_c[3], # the circly thingies at each solutions
+                       'CrosshairsH':_c[4:-10:2],'CrosshairsV':_c[5:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+                       
   else:
-    return solutionSet,forwardCalculations,solutionErrors
+    if incErrors:
+      # with Bback and error bounds
+      graphElements = {'Bsca':_c[0],'Babs':_c[1],'Bback':_c[2], # contours
+                       'BscaErrFill':_c[4],'BscaErrOutline1':_c[5],'BscaErrOutline2':_c[6],
+                       'BabsErrFill':_c[7],'BabsErrOutline1':_c[8],'BabsErrOutline2':_c[9],
+                       'SolMark':_c[10],'SolFill':_c[11], # the circly thingies at each solutions
+                       'CrosshairsH':_c[12:-10:2],'CrosshairsV':_c[13:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+    else:
+      # with Bback, no error bounds
+      graphElements = {'Bsca':_c[0],'Babs':_c[1],'Bback':_c[2], # contours
+                       'SolFill':_c[3],'SolMark':_c[4], # the circly thingies at each solution
+                       'CrosshairsH':_c[5:-10:2],'CrosshairsV':_c[6:-10:2], # solution crosshairs
+                       'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
+                       'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
+
+  return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
 def find_intersections(A,B):
   arrayMinimum = lambda x1, x2: np.where(x1<x2, x1, x2)
@@ -695,8 +757,9 @@ def fastMie_SD(m, wavelength, dp, ndp):
 
   Bsca = trapz(Q_sca*aSDn)
   Babs = trapz(Q_abs*aSDn)
+  Bback = trapz(Q_back*aSDn)
 
-  return Bsca, Babs
+  return Bsca, Babs, Bback
 
 def fastMieQ(m, wavelength, diameter):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#fastMieQ

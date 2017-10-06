@@ -137,11 +137,12 @@ def RayleighMieQ(m, wavelength, diameter, asDict=False):
     else:
       return qext, qsca, qabs, g, qpr, qback, qratio
 
-def AutoMieQ(m, wavelength, diameter, asDict=False):
+def AutoMieQ(m, wavelength, diameter, crossover=0.5, asDict=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#AutoMieQ
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
-  elif x<0.5:
+  elif x<crossover:
     return RayleighMieQ(m, wavelength, diameter, asDict=asDict)
   else:
     return MieQ(m, wavelength, diameter, asDict=asDict)
@@ -332,7 +333,7 @@ def MieQ_withDiameterRange(m, wavelength, diameterRange=(10,1000), nd=1000, logD
     diameters = np.logspace(np.log10(diameterRange[0]),np.log10(diameterRange[1]),nd)
   else:
     diameters = np.linspace(diameterRange[0],diameterRange[1],nd)
-  _qD = [MieQ(m,wavelength,diameter) for diameter in diameters]
+  _qD = [AutoMieQ(m,wavelength,diameter) for diameter in diameters]
   qext = np.array([q[0] for q in _qD])
   qsca = np.array([q[1] for q in _qD])
   qabs = np.array([q[2] for q in _qD])
@@ -349,7 +350,7 @@ def MieQ_withWavelengthRange(m, diameter, wavelengthRange=(100,1600), nw=1000, l
       wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
     else:
       wavelengths = np.linspace(wavelengthRange[0],wavelengthRange[1],nw)
-    _qD = [MieQ(m,wavelength,diameter) for wavelength in wavelengths]
+    _qD = [AutoMieQ(m,wavelength,diameter) for wavelength in wavelengths]
   elif type(m) in [np.ndarray,list,tuple] and len(wavelengthRange)==len(m):
     wavelengths=wavelengthRange
     _qD = [MieQ(emm,wavelength,diameter) for emm,wavelength in zip(m,wavelengths)]
@@ -373,7 +374,7 @@ def MieQ_withSizeParameterRange(m, xRange=(1,10), nx=1000, logX=False):
   else:
     xValues = list(np.linspace(xRange[0],xRange[1], nx))
   dValues = [1000*x/np.pi for x in xValues]
-  _qD = [MieQ(m,1000,d) for d in dValues]
+  _qD = [AutoMieQ(m,1000,d) for d in dValues]
   qext = np.array([q[0] for q in _qD])
   qsca = np.array([q[1] for q in _qD])
   qabs = np.array([q[2] for q in _qD])
