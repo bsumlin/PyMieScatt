@@ -14,11 +14,11 @@ def coerceDType(d):
   else:
     return d
 
-def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0,kMax=1,scatteringPrecision=0.02,absorptionPrecision=0.03,spaceSize=120,interp=2):
+def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0.001,kMax=1,scatteringPrecision=0.010,absorptionPrecision=0.010,spaceSize=120,interp=2):
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   
   nRange = np.linspace(nMin,nMax,spaceSize)
-  kRange = np.linspace(kMin,kMax,spaceSize)
+  kRange = np.logspace(np.log10(kMin),np.log10(kMax),spaceSize)
   scaSpace = np.zeros((spaceSize,spaceSize))
   absSpace = np.zeros((spaceSize,spaceSize))
 
@@ -44,7 +44,7 @@ def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0,kMax=1,scatteri
 
   return solution
 
-def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,spaceSize=40,interp=2):
+def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatteringPrecision=0.001,absorptionPrecision=0.001,spaceSize=40,interp=2):
   dp = coerceDType(dp)
   ndp = coerceDType(ndp)
 
@@ -64,10 +64,8 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,spaceSi
     scaSpace = zoom(scaSpace,interp)
     absSpace = zoom(absSpace,interp)
 
-  scaP = 0.02
-  absP = 0.03
-  scaSolutions = np.where(np.logical_and(Bsca*(1-scaP)<scaSpace, scaSpace<Bsca*(1+scaP)))
-  absSolutions = np.where(np.logical_and(Babs*(1-absP)<absSpace, absSpace<Babs*(1+absP)))
+  scaSolutions = np.where(np.logical_and(Bsca*(1-scatteringPrecision)<scaSpace, scaSpace<Bsca*(1+scatteringPrecision)))
+  absSolutions = np.where(np.logical_and(Babs*(1-absorptionPrecision)<absSpace, absSpace<Babs*(1+absorptionPrecision)))
 
   validScattering = nRange[scaSolutions[0]]+1j*kRange[scaSolutions[1]]
   validAbsorption = nRange[absSolutions[0]]+1j*kRange[absSolutions[1]]
@@ -303,27 +301,29 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
     if gridPoints*interpolationFactor<120:
       gridPoints = 2*gridPoints
   labels = []
+  incErrors = False
   if type(BscaMeasured) in [list, tuple, np.ndarray]:
+    incErrors = True
     scaError = BscaMeasured[1]
     BscaMeasured = BscaMeasured[0]
-    labels.append("Bsca = {b:1.3f}±{e:1.3f}".format(b=BscaMeasured,e=scaError))
+    labels.append("Bsca = {b:1.1f}±{e:1.1f}".format(b=BscaMeasured,e=scaError))
   else:
     scaError = None
-    labels.append("Bsca = {b:1.3f}".format(b=BscaMeasured))
+    labels.append("Bsca = {b:1.1f}".format(b=BscaMeasured))
   if type(BabsMeasured) in [list, tuple, np.ndarray]:
     absError = BabsMeasured[1]
     BabsMeasured = BabsMeasured[0]
-    labels.append("Babs = {b:1.3f}±{e:1.3f}".format(b=BabsMeasured,e=absError))
+    labels.append("Babs = {b:1.1f}±{e:1.1f}".format(b=BabsMeasured,e=absError))
   else:
     absError = None
-    labels.append("Babs = {b:1.3f}".format(b=BabsMeasured))
+    labels.append("Babs = {b:1.1f}".format(b=BabsMeasured))
   if type(BbackMeasured) in [list, tuple, np.ndarray]:
     backError = BbackMeasured[1]
     BbackMeasured = BbackMeasured[0]
-    labels.append("Bback = {b:1.3f}±{e:1.3f}".format(b=BbackMeasured,e=backError))
+    labels.append("Bback = {b:1.1f}±{e:1.1f}".format(b=BbackMeasured,e=backError))
   elif BbackMeasured is not None:
     backError = None
-    labels.append("Bback - {b:1.3f}".format(b=BbackMeasured))
+    labels.append("Bback - {b:1.1f}".format(b=BbackMeasured))
   else:
     backError = None
 
@@ -484,6 +484,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
     if incErrors:
       # no Bback, with error bounds
       graphElements = {'Bsca':_c[0],'Babs':_c[1], # contours
+                       'Labels':labels,
                        'BscaErrFill':_c[2],'BscaErrOutline1':_c[3],'BscaErrOutline2':_c[4],
                        'BabsErrFill':_c[5],'BabsErrOutline1':_c[6],'BabsErrOutline2':_c[7],
                        'SolMark':_c[8],'SolFill':_c[9], # the circly thingies at each solutions
@@ -493,6 +494,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
     else:
       # no Bback, no error bounds
       graphElements = {'Bsca':_c[0],'Babs':_c[1], # contours
+                       'Labels':labels,
                        'SolFill':_c[2],'SolMark':_c[3], # the circly thingies at each solutions
                        'CrosshairsH':_c[4:-10:2],'CrosshairsV':_c[5:-10:2], # solution crosshairs
                        'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
@@ -502,6 +504,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
     if incErrors:
       # with Bback and error bounds
       graphElements = {'Bsca':_c[0],'Babs':_c[1],'Bback':_c[2], # contours
+                       'Labels':labels,
                        'BscaErrFill':_c[4],'BscaErrOutline1':_c[5],'BscaErrOutline2':_c[6],
                        'BabsErrFill':_c[7],'BabsErrOutline1':_c[8],'BabsErrOutline2':_c[9],
                        'SolMark':_c[10],'SolFill':_c[11], # the circly thingies at each solutions
@@ -511,6 +514,7 @@ def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMa
     else:
       # with Bback, no error bounds
       graphElements = {'Bsca':_c[0],'Babs':_c[1],'Bback':_c[2], # contours
+                       'Labels':labels,
                        'SolFill':_c[3],'SolMark':_c[4], # the circly thingies at each solution
                        'CrosshairsH':_c[5:-10:2],'CrosshairsV':_c[6:-10:2], # solution crosshairs
                        'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
@@ -543,10 +547,11 @@ def find_intersections(A,B):
 
   return xi[arrayAll(xconds)], yi[arrayAll(yconds)]
 
-def IterativeInversion(Qsca,Qabs,wavelength,diameter,tolerance=0.0005):
+def SurveyIteration(Qsca,Qabs,wavelength,diameter,tolerance=0.0005):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
-  initial_m = Inversion(Qsca,Qabs,wavelength,diameter,scatteringPrecision=0.01,absorptionPrecision=0.02,spaceSize=125,interp=2)
+  initial_m = Inversion(Qsca,Qabs,wavelength,diameter,scatteringPrecision=0.015,absorptionPrecision=0.015,spaceSize=85,interp=2)
+  print(len(initial_m))
   factors = [2.5, 5.0, 10.0, 25.0, 50.0]
   errors = [tolerance*x for x in [25,15,5,3,1]]
   resultM = []
@@ -639,12 +644,13 @@ def IterativeInversion(Qsca,Qabs,wavelength,diameter,tolerance=0.0005):
 
   return resultM, resultScaErr, resultAbsErr
 
-def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
+def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion_SD
   dp = coerceDType(dp)
   ndp = coerceDType(ndp)
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
-  initial_m = Inversion_SD(Bsca,Babs,wavelength,dp,ndp,spaceSize=50,interp=2)
+  initial_m = Inversion_SD(Bsca,Babs,wavelength,dp,ndp,scatteringPrecision=0.08,absorptionPrecision=0.08,spaceSize=40,interp=2)
+  print(len(initial_m),flush=True)
   factors = [2.5, 5.0, 10.0, 25.0, 50.0]
   errors = [tolerance*x for x in [25,15,5,3,1]]
   resultM = []
@@ -654,7 +660,7 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
   for m in initial_m:
     nResolution = 100
     kResolution = 1000
-    trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+    trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
 
     scaError = error(Bsca,trialBsca)
     absError = error(Babs,trialBabs)
@@ -667,7 +673,7 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
           break
         scaError_prev = scaError
         m = m+nStep
-        trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+        trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
         scaError = error(Bsca,trialBsca)
         if scaError_prev - scaError < 0:
           nStep *= -1
@@ -681,7 +687,7 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
           break
         absError_prev = absError
         m = m + kStep
-        trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+        trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
         absError = error(Babs,trialBabs)
         if absError_prev-absError < 0:
           kStep *= -1
@@ -695,7 +701,7 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
         break
       scaError_prev = scaError
       m += nStep
-      trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
       scaError = error(Bsca,trialBsca)
       if scaError_prev - scaError < 0:
         nStep *= -1
@@ -709,7 +715,7 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
         break
       absError_prev = absError
       m += kStep
-      trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
       absError = error(Babs,trialBabs)
       if absError_prev - absError < 0:
         kStep *= -1
@@ -723,13 +729,13 @@ def IterativeInversion_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
         break
       scaError_prev = scaError
       m += nStep
-      trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
       scaError = error(Bsca,trialBsca)
       if scaError_prev - scaError < 0:
         nStep *= -1
         flippyFloppy += 1
 
-    trialBsca,trialBabs = fastMie_SD(m,wavelength,dp,ndp)
+    trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
     scaError = error(Bsca,trialBsca)
     absError = error(Babs,trialBabs)
     resultM.append(m)

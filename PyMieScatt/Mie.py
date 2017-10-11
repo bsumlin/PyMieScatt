@@ -231,6 +231,7 @@ def Mie_SD(m, wavelength, dp, ndp, interpolate=False, asDict=False):
 def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#ScatteringFunction
   x = np.pi*diameter/wavelength
+  
   _steps = int(1+(maxAngle-minAngle)/angularResolution) # default 361
 
   if angleMeasure in ['radians','RADIANS','rad','RAD']:
@@ -249,6 +250,8 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
   else:
     measure = np.linspace(minAngle,maxAngle,_steps)*adjust
     _q = False
+  if x == 0:
+    return measure,0,0,0
     
   SL = np.zeros(_steps)
   SR = np.zeros(_steps)
@@ -267,7 +270,7 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     measure = (4*np.pi/wavelength)*np.sin(measure/2)*(diameter/2)
   return measure,SL,SR,SU
 
-def SF_SD(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
+def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_SD
   _steps = int(1+maxAngle/angularResolution)
   ndp = coerceDType(ndp)
@@ -275,14 +278,14 @@ def SF_SD(m, wavelength, ndp, dp, minAngle=0, maxAngle=180, angularResolution=0.
   SL = np.zeros(_steps)
   SR = np.zeros(_steps)
   SU = np.zeros(_steps)
-  for num,size in zip(ndp,dp):
+  for n,d in zip(ndp,dp):
     if space=='qspace':
-      measure,l,r,u = ScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution,space='qspace')
+      measure,l,r,u = ScatteringFunction(m,wavelength,d,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution,space='qspace')
     else:
-      measure,l,r,u = ScatteringFunction(m,wavelength,size,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
-    SL += l*num
-    SR += r*num
-    SU += u*num
+      measure,l,r,u = ScatteringFunction(m,wavelength,d,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
+    SL += l*n
+    SR += r*n
+    SU += u*n
   SL /= np.sum(ndp)
   SR /= np.sum(ndp)
   SU /= np.sum(ndp)
