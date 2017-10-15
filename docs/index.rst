@@ -7,7 +7,9 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It is currently being revised for publication.
+Welcome AAAR 2017 Attendees! You can find the author at posters 2CA.18, 2CA.21 (Tuesday) and 8IM.44 (Thursday). Happy to answer any questions.
+
+Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently in production for publication.
 
 
 Install PyMieScatt
@@ -18,7 +20,7 @@ You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.p
    $ pip install PyMieScatt
 
 
-or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.3.0.
+or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version is 1.3.1.
    
 
 .. toctree::
@@ -32,6 +34,12 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. The current version i
    General Usage tips and Example Scripts (incomplete) <examples>
    
    
+
+Revision Notes - version 1.3.1
+------------------------------
+
+- Optimizations to the resolution of the survey-intersection inversion method
+- 
 
 Documentation To-Do List
 ------------------------
