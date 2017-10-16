@@ -36,7 +36,7 @@ Consider the 405 nm Mie coefficients of 105 particles/cm\ :sup:`3`, with m = 1.5
    >>> dp = np.linspace(10,1000,1000)
    >>> N,sh,sc = 1e5,5,200
    >>> w=[N*((sh/sc)*(d/sc)**(sh-1))*np.exp(-(d/sc)**sh) for d in dp]
-   >>> ps.Mie_withSizeDistribution(1.5+0.5j,405,dp,w,asDict=True)
+   >>> ps.Mie_SD(1.5+0.5j,405,dp,w,asDict=True)
    {'Babs': 3762.0479602613427,
     'Bback': 286.65698999981691,
     'Bext': 5747.4466502095638,
@@ -198,7 +198,7 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
    
    B = ps.Mie_Lognormal(m,wavelength,sigma_g,dp_g,N,returnDistribution=True) # Calculate optical properties
    
-   S = ps.SF_withSizeDistribution(m,wavelength,B[7],B[8])
+   S = ps.SF_SD(m,wavelength,B[7],B[8])
    
    #%% Make graphs - lots of this is really unnecessary decoration for a pretty graph.
    plt.close('all')
