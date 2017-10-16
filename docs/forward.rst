@@ -351,7 +351,7 @@ The bulk asymmetry parameter *G* is calculated by:
    Bext, Bsca, Babs, G, Bpr, Bback, Bratio : float
 	The Mie coefficients calculated by :py:func:`AutoMieQ`, integrated over the size distribution.
    q : dict
-	If asDict==True, :py:func:`MieQ_withSizeDistribution` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`MieQ_SD` returns a dict of the above values with appropriate keys.
 
 .. py:Function:: Mie_Lognormal(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, gamma=[1], returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
@@ -363,7 +363,7 @@ The bulk asymmetry parameter *G* is calculated by:
 		
    where :math:`d_{p}` is the diameter of the particle (in nm), :math:`n(d_{p})` is the number of particles of diameter :math:`d_{p}` (per cubic centimeter), :math:`N_\infty` is the total number of particles in the distribution, :math:`\sigma_{g_i}` is the geometric standard deviation of mode :math:`i`, and :math:`d_{pg_i}` is the geometric mean diameter (in nm) of the *i*\ :sup:`th` moment. :math:`\gamma_i` is a porportionality constant that determines the fraction of total particles in the *i*\ :sup:`th` moment.
    
-   This function is essentially a wrapper for :py:func:`Mie_withSizeDistribution`. A warning will be raised if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
+   This function is essentially a wrapper for :py:func:`Mie_SD`. A warning will be raised if the distribution is not compactly-supported on the interval specified by **lower** and **upper**.
    
    
    **Parameters**
