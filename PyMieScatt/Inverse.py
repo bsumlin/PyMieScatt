@@ -72,8 +72,8 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatter
 
   return np.intersect1d(validScattering,validAbsorption)
 
-def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,QbackMeasured=None,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
-#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion
+def ContourIntersection(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,QbackMeasured=None,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if QbackMeasured is not None:
     if gridPoints*interpolationFactor<400:
@@ -294,8 +294,8 @@ def GraphicalInversion(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax
 
   return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
-def GraphicalInversion_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
-#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#GraphicalInversion_SD
+def ContourIntersection_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection_SD
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if BbackMeasured is not None:
     if gridPoints*interpolationFactor<120:

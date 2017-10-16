@@ -398,7 +398,7 @@ I'm still working on optimizing a few things. For now, it takes about 15 minutes
      ax3.tick_params(which='both',direction='in')
      ax3.grid(color='#dddddd')
      
-     giv = ps.GraphicalInversion_SD(ssol,asol,w,dp,l,gridPoints=points*1.5,kMin=0.001,kMax=2,annotation=False,axisOption=10,fig=fig1,ax=ax4)
+     giv = ps.ContourIntersection_SD(ssol,asol,w,dp,l,gridPoints=points*1.5,kMin=0.001,kMax=2,annotation=False,axisOption=10,fig=fig1,ax=ax4)
      ax4.set_xlim(1.3,3)
      ax4.yaxis.tick_right()
      ax4.yaxis.set_label_position("right")
@@ -554,7 +554,7 @@ This example illustrates the algorithm used by the contour intersection method. 
      a.set_zlabel(t,fontsize=18,labelpad=-10,rotation=90)
    
    Qm = [(q,q*err) for q in Qm]  
-   giv = ps.GraphicalInversion(Qm[0],Qm[1],w,d,QbackMeasured=Qm[2],gridPoints=200,nMin=nMin,nMax=nMax,kMin=kMin,kMax=kMax,axisOption=1,fig=fig1,ax=ax4)
+   giv = ps.ContourIntersection(Qm[0],Qm[1],w,d,QbackMeasured=Qm[2],gridPoints=200,nMin=nMin,nMax=nMax,kMin=kMin,kMax=kMax,axisOption=1,fig=fig1,ax=ax4)
    ax4.set_xlim(nMin,nMax)
    ax4.yaxis.tick_right()
    ax4.yaxis.set_label_position("right")
