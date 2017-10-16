@@ -57,11 +57,12 @@ For more details on the contour intersection inversion method, please see Sumlin
 	The axes object now associated with the inversion calculations.
    graphElements : dict
 	A dict of all artists necessary to fully manipulate the appearance of the output. The keys will depend on the options passed to the inversion function itself (i.e., errors specified, backscatter specified). Maximally, it will contain:
-	'Qsca', 'Qabs', 'Qback' : the major contours;
-	'QscaErrFill', 'QscaErrOutline1', 'QscaErrOutline2' : the error bound outlines;
-	'QabsErrFill', 'QabsErrOutline1', 'QabsErrOutline2' : the error bound fills;
-	'SolMark', 'SolFill' : the circly thingies at each solution;
-	'CrosshairsH', 'CrosshairsV' : solution crosshairs;
-	'LeftSpine', 'RightSpine', 'BottomSpine', 'TopSpine' : graph spines;
-	'XAxis', 'YAxis' : the individual matplotlib axis objects.
+	
+	- 'Qsca', 'Qabs', 'Qback' : the major contours;
+	- 'QscaErrFill', 'QscaErrOutline1', 'QscaErrOutline2' : the error bound outlines;
+	- 'QabsErrFill', 'QabsErrOutline1', 'QabsErrOutline2' : the error bound fills;
+	- 'SolMark', 'SolFill' : the circly thingies at each solution;
+	- 'CrosshairsH', 'CrosshairsV' : solution crosshairs;
+	- 'LeftSpine', 'RightSpine', 'BottomSpine', 'TopSpine' : graph spines;
+	- 'XAxis', 'YAxis' : the individual matplotlib axis objects.
 	
