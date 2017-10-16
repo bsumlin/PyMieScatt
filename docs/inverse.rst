@@ -1,4 +1,4 @@
 Inverse Mie Theory Functions
 ============================
 
-Will be posted once JQSRT manuscript has been accepted. Thanks for your patience!
+Will be posted once arXiv preprint is announced. Thanks for your patience!

@@ -327,7 +327,7 @@ The bulk asymmetry parameter *G* is calculated by:
 		:math:`${\displaystyle G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}}$`
 		
 
-.. py:Function:: MieQ_withSizeDistribution(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
+.. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
 
    Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a continuous, compactly-supported distribution.
    
@@ -418,11 +418,7 @@ The bulk asymmetry parameter *G* is calculated by:
 		'Bsca': 89513.786409213266,
 		'bigG': 0.6816018615403715}
 		
-.. py:Function:: Mie_OtherDistribution(m, wavelength, numberOfParticles[, distribution='powerlaw', params=[numberOfBins=1000, lower=1, upper=1000, returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated unimodal particle number distribution of a specified type. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
-   
-   Not yet implemented.
 
 Angular Functions
 -----------------
