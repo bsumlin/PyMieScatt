@@ -39,7 +39,11 @@ Revision Notes - version 1.3.1
 ------------------------------
 
 - Optimizations to the resolution of the survey-intersection inversion method
-- 
+
+Revisions in Progress
+---------------------
+
+- Trying to speed up the scattering function of a size distribution
 
 Documentation To-Do List
 ------------------------
