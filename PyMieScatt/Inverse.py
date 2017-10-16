@@ -72,36 +72,36 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatter
 
   return np.intersect1d(validScattering,validAbsorption)
 
-def ContourIntersection(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,QbackMeasured=None,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+def ContourIntersection(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,Qback=None,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
-  if QbackMeasured is not None:
+  if Qback is not None:
     if gridPoints*interpolationFactor<400:
       gridPoints = 2*gridPoints
   labels = []
   incErrors = False
-  if type(QscaMeasured) in [list, tuple, np.ndarray]:
+  if type(Qsca) in [list, tuple, np.ndarray]:
     incErrors = True
-    scaError = QscaMeasured[1]
-    QscaMeasured = QscaMeasured[0]
-    labels.append("Qsca = {b:1.3f}±{e:1.3f}".format(b=QscaMeasured,e=scaError))
+    scaError = Qsca[1]
+    Qsca = Qsca[0]
+    labels.append("Qsca = {b:1.3f}±{e:1.3f}".format(b=Qsca,e=scaError))
   else:
     scaError = None
-    labels.append("Qsca = {b:1.3f}".format(b=QscaMeasured))
-  if type(QabsMeasured) in [list, tuple, np.ndarray]:
-    absError = QabsMeasured[1]
-    QabsMeasured = QabsMeasured[0]
-    labels.append("Qabs = {b:1.3f}±{e:1.3f}".format(b=QabsMeasured,e=absError))
+    labels.append("Qsca = {b:1.3f}".format(b=Qsca))
+  if type(Qabs) in [list, tuple, np.ndarray]:
+    absError = Qabs[1]
+    Qabs = Qabs[0]
+    labels.append("Qabs = {b:1.3f}±{e:1.3f}".format(b=Qabs,e=absError))
   else:
     absError = None
-    labels.append("Qabs = {b:1.3f}".format(b=QabsMeasured))
-  if type(QbackMeasured) in [list, tuple, np.ndarray]:
-    backError = QbackMeasured[1]
-    QbackMeasured = QbackMeasured[0]
-    labels.append("Qback = {b:1.3f}±{e:1.3f}".format(b=QbackMeasured,e=backError))
-  elif QbackMeasured is not None:
+    labels.append("Qabs = {b:1.3f}".format(b=Qabs))
+  if type(Qback) in [list, tuple, np.ndarray]:
+    backError = Qback[1]
+    Qback = Qback[0]
+    labels.append("Qback = {b:1.3f}±{e:1.3f}".format(b=Qback,e=backError))
+  elif Qback is not None:
     backError = None
-    labels.append("Qback - {b:1.3f}".format(b=QbackMeasured))
+    labels.append("Qback - {b:1.3f}".format(b=Qback))
   else:
     backError = None
 
@@ -133,58 +133,58 @@ def ContourIntersection(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMa
   elif ax is None:
     ax = fig.gca()
 
-  scaLevels = np.array([QscaMeasured])
-  absLevels = np.array([QabsMeasured])
+  scaLevels = np.array([Qsca])
+  absLevels = np.array([Qabs])
 
-  if QbackMeasured is not None:
-    backLevels = np.array([QbackMeasured])
+  if Qback is not None:
+    backLevels = np.array([Qback])
     if backError is not None:
-      backErrorLevels = np.array([QbackMeasured+x for x in [-backError,backError]])
+      backErrorLevels = np.array([Qback+x for x in [-backError,backError]])
 
   scaChart = ax.contour(n,k,QscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
   absChart = ax.contour(n,k,QabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
-  if QbackMeasured is not None:
+  if Qback is not None:
     backChart = ax.contour(n,k,QbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
 
   if scaError is not None:
-    scaErrorLevels = np.array([QscaMeasured+x for x in [-scaError, scaError]])
+    scaErrorLevels = np.array([Qsca+x for x in [-scaError, scaError]])
     ax.contourf(n,k,QscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
     ax.contour(n,k,QscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
 
   if absError is not None:
-    absErrorLevels = np.array([QabsMeasured+x for x in [-absError, absError]])
+    absErrorLevels = np.array([Qabs+x for x in [-absError, absError]])
     ax.contourf(n,k,QabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
     ax.contour(n,k,QabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
 
   if backError is not None:
-    backErrorLevels = np.array([QbackMeasured+x for x in [-backError, backError]])
+    backErrorLevels = np.array([Qback+x for x in [-backError, backError]])
     ax.contourf(n,k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,QbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
   distinctScaPaths = len(scaChart.collections[0].get_paths())
   distinctAbsPaths = len(absChart.collections[0].get_paths())
-  if QbackMeasured is not None:
+  if Qback is not None:
     distinctBackPaths = len(backChart.collections[0].get_paths())
   scaVertices = []
   absVertices = []
-  if QbackMeasured is not None:
+  if Qback is not None:
     backVertices = []
   for i in range(distinctScaPaths):
     scaVertices.append(scaChart.collections[0].get_paths()[i].vertices)
   for i in range(distinctAbsPaths):
     absVertices.append(absChart.collections[0].get_paths()[i].vertices)
-  if QbackMeasured is not None:
+  if Qback is not None:
     for i in range(distinctBackPaths):
       backVertices.append(backChart.collections[0].get_paths()[i].vertices)
 
   scaVertices = np.concatenate(scaVertices)
   absVertices = np.concatenate(absVertices)
-  if QbackMeasured is not None:
+  if Qback is not None:
     backVertices = np.concatenate(backVertices)
 
   nSolution,kSolution = find_intersections(scaVertices,absVertices)
   trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
-  if QbackMeasured is not None:
+  if Qback is not None:
     oneTrueN,oneTrueK = find_intersections(backVertices,absVertices)
     _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
     _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
@@ -204,7 +204,7 @@ def ContourIntersection(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMa
     forwardCalculations.append([_s,_a])
   solutionErrors = []
   for f in forwardCalculations:
-    solutionErrors.append([error(f[0],QscaMeasured),error(f[1],QabsMeasured)])
+    solutionErrors.append([error(f[0],Qsca),error(f[1],Qabs)])
 
   solutionSet = np.array(solutionSet)
   forwardCalculations = np.array(forwardCalculations)
@@ -256,7 +256,7 @@ def ContourIntersection(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMa
     pass
 
   _c = ax.get_children()
-  if QbackMeasured is None:
+  if Qback is None:
     if incErrors:
       # no Qback, with error bounds
       graphElements = {'Qsca':_c[0],'Qabs':_c[1], # contours
@@ -294,36 +294,36 @@ def ContourIntersection(QscaMeasured,QabsMeasured,wavelength,diameter,nMin=1,nMa
 
   return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
-def ContourIntersection_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,BbackMeasured=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection_SD
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
-  if BbackMeasured is not None:
+  if Bback is not None:
     if gridPoints*interpolationFactor<120:
       gridPoints = 2*gridPoints
   labels = []
   incErrors = False
-  if type(BscaMeasured) in [list, tuple, np.ndarray]:
+  if type(Bsca) in [list, tuple, np.ndarray]:
     incErrors = True
-    scaError = BscaMeasured[1]
-    BscaMeasured = BscaMeasured[0]
-    labels.append("Bsca = {b:1.1f}±{e:1.1f}".format(b=BscaMeasured,e=scaError))
+    scaError = Bsca[1]
+    Bsca = Bsca[0]
+    labels.append("Bsca = {b:1.1f}±{e:1.1f}".format(b=Bsca,e=scaError))
   else:
     scaError = None
-    labels.append("Bsca = {b:1.1f}".format(b=BscaMeasured))
-  if type(BabsMeasured) in [list, tuple, np.ndarray]:
-    absError = BabsMeasured[1]
-    BabsMeasured = BabsMeasured[0]
-    labels.append("Babs = {b:1.1f}±{e:1.1f}".format(b=BabsMeasured,e=absError))
+    labels.append("Bsca = {b:1.1f}".format(b=Bsca))
+  if type(Babs) in [list, tuple, np.ndarray]:
+    absError = Babs[1]
+    Babs = Babs[0]
+    labels.append("Babs = {b:1.1f}±{e:1.1f}".format(b=Babs,e=absError))
   else:
     absError = None
-    labels.append("Babs = {b:1.1f}".format(b=BabsMeasured))
-  if type(BbackMeasured) in [list, tuple, np.ndarray]:
-    backError = BbackMeasured[1]
-    BbackMeasured = BbackMeasured[0]
-    labels.append("Bback = {b:1.1f}±{e:1.1f}".format(b=BbackMeasured,e=backError))
-  elif BbackMeasured is not None:
+    labels.append("Babs = {b:1.1f}".format(b=Babs))
+  if type(Bback) in [list, tuple, np.ndarray]:
+    backError = Bback[1]
+    Bback = Bback[0]
+    labels.append("Bback = {b:1.1f}±{e:1.1f}".format(b=Bback,e=backError))
+  elif Bback is not None:
     backError = None
-    labels.append("Bback - {b:1.1f}".format(b=BbackMeasured))
+    labels.append("Bback - {b:1.1f}".format(b=Bback))
   else:
     backError = None
 
@@ -357,58 +357,58 @@ def ContourIntersection_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nM
   elif ax is None:
     ax = fig.gca()
 
-  scaLevels = np.array([BscaMeasured])
-  absLevels = np.array([BabsMeasured])
+  scaLevels = np.array([Bsca])
+  absLevels = np.array([Babs])
 
-  if BbackMeasured is not None:
-    backLevels = np.array([BbackMeasured])
+  if Bback is not None:
+    backLevels = np.array([Bback])
     if backError is not None:
-      backErrorLevels = np.array([BbackMeasured+x for x in [-backError,backError]])
+      backErrorLevels = np.array([Bback+x for x in [-backError,backError]])
 
   scaChart = ax.contour(n,k,BscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
   absChart = ax.contour(n,k,BabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
-  if BbackMeasured is not None:
+  if Bback is not None:
     backChart = ax.contour(n,k,BbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
 
   if scaError is not None:
-    scaErrorLevels = np.array([BscaMeasured+x for x in [-scaError, scaError]])
+    scaErrorLevels = np.array([Bsca+x for x in [-scaError, scaError]])
     ax.contourf(n,k,BscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
     ax.contour(n,k,BscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
 
   if absError is not None:
-    absErrorLevels = np.array([BabsMeasured+x for x in [-absError, absError]])
+    absErrorLevels = np.array([Babs+x for x in [-absError, absError]])
     ax.contourf(n,k,BabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
     ax.contour(n,k,BabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
 
   if backError is not None:
-    backErrorLevels = np.array([BbackMeasured+x for x in [-backError, backError]])
+    backErrorLevels = np.array([Bback+x for x in [-backError, backError]])
     ax.contourf(n,k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
   distinctScaPaths = len(scaChart.collections[0].get_paths())
   distinctAbsPaths = len(absChart.collections[0].get_paths())
-  if BbackMeasured is not None:
+  if Bback is not None:
     distinctBackPaths = len(backChart.collections[0].get_paths())
   scaVertices = []
   absVertices = []
-  if BbackMeasured is not None:
+  if Bback is not None:
     backVertices = []
   for i in range(distinctScaPaths):
     scaVertices.append(scaChart.collections[0].get_paths()[i].vertices)
   for i in range(distinctAbsPaths):
     absVertices.append(absChart.collections[0].get_paths()[i].vertices)
-  if BbackMeasured is not None:
+  if Bback is not None:
     for i in range(distinctBackPaths):
       backVertices.append(backChart.collections[0].get_paths()[i].vertices)
 
   scaVertices = np.concatenate(scaVertices)
   absVertices = np.concatenate(absVertices)
-  if BbackMeasured is not None:
+  if Bback is not None:
     backVertices = np.concatenate(backVertices)
 
   nSolution,kSolution = find_intersections(scaVertices,absVertices)
   trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
-  if BbackMeasured is not None:
+  if Bback is not None:
     oneTrueN,oneTrueK = find_intersections(backVertices,absVertices)
     _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
     _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
@@ -428,7 +428,7 @@ def ContourIntersection_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nM
     forwardCalculations.append([_s,_a])
   solutionErrors = []
   for f in forwardCalculations:
-    solutionErrors.append([error(f[0],BscaMeasured),error(f[1],BabsMeasured)])
+    solutionErrors.append([error(f[0],Bsca),error(f[1],Babs)])
 
   solutionSet = np.array(solutionSet)
   forwardCalculations = np.array(forwardCalculations)
@@ -480,7 +480,7 @@ def ContourIntersection_SD(BscaMeasured,BabsMeasured,wavelength,dp,ndp,nMin=1,nM
     pass
 
   _c = ax.get_children()
-  if BbackMeasured is None:
+  if Bback is None:
     if incErrors:
       # no Bback, with error bounds
       graphElements = {'Bsca':_c[0],'Babs':_c[1], # contours

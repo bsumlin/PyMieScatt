@@ -7,9 +7,9 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-Welcome AAAR 2017 Attendees! You can find Ben at posters 2CA.18, 2CA.21 (Tuesday) and 8IM.44 (Thursday). I'm happy to answer any questions.
+Welcome AAAR 2017 Attendees! You can find Ben at posters 2CA.18, 2CA.21 (Tuesday) and 8IM.44 (Thursday). I'm happy to answer any questions, and you can always `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
 
-Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently being proofed for publication. The preprint is `available online now <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
+Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently being proofed for publication. The JQSRT preprint is `available now <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
 
 
 Install PyMieScatt
@@ -21,9 +21,10 @@ You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.p
 
 
 or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository and then run ::
+
    $ python setup.py install
    
-The current version is 1.3.1.
+The current version is 1.3.2.
    
 
 .. toctree::
@@ -38,10 +39,16 @@ The current version is 1.3.1.
    
    
 
-Revision Notes - version 1.3.1
+Revision Notes - version 1.3.2
 ------------------------------
 
-- Optimizations to the resolution of the survey-intersection inversion method
+- Renamed GraphicalInversion() and GraphicalInversion_SD() to ContourIntersection() and ContourIntersection_SD(), respectively.
+
+Revision History
+----------------
+
+- 1.3.1
+  - Optimizations to the resolution of the survey-intersection inversion method
 
 Revisions in Progress
 ---------------------
@@ -64,6 +71,8 @@ Publications Using PyMieScatt
 -----------------------------
 
 - Sumlin BJ, Pandey A, Walker MJ, Pattison RS, Williams BJ, Chakrabarty RK. Atmospheric Photooxidation Diminishes Light Absorption by Primary Brown Carbon Aerosol from Biomass Burning. Environ Sci Tech Let. 2017. DOI: `10.1021/acs.estlett.7b00393 <http://doi.org/10.1021/acs.estlett.7b00393>`_
+
+- Sumlin BJ, Heinson WR, Chakrabarty RK. Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities. J. Quant. Spectros. Rad. Trans. 2017. DOI: `10.1016/j.jqsrt.2017.10.012 <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_
 
 Author Contact Information
 --------------------------
