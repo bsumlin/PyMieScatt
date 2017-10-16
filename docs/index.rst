@@ -7,9 +7,9 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-Welcome AAAR 2017 Attendees! You can find the author at posters 2CA.18, 2CA.21 (Tuesday) and 8IM.44 (Thursday). Happy to answer any questions.
+Welcome AAAR 2017 Attendees! You can find Ben at posters 2CA.18, 2CA.21 (Tuesday) and 8IM.44 (Thursday). I'm happy to answer any questions.
 
-Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently in production for publication.
+Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently in production for publication. A preprint will be available on arXiv on Tuesday, October 17th in MSC-class 78-04.
 
 
 Install PyMieScatt
