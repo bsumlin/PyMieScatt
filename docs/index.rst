@@ -58,9 +58,7 @@ Revisions in Progress
 Documentation To-Do List
 ------------------------
 
-- Inverse Mie Theory functions
 - More example scripts
-- Revision history and update notes
 
 PyMieScatt To-Do List
 ---------------------
