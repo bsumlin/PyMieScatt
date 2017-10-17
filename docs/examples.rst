@@ -423,7 +423,7 @@ Once readthedocs allows embedded .mp4s, the animation will be posted here. I sho
 
 
 Visualization of the Contour Intersection Inversion Method
-==========================================================
+----------------------------------------------------------
 
 This example illustrates the algorithm used by the contour intersection method. It will plot the Qabs, Qsca, and Qback surface and show how the measurement contours intersect in n-k space. The inversion algorithm only generates the lower-right plot on line 126 of this script. The rest is entirely illustrative, but uses forward Mie calculations in the loop on line 46. This script requires significant overhead from matplotlib (even more so since the 2.1 update). The actual inversion algorithm runs much faster.
 
