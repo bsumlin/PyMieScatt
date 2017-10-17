@@ -149,7 +149,7 @@ Survey-iteration Inversion Functions
 
 The survey-iteration inversion algorithm is discussed in detail in the Supplementary Material of the JQSRT paper. It is a strictly numerical two phase algorithm. First, a low-resolution survey of *n-k* space is conducted and values of efficiencies or coefficients close to the inputs are located. From this survey, candidate *m* values are determined. The iteration phase is best described by this flowchart:
 
-.. image:: images/flowchart.png
+.. image:: images/Flowchart.png
 
 .. py:function:: SurveyIteration(Qsca, Qabs, wavelength, diameter[, tolerance=0.0005])
 
