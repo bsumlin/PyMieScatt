@@ -26,7 +26,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
    
-The current version is 1.3.2.
+The current version is 1.3.3.
    
 
 .. toctree::
@@ -41,14 +41,17 @@ The current version is 1.3.2.
    
    
 
-Revision Notes - version 1.3.2
+Revision Notes - version 1.3.3
 ------------------------------
 
-- Renamed GraphicalInversion() and GraphicalInversion_SD() to ContourIntersection() and ContourIntersection_SD(), respectively.
+- Fixed a big that caused SF_SD() to throw errors when a custom angle range was specified.
+- Added MieS1S2() and MiePiTau() to __init__.py. Dunno why they weren't always there.
 
 Revision History
 ----------------
 
+- 1.3.2
+  - Renamed GraphicalInversion() and GraphicalInversion_SD() to ContourIntersection() and ContourIntersection_SD(), respectively.
 - 1.3.1
   - Optimizations to the resolution of the survey-intersection inversion method
 

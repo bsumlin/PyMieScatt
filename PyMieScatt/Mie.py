@@ -3,7 +3,6 @@
 import numpy as np
 from scipy.special import jv, yv
 from scipy.integrate import trapz
-from scipy.ndimage import zoom
 import warnings
 
 def coerceDType(d):
@@ -270,19 +269,20 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     measure = (4*np.pi/wavelength)*np.sin(measure/2)*(diameter/2)
   return measure,SL,SR,SU
 
-def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', normed=False):
+def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_SD
-  _steps = int(1+maxAngle/angularResolution)
+  _steps = int(1+(maxAngle-minAngle)/angularResolution)
   ndp = coerceDType(ndp)
   dp = coerceDType(dp)
   SL = np.zeros(_steps)
   SR = np.zeros(_steps)
   SU = np.zeros(_steps)
+  kwargs = {'minAngle':minAngle,
+            'maxAngle':maxAngle,
+            'angularResolution':angularResolution,
+            'space':space}
   for n,d in zip(ndp,dp):
-    if space=='qspace':
-      measure,l,r,u = ScatteringFunction(m,wavelength,d,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution,space='qspace')
-    else:
-      measure,l,r,u = ScatteringFunction(m,wavelength,d,minAngle=minAngle,maxAngle=maxAngle,angularResolution=angularResolution)
+    measure,l,r,u = ScatteringFunction(m,wavelength,d,**kwargs)
     SL += l*n
     SR += r*n
     SU += u*n
