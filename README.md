@@ -14,9 +14,5 @@ http://http://pymiescatt.readthedocs.io/en/latest
 
 ## Publications
 
-	* [Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities
-Sumlin Benjamin J.Heinson William R.Chakrabarty Rajan K.
-2017· Journal of Quantitative Spectroscopy and Radiative Transfer](https://doi.org/10.1016/j.jqsrt.2017.10.012)
-	* [Atmospheric Photooxidation Diminishes Light Absorption by Primary Brown Carbon Aerosol from Biomass Burning
-Benjamin J. Sumlin, Apoorva Pandey, Michael J. Walker, Robert S. Pattison, Brent J. Williams, and Rajan K. Chakrabarty
-Environmental Science & Technology Letters](https://doi.org/10.1021/acs.estlett.7b00393)
+[Sumlin B.J., Heinson W.R., and Chakrabarty R.K. (2017) Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities. Journal of Quantitative Spectroscopy and Radiative Transfer](https://doi.org/10.1016/j.jqsrt.2017.10.012)
+[Benjamin J. Sumlin, Apoorva Pandey, Michael J. Walker, Robert S. Pattison, Brent J. Williams, and Rajan K. Chakrabarty (2017) Atmospheric Photooxidation Diminishes Light Absorption by Primary Brown Carbon Aerosol from Biomass Burning, Environmental Science & Technology Letters](https://doi.org/10.1021/acs.estlett.7b00393)
