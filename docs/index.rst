@@ -41,15 +41,16 @@ The current version is 1.3.3.
    
    
 
-Revision Notes - version 1.3.3
+Revision Notes - version 1.3.4
 ------------------------------
 
-- Fixed a big that caused SF_SD() to throw errors when a custom angle range was specified.
-- Added MieS1S2() and MiePiTau() to __init__.py. Dunno why they weren't always there.
+- Fixed a really dumb bug introduced in 1.3.3.
 
 Revision History
 ----------------
-
+- 1.3.3
+  - Fixed a big that caused SF_SD() to throw errors when a custom angle range was specified.
+  - Added MieS1S2() and MiePiTau() to __init__.py. Dunno why they weren't always there.
 - 1.3.2
   - Renamed GraphicalInversion() and GraphicalInversion_SD() to ContourIntersection() and ContourIntersection_SD(), respectively.
 - 1.3.1
