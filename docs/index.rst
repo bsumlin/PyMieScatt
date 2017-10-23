@@ -53,12 +53,13 @@ Revision History
 - 1.3.2
   - Renamed GraphicalInversion() and GraphicalInversion_SD() to ContourIntersection() and ContourIntersection_SD(), respectively.
 - 1.3.1
-  - Optimizations to the resolution of the survey-intersection inversion method
+  - Optimizations to the resolution of the survey-intersection inversion method.
 
 Revisions in Progress
 ---------------------
 
-- Trying to speed up the scattering function of a size distribution
+- Trying to speed up the scattering function of a size distribution.
+- Would like to be able to pass array objects directly to all functions (within reason).
 
 Documentation To-Do List
 ------------------------
@@ -68,7 +69,7 @@ Documentation To-Do List
 PyMieScatt To-Do List
 ---------------------
 
-- Upload package to Anaconda cloud
+- Upload package to Anaconda cloud.
 
 Publications Using PyMieScatt
 -----------------------------
