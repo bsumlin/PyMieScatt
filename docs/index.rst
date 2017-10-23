@@ -7,9 +7,11 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-Welcome AAAR 2017 Attendees! You can find Ben at posters 2CA.18, 2CA.21 (Tuesday) and 8IM.44 (Thursday). I'm happy to answer any questions, and you can always `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
+AAAR 2017: thanks everyone for the feedback and comments! To continue the dialog, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
 
-Documentation is currently under development. This documentation includes a brief discussion of Mie theory and the development of the functions included in the package. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently being proofed for publication. The JQSRT preprint is `available now <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
+NEWS: PyMieScatt is being ported to Julia! I did a few timing and comparison tests and got some basic Mie functions to run 2-6 times faster on Julia than Python. This is a side project and could take some time to see complete functionality. The inverse algorithms are the hard part. I may port the numerical algorithms first, and then the graphical ones later once I figure out how plotting objects in Julia work.
+
+Documentation is currently under development. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently being proofed for publication. The JQSRT preprint is `available now <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_, and the arXiv preprint can be found `here <https://arxiv.org/abs/1710.05288>`_.
 
 
 Install PyMieScatt
@@ -34,8 +36,8 @@ The current version is 1.3.2.
    Documentation Home <index>
    Forward Functions for Homogeneous Spheres <forward>
    Forward Functions for Coated Spheres <forwardCS>
-   Inverse Mie Functions for Homogeneous Spheres (incomplete) <inverse>
-   General Usage tips and Example Scripts (incomplete) <examples>
+   Inverse Mie Functions for Homogeneous Spheres <inverse>
+   General Usage tips and Example Scripts (constantly updating) <examples>
    
    
 
@@ -58,7 +60,7 @@ Revisions in Progress
 Documentation To-Do List
 ------------------------
 
-- More example scripts
+- More example scripts, I guess?
 
 PyMieScatt To-Do List
 ---------------------
@@ -67,6 +69,8 @@ PyMieScatt To-Do List
 
 Publications Using PyMieScatt
 -----------------------------
+
+If you use PyMieScatt in your research, please let me know and I'll link the publications here.
 
 - Sumlin BJ, Pandey A, Walker MJ, Pattison RS, Williams BJ, Chakrabarty RK. Atmospheric Photooxidation Diminishes Light Absorption by Primary Brown Carbon Aerosol from Biomass Burning. Environ Sci Tech Let. 2017. DOI: `10.1021/acs.estlett.7b00393 <http://doi.org/10.1021/acs.estlett.7b00393>`_
 
