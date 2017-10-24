@@ -26,7 +26,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
    
-The current version is 1.3.3.
+The current version is 1.3.4.1.
    
 
 .. toctree::
@@ -41,13 +41,19 @@ The current version is 1.3.3.
    
    
 
-Revision Notes - version 1.3.4
+Revision Notes - version 1.3.4.1
 ------------------------------
 
-- Fixed a really dumb bug introduced in 1.3.3.
+- Added a new sub-version delimiter. 1.x.y.z will be for minor revisions including some optimizations I've been working on that don't merit a full 1.x.y release.
+- Added a new AutoMie_ab() function that uses LowFrequencyMie_ab() for *x = πd/λ* < 0.5 and Mie_ab() otherwise.
+- Sped up the MieS1S2() function by using the new AutoMie_ab() function.
+- Sped up the SF_SD() function by about 33% (on average) when the MieS1S2() optimizations are considered.
+- Added Mie_cd() to __init__.py.
 
 Revision History
 ----------------
+- 1.3.4
+  - Fixed a really dumb bug introduced in 1.3.3.
 - 1.3.3
   - Fixed a big that caused SF_SD() to throw errors when a custom angle range was specified.
   - Added MieS1S2() and MiePiTau() to __init__.py. Dunno why they weren't always there.

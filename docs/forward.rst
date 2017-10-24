@@ -506,9 +506,7 @@ These functions compute the angle-dependent scattered field intensities and scat
 	
 .. py:Function:: MieS1S2(m,x,mu)
 
-   Calculates S\ :sub:`1` and S\ :sub:`2` at μ=cos(θ), where θ is the scattering angle. Must be explicitly imported via: ::
-   
-   >>> from PyMieScatt.Mie import MieS1S2
+   Calculates S\ :sub:`1` and S\ :sub:`2` at μ=cos(θ), where θ is the scattering angle.
    
    Uses :py:func:`Mie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and :py:func:`MiePiTau` to calculate π\ :sub:`n` and τ\ :sub:`n`. S\ :sub:`1` and S\ :sub:`2` are calculated by:
    
@@ -534,9 +532,7 @@ These functions compute the angle-dependent scattered field intensities and scat
 
 .. py:Function:: MiePiTau(mu,nmax)
 
-   Calculates π\ :sub:`n` and τ\ :sub:`n`. Must be explicitly imported via: ::
-   
-   >>> from PyMieScatt.Mie import MiePiTau
+   Calculates π\ :sub:`n` and τ\ :sub:`n`.
    
    This function uses recurrence relations to calculate π\ :sub:`n` and τ\ :sub:`n`, beginning with π\ :sub:`0` = 1, π\ :sub:`1` = 3μ (where μ is the cosine of the scattering angle), τ\ :sub:`0` = μ, and τ\ :sub:`1` = 3cos(2cos\ :sup:`-1` (μ)):
    

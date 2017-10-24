@@ -194,6 +194,12 @@ def LowFrequencyMie_ab(m,x):
   bn = np.append(b1,b2)
   return an,bn
 
+def AutoMie_ab(m,x):
+  if x<0.5:
+    return LowFrequencyMie_ab(m,x)
+  else:
+    return Mie_ab(m,x)
+
 def Mie_SD(m, wavelength, dp, ndp, interpolate=False, asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_SD
   dp = coerceDType(dp)
@@ -230,7 +236,7 @@ def Mie_SD(m, wavelength, dp, ndp, interpolate=False, asDict=False):
 def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#ScatteringFunction
   x = np.pi*diameter/wavelength
-  
+
   _steps = int(1+(maxAngle-minAngle)/angularResolution) # default 361
 
   if angleMeasure in ['radians','RADIANS','rad','RAD']:
@@ -251,12 +257,12 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     _q = False
   if x == 0:
     return measure,0,0,0
-    
+  _measure = np.linspace(minAngle,maxAngle,_steps)*np.pi/180
   SL = np.zeros(_steps)
   SR = np.zeros(_steps)
   SU = np.zeros(_steps)
   for j in range(_steps):
-    u = np.cos(measure[j])
+    u = np.cos(_measure[j])
     S1, S2 = MieS1S2(m,x,u)
     SL[j] = (np.sum(np.conjugate(S1)*S1)).real
     SR[j] = (np.sum(np.conjugate(S2)*S2)).real
@@ -298,12 +304,12 @@ def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.
 def MieS1S2(m,x,mu):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieS1S2
   nmax = np.round(2+x+4*np.power(x,1/3))
-  an, bn = Mie_ab(m,x)
+  an, bn = AutoMie_ab(m,x)
   pin, taun = MiePiTau(mu,nmax)
   n = np.arange(1,int(nmax)+1)
   n2 = (2*n+1)/(n*(n+1))
-  S1 = np.sum(n2*(an*pin+bn*taun))
-  S2 = np.sum(n2*(an*taun+bn*pin))
+  S1 = np.sum(n2[0:len(an)]*(an*pin[0:len(an)]+bn*taun[0:len(bn)]))
+  S2 = np.sum(n2[0:len(an)]*(an*taun[0:len(an)]+bn*pin[0:len(bn)]))
   return S1, S2
 
 def MiePiTau(mu,nmax):
