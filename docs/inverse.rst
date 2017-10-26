@@ -76,7 +76,7 @@ For more details on the contour intersection inversion method, please see Sumlin
 
 .. py:function:: ContourIntersection_SD(Bsca, Babs, wavelength, dp, ndp[, nMin=1, nMax=3, kMin=0.00001, kMax=1, Bback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
 
-   Computes effective complex *m = n+ik* from a measured or constructed size distribution (in cm\ :sup:`-3`), incident wavelength (in nm), and scattering and absorption coefficients. Optionally, backscatter coefficient may be specified to constrain the problem to produce a unique solution.
+   Computes effective complex *m = n+ik* from a measured or constructed size distribution (in cm\ :sup:`-3`), incident wavelength (in nm), and scattering and absorption coefficients (in Mm\ :sup:`-1`). Optionally, backscatter coefficient may be specified to constrain the problem to produce a unique solution.
    
    **Parameters**
    

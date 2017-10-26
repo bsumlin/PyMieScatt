@@ -50,7 +50,7 @@ Revision History
 Revisions in Progress
 ---------------------
 
-- Trying to speed up the scattering function of a size distribution.
+- Would like to re-write the inverse functions to take any two of scattering, absorption, or backscatter for the non-compact inverse problem. Still need all three for a fully-constrained inversion.
 - Would like to be able to pass array objects directly to all functions (within reason).
 
 Documentation To-Do List
