@@ -62,7 +62,7 @@ The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#
    d=5000
    
    theta,SL,SR,SU = ps.ScatteringFunction(m,w,d)
-   qR,SLQ,SRQ,SUQ = ps.qSpaceScatteringFunction(m,w,d,normed=False)
+   qR,SLQ,SRQ,SUQ = ps.ScatteringFunction(m,w,d,space='qspace',normed=False)
    
    plt.close('all')
    

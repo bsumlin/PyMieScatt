@@ -17,7 +17,7 @@ Documentation is currently under development. A manuscript communicating the dev
 Install PyMieScatt
 ------------------
 
-You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.3.4.1. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -25,21 +25,6 @@ You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.p
 or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository and then run ::
 
    $ python setup.py install
-   
-The current version is 1.3.4.1.
-   
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Table of Contents
-   
-   Documentation Home <index>
-   Forward Functions for Homogeneous Spheres <forward>
-   Forward Functions for Coated Spheres <forwardCS>
-   Inverse Mie Functions for Homogeneous Spheres <inverse>
-   General Usage tips and Example Scripts (constantly updating) <examples>
-   
-   
 
 Revision Notes - version 1.3.4.1
 ------------------------------
@@ -94,3 +79,12 @@ PyMieScatt was written by `Benjamin Sumlin <https://air.eece.wustl.edu/people/be
 Email: `bsumlin@wustl.edu <mailto:bsumlin@wustl.edu?subject=PyMieScatt>`_
 
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Table of Contents
+   
+   Documentation Home <index>
+   Forward Functions for Homogeneous Spheres <forward>
+   Forward Functions for Coated Spheres <forwardCS>
+   Inverse Mie Functions for Homogeneous Spheres <inverse>
+   General Usage tips and Example Scripts (constantly updating) <examples>
