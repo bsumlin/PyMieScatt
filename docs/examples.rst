@@ -554,7 +554,7 @@ This example illustrates the algorithm used by the contour intersection method. 
      a.set_zlabel(t,fontsize=18,labelpad=-10,rotation=90)
    
    Qm = [(q,q*err) for q in Qm]  
-   giv = ps.ContourIntersection(Qm[0],Qm[1],w,d,QbackMeasured=Qm[2],gridPoints=200,nMin=nMin,nMax=nMax,kMin=kMin,kMax=kMax,axisOption=1,fig=fig1,ax=ax4)
+   giv = ps.ContourIntersection(Qm[0],Qm[1],w,d,Qback=Qm[2],gridPoints=200,nMin=nMin,nMax=nMax,kMin=kMin,kMax=kMax,axisOption=1,fig=fig1,ax=ax4)
    ax4.set_xlim(nMin,nMax)
    ax4.yaxis.tick_right()
    ax4.yaxis.set_label_position("right")

@@ -57,6 +57,7 @@ Documentation To-Do List
 ------------------------
 
 - More example scripts, I guess?
+- As a few function names and parameter names get updated, there may be some typos in old examples. I'll catch those as they crop up.
 
 PyMieScatt To-Do List
 ---------------------
