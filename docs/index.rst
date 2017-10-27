@@ -11,7 +11,9 @@ AAAR 2017: thanks everyone for the feedback and comments! To continue the dialog
 
 NEWS: PyMieScatt is being ported to Julia! I did a few timing and comparison tests and got some basic Mie functions to run 2-6 times faster on Julia than Python. This is a side project and could take some time to see complete functionality. The inverse algorithms are the hard part. I may port the numerical algorithms first, and then the graphical ones later once I figure out how plotting objects in Julia work.
 
-Documentation is currently under development. A manuscript communicating the development and use of this package was submitted to the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It has been accepted and is currently being proofed for publication. The JQSRT preprint is `available now <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_, and the arXiv preprint can be found `here <https://arxiv.org/abs/1710.05288>`_.
+Documentation is currently under development, but almost complete. A manuscript communicating the development of the inverse Mie algorithms was accepted by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. It is currently being proofed for publication. The JQSRT preprint is `available now <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_, and the arXiv preprint can be found `here <https://arxiv.org/abs/1710.05288>`_.
+
+**NOTE TO USERS:** When using PyMieScatt, pay close attention to the units of the your inputs and outputs. Wavelength and particle diameters are always in nanometers, efficiencies are unitless, coefficients are in Mm\ :sup:`-1`, and size distribution concentration is always in cm\ :sup:`-3`. If you use other units, your outputs may not make sense.
 
 
 Install PyMieScatt
