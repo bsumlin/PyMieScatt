@@ -473,7 +473,7 @@ These functions compute the angle-dependent scattered field intensities and scat
 
 .. py:Function:: SF_SD(m, wavelength, dp, ndp[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False])
 
-   Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step for a distribution *n\ :sub:`1d`(d\ :sub:`p`)*. Uses :py:func:`ScatteringFunction` to compute scattering for each particle size, then sums the contributions from each bin.
+   Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step for a distribution n\ :sub:`d`\ (d\ :sub:`p`). Uses :py:func:`ScatteringFunction` to compute scattering for each particle size, then sums the contributions from each bin.
    
    **Parameters**
    
