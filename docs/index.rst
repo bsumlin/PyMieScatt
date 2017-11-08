@@ -19,7 +19,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.3.4.1. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.3.5. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -28,17 +28,21 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.3.4.1
+Revision Notes - version 1.3.5
 ------------------------------
 
-- Added a new sub-version delimiter. 1.x.y.z will be for minor revisions including some optimizations I've been working on that don't merit a full 1.x.y release.
-- Added a new AutoMie_ab() function that uses LowFrequencyMie_ab() for *x = πd/λ* < 0.5 and Mie_ab() otherwise.
-- Sped up the MieS1S2() function by using the new AutoMie_ab() function.
-- Sped up the SF_SD() function by about 33% (on average) when the MieS1S2() optimizations are considered.
-- Added Mie_cd() to __init__.py.
+- Fixed a bug that prevented SF_SD from properly scaling with the number of particles.
 
 Revision History
 ----------------
+
+- 1.3.4.1
+
+  - Added a new sub-version delimiter. 1.x.y.z will be for minor revisions including some optimizations I've been working on that don't merit a full 1.x.y release.
+  - Added a new AutoMie_ab() function that uses LowFrequencyMie_ab() for *x = πd/λ* < 0.5 and Mie_ab() otherwise.
+  - Sped up the MieS1S2() function by using the new AutoMie_ab() function.
+  - Sped up the SF_SD() function by about 33% (on average) when the MieS1S2() optimizations are considered.
+  - Added Mie_cd() to __init__.py.
 
 - 1.3.4
 

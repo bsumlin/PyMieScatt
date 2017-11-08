@@ -292,9 +292,9 @@ def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.
     SL += l*n
     SR += r*n
     SU += u*n
-  SL /= np.sum(ndp)
-  SR /= np.sum(ndp)
-  SU /= np.sum(ndp)
+#  SL /= np.sum(ndp)
+#  SR /= np.sum(ndp)
+#  SU /= np.sum(ndp)
   if normed:
     SL /= np.max(SL)
     SR /= np.max(SR)
