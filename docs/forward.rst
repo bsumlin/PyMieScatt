@@ -470,6 +470,46 @@ These functions compute the angle-dependent scattered field intensities and scat
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 
 	
+
+.. py:Function:: SF_SD(m, wavelength, dp, ndp[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False])
+
+   Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step for a distribution *n\ :sub:`1d`(d\ :sub:`p`)*. Uses :py:func:`ScatteringFunction` to compute scattering for each particle size, then sums the contributions from each bin.
+   
+   **Parameters**
+   
+   
+   m : complex
+	The complex refractive index with the convention *m = n+ik*.
+   wavelength : float
+	The wavelength of incident light, in nanometers.
+   dp : list-like
+	The diameter bins of the distribution, in nanometers.
+   ndp : list-like
+	The number of particles in each diameter bin in **dp**.
+   minAngle : float, optional
+	The minimum scattering angle (in degrees) to be calculated. Defaults to 0.
+   maxAngle : float, optional
+	The maximum scattering angle (in degrees) to be calculated. Defaults to 180.
+   angularResolution : float, optional
+	The resolution of the output. Defaults to 0.5, meaning a value will be calculated for every 0.5 degrees.
+   space : str, optional
+	The measure of scattering angle. Can be 'theta' or 'qspace'. Defaults to 'theta'.
+   angleMeasure : str, optional
+	The units for the scattering angle
+   normed : bool, optional
+	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
+	
+   **Returns**
+   
+   
+   theta : numpy.ndarray
+	An array of the angles used in calculations. Values will be spaced according to **angularResolution**, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
+   SL : numpy.ndarray
+	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **theta** array.
+   SR : numpy.ndarray
+	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **theta** array.
+   SU : numpy.ndarray
+	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 	
 .. py:Function:: MatrixElements(m, wavelength, diameter, mu)
 
