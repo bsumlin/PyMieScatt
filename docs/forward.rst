@@ -454,11 +454,11 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The measure of scattering angle. Can be 'theta' or 'qspace'. Defaults to 'theta'.
    angleMeasure : str, optional
 	The units for the scattering angle
-   normalization : string, optional
+   normalization : str or None, optional
 	Specifies the normalization method, which is either by total signal or maximum signal.
 	
-	- **normalization** = 't' will normalize by the total integrated signal.
-	- **normalization** = 'max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
+	- **normalization** = 't' will normalize by the total integrated signal, that is, the total signal will have an integrated value of 1.
+	- **normalization** = 'max' will normalize by the maximum value of the signal regardless of the angle at which it occurs, that is, the maximum signal at that angle will have a value of 1.
 	
    **Returns**
    
@@ -499,12 +499,12 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The measure of scattering angle. Can be 'theta' or 'qspace'. Defaults to 'theta'.
    angleMeasure : str, optional
 	The units for the scattering angle
-   normalization : string, optional
+   normalization : str or None, optional
 	Specifies the normalization method, which is either by total particle number, total signal or maximum signal.
 	
-	- **normalization** = 'n' will normalize by the total number of particles (the integral of the size distribution).
-	- **normalization** = 't' will normalize by the total integrated signal.
-	- **normalization** = 'max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
+	- **normalization** = 'n' will normalize by the total number of particles (the integral of the size distribution). Can lead to weird interpretations, so use caution.
+	- **normalization** = 't' will normalize by the total integrated signal, that is, the total signal will have an integrated value of 1.
+	- **normalization** = 'max' will normalize by the maximum value of the signal regardless of the angle at which it occurs, that is, the maximum signal at that angle will have a value of 1.
 	
    **Returns**
    
