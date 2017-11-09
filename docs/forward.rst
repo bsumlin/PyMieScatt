@@ -457,8 +457,8 @@ These functions compute the angle-dependent scattered field intensities and scat
    normalization : string, optional
 	Specifies the normalization method, which is either by total signal or maximum signal.
 	
-	- **normalization**='t' will normalize by the total integrated signal.
-	- **normalization**='max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
+	- **normalization** = 't' will normalize by the total integrated signal.
+	- **normalization** = 'max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
 	
    **Returns**
    
@@ -502,9 +502,9 @@ These functions compute the angle-dependent scattered field intensities and scat
    normalization : string, optional
 	Specifies the normalization method, which is either by total particle number, total signal or maximum signal.
 	
-	- **normalization**='n' will normalize by the total number of particles (the integral of the size distribution).
-	- **normalization**='t' will normalize by the total integrated signal.
-	- **normalization**='max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
+	- **normalization** = 'n' will normalize by the total number of particles (the integral of the size distribution).
+	- **normalization** = 't' will normalize by the total integrated signal.
+	- **normalization** = 'max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
 	
    **Returns**
    
