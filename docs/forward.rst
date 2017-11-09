@@ -425,7 +425,7 @@ Angular Functions
 
 These functions compute the angle-dependent scattered field intensities and scattering matrix elements. They return arrays that are useful for plotting.
 
-.. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False])
+.. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normalization=None])
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step. This angle can be in either degrees, radians, or gradians for some reason. The angles can either be geometrical angle or the qR vector (see `Sorensen, M. Q-space analysis of scattering by particles: a review. J. Quant. Spectrosc. Radiat. Transfer 2013, 131, 3-12 <http://www.sciencedirect.com/science/article/pii/S0022407313000083>`_). Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
@@ -454,8 +454,11 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The measure of scattering angle. Can be 'theta' or 'qspace'. Defaults to 'theta'.
    angleMeasure : str, optional
 	The units for the scattering angle
-   normed : bool, optional
-	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
+   normalization : string, optional
+	Specifies the normalization method, which is either by total signal or maximum signal.
+	
+	- **normalization**='t' will normalize by the total integrated signal.
+	- **normalization**='max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
 	
    **Returns**
    
@@ -496,8 +499,12 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The measure of scattering angle. Can be 'theta' or 'qspace'. Defaults to 'theta'.
    angleMeasure : str, optional
 	The units for the scattering angle
-   normed : bool, optional
-	If True, will normalize the output such that the maximum intensity will be 1.0. Defaults to False.
+   normalization : string, optional
+	Specifies the normalization method, which is either by total particle number, total signal or maximum signal.
+	
+	- **normalization**='n' will normalize by the total number of particles (the integral of the size distribution).
+	- **normalization**='t' will normalize by the total integrated signal.
+	- **normalization**='max' will normalize by the maximum value of the signal regardless of the angle at which it occurs.
 	
    **Returns**
    

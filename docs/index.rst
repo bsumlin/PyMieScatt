@@ -19,7 +19,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.3.5. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.3.6. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -28,14 +28,18 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.3.5
+Revision Notes - version 1.3.6
 ------------------------------
 
-- Fixed a bug that prevented SF_SD from properly scaling with the number of particles.
+- Added new normalization options to :py:func:`ScatteringFunction` and :py:func:`SF_SD`. Docs for those functions have details.
 
 Revision History
 ----------------
 
+- 1.3.5
+
+  - Fixed a bug that prevented SF_SD from properly scaling with the number of particles.
+  
 - 1.3.4.1
 
   - Added a new sub-version delimiter. 1.x.y.z will be for minor revisions including some optimizations I've been working on that don't merit a full 1.x.y release.

@@ -233,7 +233,7 @@ def Mie_SD(m, wavelength, dp, ndp, interpolate=False, asDict=False):
   else:
     return Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio
 
-def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False):
+def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normalization=None):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#ScatteringFunction
   x = np.pi*diameter/wavelength
 
@@ -267,15 +267,19 @@ def ScatteringFunction(m, wavelength, diameter, minAngle=0, maxAngle=180, angula
     SL[j] = (np.sum(np.conjugate(S1)*S1)).real
     SR[j] = (np.sum(np.conjugate(S2)*S2)).real
     SU[j] = (SR[j]+SL[j])/2
-  if normed:
+  if normalization in ['m','M','max','MAX']:
     SL /= np.max(SL)
     SR /= np.max(SR)
     SU /= np.max(SU)
+  elif normalization in ['t','T','total','TOTAL']:
+    SL /= trapz(SL,measure)
+    SR /= trapz(SR,measure)
+    SU /= trapz(SU,measure)
   if _q:
     measure = (4*np.pi/wavelength)*np.sin(measure/2)*(diameter/2)
   return measure,SL,SR,SU
 
-def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False):
+def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normalization=None):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#SF_SD
   _steps = int(1+(maxAngle-minAngle)/angularResolution)
   ndp = coerceDType(ndp)
@@ -286,19 +290,26 @@ def SF_SD(m, wavelength, dp, ndp, minAngle=0, maxAngle=180, angularResolution=0.
   kwargs = {'minAngle':minAngle,
             'maxAngle':maxAngle,
             'angularResolution':angularResolution,
-            'space':space}
+            'space':space,
+            'normalization':None}
   for n,d in zip(ndp,dp):
     measure,l,r,u = ScatteringFunction(m,wavelength,d,**kwargs)
     SL += l*n
     SR += r*n
     SU += u*n
-#  SL /= np.sum(ndp)
-#  SR /= np.sum(ndp)
-#  SU /= np.sum(ndp)
-  if normed:
+  if normalization in ['n','N','number','particles']:
+    _n = trapz(ndp,dp)
+    SL /= _n
+    SR /= _n
+    SU /= _n
+  elif normalization in ['m','M','max','MAX']:
     SL /= np.max(SL)
     SR /= np.max(SR)
     SU /= np.max(SU)
+  elif normalization in ['t','T','total','TOTAL']:
+    SL /= trapz(SL,measure)
+    SR /= trapz(SR,measure)
+    SU /= trapz(SU,measure)
   return measure,SL,SR,SU
 
 def MieS1S2(m,x,mu):
