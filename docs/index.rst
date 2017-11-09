@@ -15,6 +15,8 @@ Documentation is currently under development, but almost complete. A manuscript 
 
 **NOTE TO USERS:** When using PyMieScatt, pay close attention to the units of the your inputs and outputs. Wavelength and particle diameters are always in nanometers, efficiencies are unitless, coefficients are in Mm\ :sup:`-1`, and size distribution concentration is always in cm\ :sup:`-3`. If you use other units, your outputs may not make sense.
 
+**NOTE TO THOSE WITH MIEPLOT EXPERIENCE:** The functions in PyMieScatt take particle *diameter*. MiePlot's default is to take the particle *radius* in micrometers. Make sure all your particle dimensions, whether for a single particle or for a distribution, are for the diamaters, in nanometers.
+
 
 Install PyMieScatt
 ------------------
