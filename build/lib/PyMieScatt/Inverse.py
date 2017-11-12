@@ -72,7 +72,7 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatter
 
   return np.intersect1d(validScattering,validAbsorption)
 
-def ContourIntersection(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001,kMax=1,Qback=None,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if Qback is not None:
@@ -112,10 +112,10 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0.00001
     s, a, b = [], [], []
     for k in kRange:
       m = n+k*1.0j
-      Qsca,Qabs,Qback = fastMieQ(m,wavelength,diameter)
-      s.append(Qsca)
-      a.append(Qabs)
-      b.append(Qback)
+      _Qsca,_Qabs,_Qback = fastMieQ(m,wavelength,diameter)
+      s.append(_Qsca)
+      a.append(_Qabs)
+      b.append(_Qback)
     QscaList.append(s)
     QabsList.append(a)
     QbackList.append(b)
@@ -336,10 +336,10 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
     s, a, b = [], [], []
     for k in kRange:
       m = n+k*1.0j
-      Bsca,Babs,Bback = fastMie_SD(m,wavelength,dp,ndp)
-      s.append(Bsca)
-      a.append(Babs)
-      b.append(Bback)
+      _Bsca,_Babs,_Bback = fastMie_SD(m,wavelength,dp,ndp)
+      s.append(_Bsca)
+      a.append(_Babs)
+      b.append(_Bback)
     BscaList.append(s)
     BabsList.append(a)
     BbackList.append(b)

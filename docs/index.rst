@@ -21,7 +21,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.3.6. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.3.7. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,14 +30,18 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.3.6
+Revision Notes - version 1.3.7
 ------------------------------
 
-- Added new normalization options to :py:func:`ScatteringFunction` and :py:func:`SF_SD`. Docs for those functions have details.
+- Fixed a major bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that prevented them from using the actual input values to derive solutions.
 
 Revision History
 ----------------
 
+- 1.3.6
+
+  - Added new normalization options to :py:func:`ScatteringFunction` and :py:func:`SF_SD`. Docs for those functions have details.
+  
 - 1.3.5
 
   - Fixed a bug that prevented SF_SD from properly scaling with the number of particles.
