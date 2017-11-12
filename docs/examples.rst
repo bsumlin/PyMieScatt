@@ -398,7 +398,7 @@ I'm still working on optimizing a few things. For now, it takes about 15 minutes
      ax3.tick_params(which='both',direction='in')
      ax3.grid(color='#dddddd')
      
-     giv = ps.ContourIntersection_SD(ssol,asol,w,dp,l,gridPoints=points*1.5,kMin=0.001,kMax=2,annotation=False,axisOption=10,fig=fig1,ax=ax4)
+     giv = ps.ContourIntersection_SD(ssol,asol,w,dp,l,gridPoints=points*1.5,kMin=0.001,kMax=2,axisOption=10,fig=fig1,ax=ax4)
      ax4.set_xlim(1.3,3)
      ax4.yaxis.tick_right()
      ax4.yaxis.set_label_position("right")
