@@ -97,7 +97,7 @@ If you use PyMieScatt in your research, please let me know and I'll link the pub
 
 - Sumlin BJ, Heinson WR, Chakrabarty RK. Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities. J. Quant. Spectros. Rad. Trans. 2018 205 127-134. DOI: `10.1016/j.jqsrt.2017.10.012 <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_
 
-- Sumlin BJ, Heinson YW, Shetty N, Pandey A, Pattison RS, Baker S, Hao WM, Chakrabarty RK. UV-Vis-IR Spectral Complex Refractive Indices and Optical Properties of Brown Carbon Aerosol fro Biomass Burning. J. Quant. Spectros. Rad. Trans., in press. `Preprint available at arXiv. <https://arxiv.org/abs/1712.05028>`_
+- Sumlin BJ, Heinson YW, Shetty N, Pandey A, Pattison RS, Baker S, Hao WM, Chakrabarty RK. UV-Vis-IR Spectral Complex Refractive Indices and Optical Properties of Brown Carbon Aerosol fro Biomass Burning. J. Quant. Spectros. Rad. Trans., in press. DOI: `        10.1016/j.jqsrt.2017.12.009 <https://doi.org/10.1016/j.jqsrt.2017.12.009>`_.
 
 Author Contact Information
 --------------------------
