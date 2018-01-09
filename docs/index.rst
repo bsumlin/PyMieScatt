@@ -76,6 +76,7 @@ Revisions in Progress
 
 - Would like to re-write the inverse functions to take any two of scattering, absorption, or backscatter for the non-compact inverse problem. Still need all three for a fully-constrained inversion.
 - Would like to be able to pass array objects directly to all functions (within reason).
+- Would like to include auto-graphing capabilities for sacttering functions.
 
 Documentation To-Do List
 ------------------------
@@ -95,9 +96,9 @@ If you use PyMieScatt in your research, please let me know and I'll link the pub
 
 - Sumlin BJ, Pandey A, Walker MJ, Pattison RS, Williams BJ, Chakrabarty RK. Atmospheric Photooxidation Diminishes Light Absorption by Primary Brown Carbon Aerosol from Biomass Burning. Environ Sci Tech Let. 2017 4 (12) 540-545 (`Cover article <http://pubs.acs.org/toc/estlcu/4/12>`_). DOI: `10.1021/acs.estlett.7b00393 <http://doi.org/10.1021/acs.estlett.7b00393>`_
 
-- Sumlin BJ, Heinson WR, Chakrabarty RK. Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities. J. Quant. Spectros. Rad. Trans. 2018 205 127-134. DOI: `10.1016/j.jqsrt.2017.10.012 <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_
+- Sumlin BJ, Heinson WR, Chakrabarty RK. Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities. J. Quant. Spectros. Rad. Trans. 2018 (205) 127-134. DOI: `10.1016/j.jqsrt.2017.10.012 <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_
 
-- Sumlin BJ, Heinson YW, Shetty N, Pandey A, Pattison RS, Baker S, Hao WM, Chakrabarty RK. UV-Vis-IR Spectral Complex Refractive Indices and Optical Properties of Brown Carbon Aerosol fro Biomass Burning. J. Quant. Spectros. Rad. Trans., in press. DOI: `10.1016/j.jqsrt.2017.12.009 <https://doi.org/10.1016/j.jqsrt.2017.12.009>`_
+- Sumlin BJ, Heinson YW, Shetty N, Pandey A, Pattison RS, Baker S, Hao WM, Chakrabarty RK. UV-Vis-IR Spectral Complex Refractive Indices and Optical Properties of Brown Carbon Aerosol fro Biomass Burning. J. Quant. Spectros. Rad. Trans. 2018 (206) 392-398 DOI: `10.1016/j.jqsrt.2017.12.009 <https://doi.org/10.1016/j.jqsrt.2017.12.009>`_
 
 Author Contact Information
 --------------------------
