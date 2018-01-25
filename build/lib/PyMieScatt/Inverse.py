@@ -162,16 +162,16 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
     ax.contourf(n,k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,QbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
-  nSolution,kSolution = find_intersections(scaChart,absChart)
-  trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
+  m1 = find_intersections(scaChart,absChart)
+  print(m1)
   if Qback is not None:
-    oneTrueN,oneTrueK = find_intersections(backChart,absChart)
-    _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
-    _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
-    if len(_match) > 0:
-      _matchIndex = list(np.round(trials,2)).index(np.round(_match[0],2))
-      nSolution = nSolution[_matchIndex]
-      kSolution = kSolution[_matchIndex]
+    m2 = find_intersections(scaChart,backChart)
+    r1 = [np.round(x+y*1j,2) for x,y in zip(m1[0],m1[1])]
+    r2 = [np.round(x+y*1j,2) for x,y in zip(m2[0],m2[1])]
+    m_sol = list(set(r1).intersection(r2))
+    nSolution,kSolution = [xx.real for xx in m_sol],[xx.imag for xx in m_sol]
+  else:
+    nSolution,kSolution = m1[0],m1[1]
 
   if type(nSolution)==np.float64:
     solutionSet = [nSolution + (0+1j)*kSolution]
@@ -365,16 +365,16 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
     ax.contourf(n,k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
-  nSolution,kSolution = find_intersections(scaChart,absChart)
-  trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
+  m1 = find_intersections(scaChart,absChart)
+  print(m1)
   if Bback is not None:
-    oneTrueN,oneTrueK = find_intersections(backChart,absChart)
-    _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
-    _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
-    if len(_match) > 0:
-      _matchIndex = list(np.round(trials,2)).index(np.round(_match[0],2))
-      nSolution = nSolution[_matchIndex]
-      kSolution = kSolution[_matchIndex]
+    m2 = find_intersections(scaChart,backChart)
+    r1 = [np.round(x+y*1j,2) for x,y in zip(m1[0],m1[1])]
+    r2 = [np.round(x+y*1j,2) for x,y in zip(m2[0],m2[1])]
+    m_sol = list(set(r1).intersection(r2))
+    nSolution,kSolution = [xx.real for xx in m_sol],[xx.imag for xx in m_sol]
+  else:
+    nSolution,kSolution = m1[0],m1[1]
 
   if type(nSolution)==np.float64:
     solutionSet = [nSolution + kSolution*1j]

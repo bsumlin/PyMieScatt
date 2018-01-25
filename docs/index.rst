@@ -21,7 +21,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.4.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.4.1. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,10 +30,10 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.4.0
-------------------------------
+Revision Notes - version 1.4.1 (25 January, 2018)
+------------------------------------------
 
-  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation ana analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works.
+  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation and analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works, especially when including backscatter to find a unique solution. There is no change to the user experience, other than slight speedups. 
 
 Revision History
 ----------------
