@@ -33,7 +33,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 Revision Notes - version 1.4.0
 ------------------------------
 
-  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation ana analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works.
+  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation and analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works.
 
 Revision History
 ----------------
