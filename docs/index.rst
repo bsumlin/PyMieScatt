@@ -31,13 +31,9 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
    $ python setup.py install
 
 Revision Notes - version 1.4.1 (25 January, 2018)
-------------------------------------------
+-------------------------------------------------
 
-<<<<<<< HEAD
-  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation and analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works, especially when including backscatter to find a unique solution. There is no change to the user experience, other than slight speedups. 
-=======
-  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation and analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works.
->>>>>>> 6bbfea40489f9b5332e3d31ea5197f3c04c877ca
+  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation and analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works, especially when including backscatter to find a unique solution. There is no change to the user experience, other than slight speedups.
 
 Revision History
 ----------------
