@@ -29,5 +29,5 @@ setup(name='PyMieScatt',
       packages=['PyMieScatt'],
       keywords=['Mie Rayleigh scattering absorption extinction light refraction'],
       classifiers = ['Development Status :: 5 - Production/Stable','Intended Audience :: Science/Research','Programming Language :: Python :: 3 :: Only','Topic :: Scientific/Engineering :: Physics'],
-      install_requires=['numpy','scipy','matplotlib'],
+      install_requires=['numpy','scipy','matplotlib','shapely'],
       zip_safe=False)

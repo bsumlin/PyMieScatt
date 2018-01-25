@@ -21,7 +21,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.3.7. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.4.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.3.7
+Revision Notes - version 1.4.0
 ------------------------------
 
-- Fixed a major bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that prevented them from using the actual input values to derive solutions.
+  - Added `Shapely <https://shapely.readthedocs.io/>`_ support! Shapely is a geometric manipulation ana analysis package. I wrote it in as a slightly faster, more robust way to look for intersections in n-k space when doing inversions. It also makes the code more readable and makes it clearer how the intersection method works.
 
 Revision History
 ----------------
+
+- 1.3.7
+
+  - Fixed a major bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that prevented them from using the actual input values to derive solutions.
 
 - 1.3.6
 
@@ -74,9 +78,9 @@ Revision History
 Revisions in Progress
 ---------------------
 
-- Would like to re-write the inverse functions to take any two of scattering, absorption, or backscatter for the non-compact inverse problem. Still need all three for a fully-constrained inversion.
-- Would like to be able to pass array objects directly to all functions (within reason).
-- Would like to include auto-graphing capabilities for sacttering functions.
+- Would like to re-write the inversion functions to be as general as possible, i.e., if I pass scattering, absorption, particle size, and refractive index, it would solve for the wavelength.
+- Ablility to pass array objects directly to all functions (within reason).
+- Auto-graphing capabilities for sacttering functions.
 
 Documentation To-Do List
 ------------------------

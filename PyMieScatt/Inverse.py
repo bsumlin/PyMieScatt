@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredText
 from scipy.ndimage import zoom
 from scipy.integrate import trapz
+from shapely import geometry
 import warnings
 
 def coerceDType(d):
@@ -161,31 +162,10 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
     ax.contourf(n,k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,QbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
-  distinctScaPaths = len(scaChart.collections[0].get_paths())
-  distinctAbsPaths = len(absChart.collections[0].get_paths())
-  if Qback is not None:
-    distinctBackPaths = len(backChart.collections[0].get_paths())
-  scaVertices = []
-  absVertices = []
-  if Qback is not None:
-    backVertices = []
-  for i in range(distinctScaPaths):
-    scaVertices.append(scaChart.collections[0].get_paths()[i].vertices)
-  for i in range(distinctAbsPaths):
-    absVertices.append(absChart.collections[0].get_paths()[i].vertices)
-  if Qback is not None:
-    for i in range(distinctBackPaths):
-      backVertices.append(backChart.collections[0].get_paths()[i].vertices)
-
-  scaVertices = np.concatenate(scaVertices)
-  absVertices = np.concatenate(absVertices)
-  if Qback is not None:
-    backVertices = np.concatenate(backVertices)
-
-  nSolution,kSolution = find_intersections(scaVertices,absVertices)
+  nSolution,kSolution = find_intersections(scaChart,absChart)
   trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
   if Qback is not None:
-    oneTrueN,oneTrueK = find_intersections(backVertices,absVertices)
+    oneTrueN,oneTrueK = find_intersections(backChart,absChart)
     _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
     _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
     if len(_match) > 0:
@@ -385,31 +365,10 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
     ax.contourf(n,k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
     ax.contour(n,k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
-  distinctScaPaths = len(scaChart.collections[0].get_paths())
-  distinctAbsPaths = len(absChart.collections[0].get_paths())
-  if Bback is not None:
-    distinctBackPaths = len(backChart.collections[0].get_paths())
-  scaVertices = []
-  absVertices = []
-  if Bback is not None:
-    backVertices = []
-  for i in range(distinctScaPaths):
-    scaVertices.append(scaChart.collections[0].get_paths()[i].vertices)
-  for i in range(distinctAbsPaths):
-    absVertices.append(absChart.collections[0].get_paths()[i].vertices)
-  if Bback is not None:
-    for i in range(distinctBackPaths):
-      backVertices.append(backChart.collections[0].get_paths()[i].vertices)
-
-  scaVertices = np.concatenate(scaVertices)
-  absVertices = np.concatenate(absVertices)
-  if Bback is not None:
-    backVertices = np.concatenate(backVertices)
-
-  nSolution,kSolution = find_intersections(scaVertices,absVertices)
+  nSolution,kSolution = find_intersections(scaChart,absChart)
   trials = [(x+y*1j) for x,y in zip(nSolution,kSolution)]
   if Bback is not None:
-    oneTrueN,oneTrueK = find_intersections(backVertices,absVertices)
+    oneTrueN,oneTrueK = find_intersections(backChart,absChart)
     _these = [np.round(x+y*1j,3) for x,y in zip(oneTrueN,oneTrueK)]
     _match = list(set(np.round(trials,3)).intersection(np.round(_these,3)))
     if len(_match) > 0:
@@ -523,29 +482,23 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
   return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
 def find_intersections(A,B):
-  arrayMinimum = lambda x1, x2: np.where(x1<x2, x1, x2)
-  arrayMaximum = lambda x1, x2: np.where(x1>x2, x1, x2)
-  arrayAll = lambda abools: np.dstack(abools).all(axis=2)
-  slope = lambda line: (lambda d: d[:,1]/d[:,0])(np.diff(line, axis=0))
+  X = []
+  Y = []
+  for p1 in A.collections[0].get_paths():
+    for p2 in B.collections[0].get_paths():
+      v1 = p1.vertices
+      v2 = p2.vertices
+  
+      poly1 = geometry.LineString(v1)
+      poly2 = geometry.LineString(v2)
+      
+      sol = poly1.intersection(poly2)
+      
+      for s in sol:
+        X.append(s.x)
+        Y.append(s.y)
 
-  x11, x21 = np.meshgrid(A[:-1, 0], B[:-1, 0])
-  x12, x22 = np.meshgrid(A[1:, 0], B[1:, 0])
-  y11, y21 = np.meshgrid(A[:-1, 1], B[:-1, 1])
-  y12, y22 = np.meshgrid(A[1:, 1], B[1:, 1])
-
-  m1, m2 = np.meshgrid(slope(A), slope(B))
-  # Here we use masked arrays to properly treat the rare case where a line segment is perfectly vertical
-  _m1 = np.ma.masked_array(m1,m1==-np.inf)
-  _m2 = np.ma.masked_array(m2,m2==-np.inf)
-  yi = (_m1*(x21-x11-y21/_m2)+y11)/(1-_m1/_m2)
-  xi = (yi-y21)/_m2+x21
-
-  xconds = (arrayMinimum(x11, x12) < xi, xi <= arrayMaximum(x11, x12),
-            arrayMinimum(x21, x22) < xi, xi <= arrayMaximum(x21, x22) )
-  yconds = (arrayMinimum(y11, y12) < yi, yi <= arrayMaximum(y11, y12),
-            arrayMinimum(y21, y22) < yi, yi <= arrayMaximum(y21, y22) )
-
-  return xi[arrayAll(xconds)], yi[arrayAll(yconds)]
+  return X,Y
 
 def SurveyIteration(Qsca,Qabs,wavelength,diameter,tolerance=0.0005):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion
