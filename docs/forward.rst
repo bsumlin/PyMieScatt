@@ -145,9 +145,9 @@ Functions for single particles
 		 'g': 0}
    
    
-.. py:Function:: AutoMieQ(m, wavelength, diameter[, crossover=0.5, asDict=False])
+.. py:Function:: AutoMieQ(m, wavelength, diameter[, crossover=0.01, asDict=False])
 
-   Returns Mie efficencies of a spherical particle according to either :py:func:`MieQ` or :py:func:`RayleighMieQ` depending on the magnitude of the size parameter. Good for studying parameter ranges or size distributions.
+   Returns Mie efficencies of a spherical particle according to either :py:func:`MieQ` or :py:func:`RayleighMieQ` depending on the magnitude of the size parameter. Good for studying parameter ranges or size distributions. Thanks to `John Kendrick <https://github.com/JohnKendrick/PDielec>`_ for discussions about where to best place the crossover point.
    
    **Parameters**
    

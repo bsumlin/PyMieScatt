@@ -136,7 +136,7 @@ def RayleighMieQ(m, wavelength, diameter, asDict=False):
     else:
       return qext, qsca, qabs, g, qpr, qback, qratio
 
-def AutoMieQ(m, wavelength, diameter, crossover=0.5, asDict=False):
+def AutoMieQ(m, wavelength, diameter, crossover=0.01, asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#AutoMieQ
   x = np.pi*diameter/wavelength
   if x==0:
