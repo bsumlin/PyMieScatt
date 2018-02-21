@@ -488,15 +488,16 @@ def find_intersections(A,B):
     for p2 in B.collections[0].get_paths():
       v1 = p1.vertices
       v2 = p2.vertices
-  
-      poly1 = geometry.LineString(v1)
-      poly2 = geometry.LineString(v2)
       
-      sol = poly1.intersection(poly2)
-      
-      for s in sol:
-        X.append(s.x)
-        Y.append(s.y)
+      try:
+        poly1 = geometry.LineString(v1)
+        poly2 = geometry.LineString(v2)
+        sol = poly1.intersection(poly2)
+        for s in sol:
+          X.append(s.x)
+          Y.append(s.y)
+      except:
+        pass
 
   return X,Y
 

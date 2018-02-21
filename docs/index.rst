@@ -21,7 +21,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.4.2. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.4.3. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.4.2 (25 January, 2018)
+Revision Notes - version 1.4.3 (21 February, 2018)
 -------------------------------------------------
 
-  - Very minor adjustment to :py:func:`AutoMieQ`; changed the crossover from Rayleigh to Mie to x=0.01 (previously 0.5). Thanks to `John Kendrick <https://github.com/JohnKendrick/PDielec>`_ for the suggestion.
+  - Fixed a small bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that would produce an error if no intersections were detected. Now it just throws a warning. I'll update soon to have better reporting.
 
 Revision History
 ----------------
+
+- 1.4.2 (25 January, 2018)
+
+  - Very minor adjustment to :py:func:`AutoMieQ`; changed the crossover from Rayleigh to Mie to x=0.01 (previously 0.5). Thanks to `John Kendrick <https://github.com/JohnKendrick/PDielec>`_ for the suggestion.
 
 - 1.4.1 (25 January, 2018)
 
