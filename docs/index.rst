@@ -112,6 +112,8 @@ If you use PyMieScatt in your research, please let me know and I'll link the pub
 
 - Sumlin BJ, Heinson YW, Shetty N, Pandey A, Pattison RS, Baker S, Hao WM, Chakrabarty RK. UV-Vis-IR Spectral Complex Refractive Indices and Optical Properties of Brown Carbon Aerosol fro Biomass Burning. J. Quant. Spectros. Rad. Trans. 2018 (206) 392-398 DOI: `10.1016/j.jqsrt.2017.12.009 <https://doi.org/10.1016/j.jqsrt.2017.12.009>`_
 
+- Sumlin BJ, Oxford C, Seo B, Pattison R, Williams B, Chakrabarty RK. Density and Homogeneous Internal Composition of Primary Brown Carbon Aerosol. Environ. Sci. Tech., In press. DOI: `10.1021/acs.est.8b00093 <https://doi.org/10.1021/acs.est.8b00093>`_
+
 Author Contact Information
 --------------------------
 PyMieScatt was written by `Benjamin Sumlin <https://air.eece.wustl.edu/people/ben-sumlin/>`_. Special thanks to Dr. William Heinson, Dr. Rajan Chakrabarty, Claire Fortenberry, and Apoorva Pandey for their insights and support.
