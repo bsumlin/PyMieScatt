@@ -21,7 +21,7 @@ Documentation is currently under development, but almost complete. A manuscript 
 Install PyMieScatt
 ------------------
 
-The current version is 1.4.3. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.5.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.4.3 (21 February, 2018)
+Revision Notes - version 1.5.0 (7 March, 2018)
 -------------------------------------------------
 
-  - Fixed a small bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that would produce an error if no intersections were detected. Now it just throws a warning. I'll update soon to have better reporting.
+  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, and :py:func:`LowFrequencyMieQ`. The documentation does not reflect this yet.
 
 Revision History
 ----------------
+
+- 1.4.3 (21 February, 2018)
+
+  - Fixed a small bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that would produce an error if no intersections were detected. Now it just throws a warning. I'll update soon to have better reporting.
 
 - 1.4.2 (25 January, 2018)
 

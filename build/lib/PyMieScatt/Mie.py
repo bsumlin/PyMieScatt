@@ -11,7 +11,7 @@ def coerceDType(d):
   else:
     return d
 
-def MieQ(m, wavelength, diameter, asDict=False):
+def MieQ(m, wavelength, diameter, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ
   x = np.pi*diameter/wavelength
   if x==0:
@@ -42,10 +42,23 @@ def MieQ(m, wavelength, diameter, asDict=False):
     qpr = qext-qsca*g
     qback = (1/x2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
     qratio = qback/qsca
-    if asDict:
-      return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+    if asCrossSection:
+      css = np.pi*(diameter/2)**2
+      cext = css*qext
+      csca = css*qsca
+      cabs = css*qabs
+      cpr = css*qpr
+      cback = css*qback
+      cratio = css*qratio
+      if asDict:
+        return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
+      else:
+        return cext, csca, cabs, g, cpr, cback, cratio
     else:
-      return qext, qsca, qabs, g, qpr, qback, qratio
+      if asDict:
+        return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+      else:
+        return qext, qsca, qabs, g, qpr, qback, qratio
 
 def Mie_ab(m,x):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_ab
@@ -116,7 +129,7 @@ def Mie_cd(m,x):
 
   return cn, dn
 
-def RayleighMieQ(m, wavelength, diameter, asDict=False):
+def RayleighMieQ(m, wavelength, diameter, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#RayleighMieQ
   x = np.pi*diameter/wavelength
   if x==0:
@@ -131,22 +144,35 @@ def RayleighMieQ(m, wavelength, diameter, asDict=False):
     qratio = 1.5
     g = 0
     qpr = qext
-    if asDict:
-      return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+    if asCrossSection:
+      css = np.pi*(diameter/2)**2
+      cext = css*qext
+      csca = css*qsca
+      cabs = css*qabs
+      cpr = css*qpr
+      cback = css*qback
+      cratio = css*qratio
+      if asDict:
+        return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
+      else:
+        return cext, csca, cabs, g, cpr, cback, cratio
     else:
-      return qext, qsca, qabs, g, qpr, qback, qratio
+      if asDict:
+        return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+      else:
+        return qext, qsca, qabs, g, qpr, qback, qratio
 
-def AutoMieQ(m, wavelength, diameter, crossover=0.01, asDict=False):
+def AutoMieQ(m, wavelength, diameter, crossover=0.01, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#AutoMieQ
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
   elif x<crossover:
-    return RayleighMieQ(m, wavelength, diameter, asDict=asDict)
+    return RayleighMieQ(m, wavelength, diameter, asDict=asDict, asCrossSection=asCrossSection)
   else:
-    return MieQ(m, wavelength, diameter, asDict=asDict)
+    return MieQ(m, wavelength, diameter, asDict=asDict, asCrossSection=asCrossSection)
 
-def LowFrequencyMieQ(m, wavelength, diameter, asDict=False):
+def LowFrequencyMieQ(m, wavelength, diameter, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#LowFrequencyMieQ
   x = np.pi*diameter/wavelength
   if x==0:
@@ -172,10 +198,23 @@ def LowFrequencyMieQ(m, wavelength, diameter, asDict=False):
     qback = (1/x2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
     qratio = qback/qsca
 
-    if asDict:
-      return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+    if asCrossSection:
+      css = np.pi*(diameter/2)**2
+      cext = css*qext
+      csca = css*qsca
+      cabs = css*qabs
+      cpr = css*qpr
+      cback = css*qback
+      cratio = css*qratio
+      if asDict:
+        return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
+      else:
+        return cext, csca, cabs, g, cpr, cback, cratio
     else:
-      return qext, qsca, qabs, g, qpr, qback, qratio
+      if asDict:
+        return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+      else:
+        return qext, qsca, qabs, g, qpr, qback, qratio
 
 def LowFrequencyMie_ab(m,x):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#LowFrequencyMie_ab
