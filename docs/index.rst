@@ -9,7 +9,7 @@ Online user's guide for the Python Mie Scattering package (PyMieScatt)
 
 LIP2018 and ELS-XVII Attendees: Welcome! I'll be speaking about PyMieScatt and Mie theory inversions Wednesday afternoon. To continue the discussion after the conference, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
 
-Documentation is always under development, but mostly complete. A manuscript communicating the development of the inverse Mie algorithms was accepted by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. The JQSRT article is `available here <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
+Documentation is always under development, but mostly complete. A manuscript communicating the development of the inverse Mie algorithms was published by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. The JQSRT article is `available here <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
 
 **NOTE TO USERS:** When using PyMieScatt, pay close attention to the units of the your inputs and outputs. Wavelength and particle diameters are always in nanometers, efficiencies are unitless, cross-sections are in nm\ :sup:`2`, coefficients are in Mm\ :sup:`-1`, and size distribution concentration is always in cm\ :sup:`-3`. If you use other units, your outputs may not make sense.
 
@@ -33,7 +33,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 Revision Notes - version 1.5.0 (7 March, 2018)
 -------------------------------------------------
 
-  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, and :py:func:`LowFrequencyMieQ`. Currently, the results carry units of nm\ :sup:`2`, but I'll probably change that to nm :sup:`2`. The documentation does not reflect this yet.
+  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, and :py:func:`LowFrequencyMieQ`. Currently, the results carry units of nm\ :sup:`2`, but I'll probably change that to cm :sup:`2`. The documentation does not reflect this yet.
 
 Revision History
 ----------------
