@@ -7,19 +7,19 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-AAAR 2017: thanks everyone for the feedback and comments! To continue the dialog, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
+LIP2018 and ELS-XVII Attendees: Welcome! I'll be speaking about PyMieScatt and Mie theory inversions Wednesday afternoon. To continue the discussion after the conference, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
 
-NEWS: PyMieScatt is being ported to Julia! I did a few timing and comparison tests and got some basic Mie functions to run 2-6 times faster on Julia than Python. This is a side project and could take some time to see complete functionality. The inverse algorithms are the hard part. I may port the numerical algorithms first, and then the graphical ones later once I figure out how plotting objects in Julia work.
+Documentation is always under development, but mostly complete. A manuscript communicating the development of the inverse Mie algorithms was accepted by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. The JQSRT article is `available here <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
 
-Documentation is currently under development, but almost complete. A manuscript communicating the development of the inverse Mie algorithms was accepted by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. The JQSRT article is `available here free of charge and without the need for institution credentials <https://authors.elsevier.com/c/1V~HK564SC3di>`_ until December 21st (after which you'll need to log in through your institution). The arXiv preprint can be found `here <https://arxiv.org/abs/1710.05288>`_.
-
-**NOTE TO USERS:** When using PyMieScatt, pay close attention to the units of the your inputs and outputs. Wavelength and particle diameters are always in nanometers, efficiencies are unitless, coefficients are in Mm\ :sup:`-1`, and size distribution concentration is always in cm\ :sup:`-3`. If you use other units, your outputs may not make sense.
+**NOTE TO USERS:** When using PyMieScatt, pay close attention to the units of the your inputs and outputs. Wavelength and particle diameters are always in nanometers, efficiencies are unitless, cross-sections are in nm\ :sup:`2`, coefficients are in Mm\ :sup:`-1`, and size distribution concentration is always in cm\ :sup:`-3`. If you use other units, your outputs may not make sense.
 
 **NOTE TO THOSE WITH MIEPLOT EXPERIENCE:** The functions in PyMieScatt take particle *diameter*. MiePlot's default is to take the particle *radius* in micrometers. Make sure all your particle dimensions, whether for a single particle or for a distribution, are for the diamaters, in nanometers.
 
 
 Install PyMieScatt
 ------------------
+
+NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip.
 
 The current version is 1.5.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
@@ -33,7 +33,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 Revision Notes - version 1.5.0 (7 March, 2018)
 -------------------------------------------------
 
-  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, and :py:func:`LowFrequencyMieQ`. The documentation does not reflect this yet.
+  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, and :py:func:`LowFrequencyMieQ`. Currently, the results carry units of nm\ :sup:`2`, but I'll probably change that to nm :sup:`2`. The documentation does not reflect this yet.
 
 Revision History
 ----------------
