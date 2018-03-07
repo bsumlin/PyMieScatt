@@ -21,7 +21,7 @@ else:
 setup(name='PyMieScatt',
       version=verstr,
       description="A collection of forward and inverse Mie solving routines based on Bohren and Huffman's Mie Theory derivations.",
-      long_description=verstr + ' - Added error bounds as an option for the graphical inversion method. Added new automatic inversion methods Inversion() and Inversion_SD(). Significantly improved the iterative methods.\nDocs are hosted at `ReadTheDocs <http://pymiescatt.readthedocs.io/>`_.',
+      long_description=verstr + ' - See `documentation <http://pymiescatt.readthedocs.io/>`_ for update notes.',
       url='http://air.eece.wustl.edu/people/ben-sumlin/',
       author='Benjamin Sumlin',
       author_email='bsumlin@wustl.edu',
