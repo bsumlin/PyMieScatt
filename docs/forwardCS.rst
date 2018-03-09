@@ -1,7 +1,7 @@
 Functions for Coated Spheres (Core-Shell Particles)
 ===================================================
 
-.. py:Function:: MieQCoreShell(mCore, mShell, wavelength, dCore, dShell[, asDict=False])
+.. py:Function:: MieQCoreShell(mCore, mShell, wavelength, dCore, dShell[, asDict=False, asCrossSection=False])
 
    Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, coated particle. Uses :py:func:`CoreShell_ab` to calculate a\ :sub:`n` and b\ :sub:`n` , and then calculates Q\ :sub:`i` following closely from the original BHMIE.
    
@@ -20,14 +20,20 @@ Functions for Coated Spheres (Core-Shell Particles)
 	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
    asDict : bool, optional
 	If True, returns the results as a dict.
+   asCrossSection : bool, optional
+	If specified and set to True, returns the results as optical cross-sections with units of nm\ :sup:`2`.
 	
    **Returns**
    
    
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
+   cext, csca, cabs, g, cpr, cback, cratio : float
+	If asCrossSection==True, :py:func:`MieQCoreShell` returns optical cross-sections.
    q : dict
-	If asDict==True, :py:func:`MieQCoreShell` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`MieQCoreShell` returns a dict of the above efficiencies with appropriate keys.
+   c : dict
+	If asDict==True and asCrossSection==True, returns a dict of the above cross-sections with appropriate keys.
 	
    **Considerations**
    

@@ -4,7 +4,7 @@ Functions for Forward Mie Calculations of Homogeneous Spheres
 Functions for single particles
 ---------------------------------
 
-.. py:function:: MieQ(m, wavelength, diameter[, asDict=False])
+.. py:function:: MieQ(m, wavelength, diameter[, asDict=False, asCrossSection=False])
 
    Computes Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates *Q* via:
    
@@ -35,14 +35,20 @@ Functions for single particles
 	The diameter of the particle, in nanometers.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
+   asCrossSection : bool, optional
+	If specified and set to True, returns the results as optical cross-sections with units of nm\ :sup:`2`.
 	
    **Returns**
    
    
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
+   cext, csca, cabs, g, cpr, cback, cratio : float
+	If asCrossSection==True, :py:func:`MieQ` returns optical cross-sections.
    q : dict
-	If asDict==True, :py:func:`MieQ` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`MieQ` returns a dict of the above efficiencies with appropriate keys.
+   c : dict
+	If asDict==True and asCrossSection==True, returns a dict of the above cross-sections with appropriate keys.
    
    For example, compute the Mie efficencies of a particle 300 nm in diameter with m = 1.77+0.63i, illuminated by λ = 375 nm: ::
    
@@ -96,7 +102,7 @@ Functions for single particles
    cn, dn : numpy.ndarray
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
-.. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False])
+.. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False, asCrossSection=False])
 
    Computes Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
    
@@ -123,14 +129,20 @@ Functions for single particles
 	The diameter of the particle, in nanometers.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
+   asCrossSection : bool, optional
+	If specified and set to True, returns the results as optical cross-sections with units of nm\ :sup:`2`.
 	
    **Returns**
    
    
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
+   cext, csca, cabs, g, cpr, cback, cratio : float
+	If asCrossSection==True, :py:func:`RayleighMieQ` returns optical cross-sections.
    q : dict
-	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above efficiencies with appropriate keys.
+   c : dict
+	If asDict==True and asCrossSection==True, returns a dict of the above cross-sections with appropriate keys.
    
    For example, compute the Mie efficencies of a particle 50 nm in diameter with m = 1.33+0.01i, illuminated by λ = 870 nm: ::
    
@@ -145,7 +157,7 @@ Functions for single particles
 		 'g': 0}
    
    
-.. py:Function:: AutoMieQ(m, wavelength, diameter[, crossover=0.01, asDict=False])
+.. py:Function:: AutoMieQ(m, wavelength, diameter[, crossover=0.01, asDict=False, asCrossSection=False])
 
    Returns Mie efficencies of a spherical particle according to either :py:func:`MieQ` or :py:func:`RayleighMieQ` depending on the magnitude of the size parameter. Good for studying parameter ranges or size distributions. Thanks to `John Kendrick <https://github.com/JohnKendrick/PDielec>`_ for discussions about where to best place the crossover point.
    
@@ -161,17 +173,23 @@ Functions for single particles
 	The size parameter that dictates where calculations switch from Rayleigh approximation to actual Mie.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
+   asCrossSection : bool, optional
+	If specified and set to True, returns the results as optical cross-sections with units of nm\ :sup:`2`.
 	
    **Returns**
    
    
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
+   cext, csca, cabs, g, cpr, cback, cratio : float
+	If asCrossSection==True, :py:func:`AutoMieQ` returns optical cross-sections.
    q : dict
-	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`AutoMieQ` returns a dict of the above efficiencies with appropriate keys.
+   c : dict
+	If asDict==True and asCrossSection==True, returns a dict of the above cross-sections with appropriate keys.
 
 
-.. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False])
+.. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False, asCrossSection=False])
 
    Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index **m**, **wavelength**, and **diameter**. Optionally returns the parameters as a dict when **asDict** is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and follows the same math as :py:func:`MieQ`.
    
@@ -186,14 +204,20 @@ Functions for single particles
 	The diameter of the particle, in nanometers.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
+   asCrossSection : bool, optional
+	If specified and set to True, returns the results as optical cross-sections with units of nm\ :sup:`2`.
 	
    **Returns**
    
    
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
+   cext, csca, cabs, g, cpr, cback, cratio : float
+	If asCrossSection==True, :py:func:`LowFrequencyMieQ` returns optical cross-sections.
    q : dict
-	If asDict==True, :py:func:`RayleighMieQ` returns a dict of the above values with appropriate keys.
+	If asDict==True, :py:func:`LowFrequencyMieQ` returns a dict of the above efficiencies with appropriate keys.
+   c : dict
+	If asDict==True and asCrossSection==True, returns a dict of the above cross-sections with appropriate keys.
    
    For example, compute the Mie efficencies of a particle 100 nm in diameter with m = 1.33+0.01i, illuminated by λ = 1600 nm: ::
    
