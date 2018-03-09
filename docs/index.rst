@@ -21,7 +21,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip.
 
-The current version is 1.5.1. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.5.2. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.5.1 (7 March, 2018)
+Revision Notes - version 1.5.2 (9 March, 2018)
 -------------------------------------------------
 
-  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, :py:func:`LowFrequencyMieQ`, and :py:func:`MieQCoreShell`. The results carry units of nm\ :sup:`2`.
+  - Fixed a bug that would occasionally cause a single solution from two optical measurements to not be reported (thanks to Miriam Elser for pointing this bug out).
 
 Revision History
 ----------------
+
+- 1.5.1 (7 March, 2018)
+
+  - Added the option to report single-particle Mie efficiencies as optical cross-sections. This affects :py:func:`MieQ`, :py:func:`RayleighMieQ`, :py:func:`AutoMieQ`, :py:func:`LowFrequencyMieQ`, and :py:func:`MieQCoreShell`. The results carry units of nm\ :sup:`2`.
 
 - 1.4.3 (21 February, 2018)
 

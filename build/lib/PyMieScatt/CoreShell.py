@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import jv, yv
 from PyMieScatt.Mie import MieQ, MiePiTau
 
-def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell):
+def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forwardCS.html#MieQCoreShell
   xCore = np.pi*dCore/wavelength
   xShell = np.pi*dShell/wavelength
@@ -36,7 +36,24 @@ def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell):
     qback = (1/xShell2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
     qratio = qback/qsca
 
-    return qext, qsca, qabs, g, qpr, qback, qratio
+    if asCrossSection:
+      css = np.pi*(dShell/2)**2
+      cext = css*qext
+      csca = css*qsca
+      cabs = css*qabs
+      cpr = css*qpr
+      cback = css*qback
+      cratio = css*qratio
+      if asDict:
+        return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
+      else:
+        return cext, csca, cabs, g, cpr, cback, cratio
+    else:
+      if asDict:
+        return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+      else:
+        return qext, qsca, qabs, g, qpr, qback, qratio
+
 
 def CoreShell_ab(mCore,mShell,xCore,xShell):
 #  http://pymiescatt.readthedocs.io/en/latest/forwardCS.html#CoreShell_ab

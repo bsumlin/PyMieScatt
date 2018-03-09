@@ -493,9 +493,13 @@ def find_intersections(A,B):
         poly1 = geometry.LineString(v1)
         poly2 = geometry.LineString(v2)
         sol = poly1.intersection(poly2)
-        for s in sol:
-          X.append(s.x)
-          Y.append(s.y)
+        if type(sol)==geometry.point.Point:
+          X.append(sol.x)
+          Y.append(sol.y)
+        else:
+          for s in sol:
+            X.append(s.x)
+            Y.append(s.y)
       except:
         pass
 
