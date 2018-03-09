@@ -33,7 +33,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 Revision Notes - version 1.5.2 (9 March, 2018)
 -------------------------------------------------
 
-  - Fixed a bug that would occasionally cause a single solution from two optical measurements to not be reported (thanks to Miriam Elser for pointing this bug out).
+  - Fixed a bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that would occasionally cause a single solution from two optical measurements to not be reported (thanks to Miriam Elser for pointing this bug out).
 
 Revision History
 ----------------
