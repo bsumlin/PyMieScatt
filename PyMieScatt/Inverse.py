@@ -3,11 +3,11 @@
 from PyMieScatt.Mie import Mie_ab
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.offsetbox import AnchoredText
+from matplotlib.contour import QuadContourSet
+from matplotlib.collections import LineCollection
 from scipy.ndimage import zoom
 from scipy.integrate import trapz
 from shapely import geometry
-import warnings
 
 def coerceDType(d):
   if type(d) is not np.ndarray:
@@ -16,7 +16,6 @@ def coerceDType(d):
     return d
 
 def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0.001,kMax=1,scatteringPrecision=0.010,absorptionPrecision=0.010,spaceSize=120,interp=2):
-  error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   
   nRange = np.linspace(nMin,nMax,spaceSize)
   kRange = np.logspace(np.log10(kMin),np.log10(kMax),spaceSize)
@@ -73,13 +72,20 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatter
 
   return np.intersect1d(validScattering,validAbsorption)
 
-def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
-#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection
+def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+#  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersectio
+  if Qabs == 0.0 or Qabs[0] == 0.0:
+    k = 0.0
+  if k == 0.0:
+    kMin = -0.1
+    axisOption = 1
+    
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if Qback is not None:
     if gridPoints*interpolationFactor<400:
       gridPoints = 2*gridPoints
   labels = []
+  
   incErrors = False
   if type(Qsca) in [list, tuple, np.ndarray]:
     incErrors = True
@@ -89,13 +95,16 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
   else:
     scaError = None
     labels.append("Qsca = {b:1.3f}".format(b=Qsca))
+    
   if type(Qabs) in [list, tuple, np.ndarray]:
+    incErrors = True
     absError = Qabs[1]
     Qabs = Qabs[0]
     labels.append("Qabs = {b:1.3f}±{e:1.3f}".format(b=Qabs,e=absError))
   else:
     absError = None
     labels.append("Qabs = {b:1.3f}".format(b=Qabs))
+    
   if type(Qback) in [list, tuple, np.ndarray]:
     backError = Qback[1]
     Qback = Qback[0]
@@ -105,14 +114,17 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
     labels.append("Qback - {b:1.3f}".format(b=Qback))
   else:
     backError = None
-
+  
   nRange = np.linspace(nMin,nMax,gridPoints)
-  kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
+  if k == 0.0:
+    kRange = np.linspace(kMin,kMax,gridPoints)
+  else:
+    kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
   QscaList, QabsList, QbackList = [], [], []
-  for n in nRange:
+  for _n in nRange:
     s, a, b = [], [], []
-    for k in kRange:
-      m = n+k*1.0j
+    for _k in kRange:
+      m = _n+_k*1.0j
       _Qsca,_Qabs,_Qback = fastMieQ(m,wavelength,diameter)
       s.append(_Qsca)
       a.append(_Qabs)
@@ -123,47 +135,67 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
   QscaList = zoom(np.transpose(np.array(QscaList)),interpolationFactor)
   QabsList = zoom(np.transpose(np.array(QabsList)),interpolationFactor)
   QbackList = zoom(np.transpose(np.array(QbackList)),interpolationFactor)
-
-  n = zoom(nRange,interpolationFactor)
-  k = zoom(kRange,interpolationFactor)
-
+  
+  _n = zoom(nRange,interpolationFactor)
+  _k = zoom(kRange,interpolationFactor)
+  
   if fig is None and ax is None:
     fig, ax = plt.subplots()
   elif fig is None:
     fig = ax.get_figure()
   elif ax is None:
     ax = fig.gca()
-
+  
   scaLevels = np.array([Qsca])
   absLevels = np.array([Qabs])
-
+  
   if Qback is not None:
     backLevels = np.array([Qback])
     if backError is not None:
       backErrorLevels = np.array([Qback+x for x in [-backError,backError]])
-
-  scaChart = ax.contour(n,k,QscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
-  absChart = ax.contour(n,k,QabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
+  
+  if n is None:
+    scaChart = ax.contour(_n,_k,QscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
+    if scaError is not None:
+      scaErrorLevels = np.array([Qsca+x for x in [-scaError, scaError]])
+      ax.contourf(_n,_k,QscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
+      ax.contour(_n,_k,QscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
+  else:
+    if type(n) in [list, tuple, np.ndarray]:
+      scaErrorLevels = [n[0]*(1+x) for x in [-n[1],n[1]]]
+      scaChart = ax.vlines(n[0],kMin,kMax,linestyle='dashdot',linewidth=1.5,color='r')
+    else:
+      scaChart = ax.vlines(n,kMin,kMax,linestyle='dashdot',linewidth=1.5,color='r')
+    
+  if k is None:
+    absChart = ax.contour(_n,_k,QabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
+    if absError is not None:
+      absErrorLevels = np.array([Qabs+x for x in [-absError, absError]])
+      ax.contourf(_n,_k,QabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
+      ax.contour(_n,_k,QabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
+  else:
+    if type(k) in [list, tuple, np.ndarray]:
+      absErrorLevels = [k[0]*(1+x) for x in [-k[1],k[1]]]
+      absChart = ax.hlines(k[0],nMin,nMax,linestyle='solid',linewidth=1.5,color='b')
+    else:
+      absChart = ax.hlines(k,nMin,nMax,linestyle='solid',linewidth=1.5,color='b')
+  
   if Qback is not None:
-    backChart = ax.contour(n,k,QbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
-
-  if scaError is not None:
-    scaErrorLevels = np.array([Qsca+x for x in [-scaError, scaError]])
-    ax.contourf(n,k,QscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
-    ax.contour(n,k,QscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
-
-  if absError is not None:
-    absErrorLevels = np.array([Qabs+x for x in [-absError, absError]])
-    ax.contourf(n,k,QabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
-    ax.contour(n,k,QabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
-
-  if backError is not None:
-    backErrorLevels = np.array([Qback+x for x in [-backError, backError]])
-    ax.contourf(n,k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
-    ax.contour(n,k,QbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
-
+    backChart = ax.contour(_n,_k,QbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
+    if backError is not None:
+      backErrorLevels = np.array([Qback+x for x in [-backError, backError]])
+      ax.contourf(_n,_k,QbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
+      ax.contour(_n,_k,QbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
+  
   m1 = find_intersections(scaChart,absChart)
-  print(m1)
+  
+  if n is not None and type(n) in [list, tuple, np.ndarray]:
+    scaChart = ax.vlines(scaErrorLevels,kMin,kMax,linestyle='dashdot',linewidth=0.5,color='r',alpha=0.5)
+    ax.axvspan(scaErrorLevels[0],scaErrorLevels[1],alpha=0.15,color='r')
+  if k is not None and type(k) in [list, tuple, np.ndarray]:
+    absChart = ax.hlines(absErrorLevels,nMin,nMax,linestyle='solid',linewidth=0.5,color='b',alpha=0.5)
+    ax.axhspan(absErrorLevels[0],absErrorLevels[1],alpha=0.15,color='b')
+    
   if Qback is not None:
     m2 = find_intersections(scaChart,backChart)
     r1 = [np.round(x+y*1j,2) for x,y in zip(m1[0],m1[1])]
@@ -172,7 +204,7 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
     nSolution,kSolution = [xx.real for xx in m_sol],[xx.imag for xx in m_sol]
   else:
     nSolution,kSolution = m1[0],m1[1]
-
+  
   if type(nSolution)==np.float64:
     solutionSet = [nSolution + (0+1j)*kSolution]
   else:
@@ -189,34 +221,39 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
   solutionSet = np.array(solutionSet)
   forwardCalculations = np.array(forwardCalculations)
   solutionErrors = np.array(solutionErrors)
-
-  proper = solutionErrors <= maxError
-  solution = []
-  for r,c in proper:
-    if r and c:
-      solution.append(True)
-    else:
-      solution.append(False)
-
-  solutionSet = solutionSet[solution]
-  forwardCalculations = forwardCalculations[solution]
-  solutionErrors = solutionErrors[solution]
-  nSolutionsToPlot,kSolutionsToPlot = [x.real for x in solutionSet],[x.imag for x in solutionSet]
-
+  
+  if n is None and k is None:
+    proper = solutionErrors <= maxError
+    solution = []
+    for r,c in proper:
+      if r and c:
+        solution.append(True)
+      else:
+        solution.append(False)
+    
+    solutionSet = solutionSet[solution]
+    forwardCalculations = forwardCalculations[solution]
+    solutionErrors = solutionErrors[solution]
+    nSolutionsToPlot,kSolutionsToPlot = [x.real for x in solutionSet],[x.imag for x in solutionSet]
+  else:
+    nSolutionsToPlot,kSolutionsToPlot = m1[0],m1[1]
+  
   ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=1.5,edgecolor='k',facecolor='none',zorder=3)
   ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=0,edgecolor='none',facecolor='c',zorder=1,alpha=0.25)
   
   for x,y,s in zip(nSolutionsToPlot,kSolutionsToPlot,solutionErrors):
-    ax.axhline(y,linewidth=0.5,alpha=0.5,zorder=0)
-    ax.axvline(x,linewidth=0.5,alpha=0.5,zorder=0)
-
+    if n is not None:
+      ax.axhline(y,linewidth=0.5,alpha=0.5,zorder=0)
+    if k is not None:
+      ax.axvline(x,linewidth=0.5,alpha=0.5,zorder=0)
+  
   ax.set_xlabel('n',fontsize=16)
   ax.set_ylabel('k',fontsize=16)
-
+  
   ax.set_xlim((np.min(nRange),np.max(nRange)))
   ax.set_ylim((np.min(kRange),np.max(kRange)))
   ax.tick_params(which='both',direction='in')
-
+  
   if axisOption == 0:
     if max(kSolutionsToPlot) <= 0.5 or kMax <= 1:
       ax.set_yscale('log')
@@ -234,7 +271,7 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
     ax.set_yscale('log')
   else:
     pass
-
+  
   _c = ax.get_children()
   if Qback is None:
     if incErrors:
@@ -271,16 +308,23 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,nMin=1,nMax=3,k
                        'CrosshairsH':_c[5:-10:2],'CrosshairsV':_c[6:-10:2], # solution crosshairs
                        'LeftSpine':_c[-10],'RightSpine':_c[-9],'BottomSpine':_c[-8],'TopSpine':_c[-7], # spines
                        'XAxis':_c[-6],'YAxis':_c[-5]} # the axes
-
+  
   return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
-def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.00001,kMax=1,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection_SD
+  if Babs == 0.0 or Babs[0] == 0.0:
+    k = 0.0
+  if k == 0.0:
+    kMin = -0.1
+    axisOption = 1
+    
   error = lambda measured,calculated: np.abs((calculated-measured)/measured)
   if Bback is not None:
     if gridPoints*interpolationFactor<120:
       gridPoints = 2*gridPoints
   labels = []
+  
   incErrors = False
   if type(Bsca) in [list, tuple, np.ndarray]:
     incErrors = True
@@ -290,13 +334,16 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
   else:
     scaError = None
     labels.append("Bsca = {b:1.1f}".format(b=Bsca))
+    
   if type(Babs) in [list, tuple, np.ndarray]:
+    incErrors = True
     absError = Babs[1]
     Babs = Babs[0]
     labels.append("Babs = {b:1.1f}±{e:1.1f}".format(b=Babs,e=absError))
   else:
     absError = None
     labels.append("Babs = {b:1.1f}".format(b=Babs))
+    
   if type(Bback) in [list, tuple, np.ndarray]:
     backError = Bback[1]
     Bback = Bback[0]
@@ -309,13 +356,17 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
 
   dp = coerceDType(dp)
   ndp = coerceDType(ndp)
+  
   nRange = np.linspace(nMin,nMax,gridPoints)
-  kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
+  if k == 0.0:
+    kRange = np.linspace(kMin,kMax,gridPoints)
+  else:
+    kRange = np.logspace(np.log10(kMin),np.log10(kMax),gridPoints)
   BscaList, BabsList, BbackList = [], [], []
-  for n in nRange:
+  for _n in nRange:
     s, a, b = [], [], []
-    for k in kRange:
-      m = n+k*1.0j
+    for _k in kRange:
+      m = _n+_k*1.0j
       _Bsca,_Babs,_Bback = fastMie_SD(m,wavelength,dp,ndp)
       s.append(_Bsca)
       a.append(_Babs)
@@ -327,8 +378,8 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
   BabsList = zoom(np.transpose(np.array(BabsList)),interpolationFactor)
   BbackList = zoom(np.transpose(np.array(BbackList)),interpolationFactor)
 
-  n = zoom(nRange,interpolationFactor)
-  k = zoom(kRange,interpolationFactor)
+  _n = zoom(nRange,interpolationFactor)
+  _k = zoom(kRange,interpolationFactor)
 
   if fig is None and ax is None:
     fig, ax = plt.subplots()
@@ -345,28 +396,48 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
     if backError is not None:
       backErrorLevels = np.array([Bback+x for x in [-backError,backError]])
 
-  scaChart = ax.contour(n,k,BscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
-  absChart = ax.contour(n,k,BabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
+  if n is None:
+    scaChart = ax.contour(_n,_k,BscaList,scaLevels,origin='lower',linestyles='dashdot',linewidths=1.5,colors=('red'))
+    if scaError is not None:
+      scaErrorLevels = np.array([Bsca+x for x in [-scaError, scaError]])
+      ax.contourf(_n,_k,BscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
+      ax.contour(_n,_k,BscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
+  else:
+    if type(n) in [list, tuple, np.ndarray]:
+      scaErrorLevels = [n[0]*(1+x) for x in [-n[1],n[1]]]
+      scaChart = ax.vlines(n[0],kMin,kMax,linestyle='dashdot',linewidth=1.5,color='r')
+    else:
+      scaChart = ax.vlines(n,kMin,kMax,linestyle='dashdot',linewidth=1.5,color='r')
+    
+  if k is None:
+    absChart = ax.contour(_n,_k,BabsList,absLevels,origin='lower',linewidths=1.5,colors=('blue'))
+    if absError is not None:
+      absErrorLevels = np.array([Babs+x for x in [-absError, absError]])
+      ax.contourf(_n,_k,BabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
+      ax.contour(_n,_k,BabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
+  else:
+    if type(k) in [list, tuple, np.ndarray]:
+      absErrorLevels = [k[0]*(1+x) for x in [-k[1],k[1]]]
+      absChart = ax.hlines(k[0],nMin,nMax,linestyle='solid',linewidth=1.5,color='b')
+    else:
+      absChart = ax.hlines(k,nMin,nMax,linestyle='solid',linewidth=1.5,color='b')
+  
   if Bback is not None:
-    backChart = ax.contour(n,k,BbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
-
-  if scaError is not None:
-    scaErrorLevels = np.array([Bsca+x for x in [-scaError, scaError]])
-    ax.contourf(n,k,BscaList,scaErrorLevels,origin='lower',colors=('red'),alpha=0.15)
-    ax.contour(n,k,BscaList,scaErrorLevels,origin='lower',linewidths=0.5,colors=('red'),alpha=0.5)
-
-  if absError is not None:
-    absErrorLevels = np.array([Babs+x for x in [-absError, absError]])
-    ax.contourf(n,k,BabsList,absErrorLevels,origin='lower',colors=('blue'),alpha=0.15)
-    ax.contour(n,k,BabsList,absErrorLevels,origin='lower',linewidths=0.5,colors=('blue'),alpha=0.5)
-
-  if backError is not None:
-    backErrorLevels = np.array([Bback+x for x in [-backError, backError]])
-    ax.contourf(n,k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
-    ax.contour(n,k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
+    backChart = ax.contour(_n,_k,BbackList,backLevels,origin='lower',linestyles='dotted',linewidths=1.5,colors=('green'))
+    if backError is not None:
+      backErrorLevels = np.array([Bback+x for x in [-backError, backError]])
+      ax.contourf(_n,_k,BbackList,backErrorLevels,origin='lower',colors=('green'),alpha=0.15)
+      ax.contour(_n,_k,BbackList,backErrorLevels,origin='lower',linewidths=0.5,colors=('green'),alpha=0.5)
 
   m1 = find_intersections(scaChart,absChart)
-  print(m1)
+  
+  if n is not None and type(n) in [list, tuple, np.ndarray]:
+    scaChart = ax.vlines(scaErrorLevels,kMin,kMax,linestyle='dashdot',linewidth=0.5,color='r',alpha=0.5)
+    ax.axvspan(scaErrorLevels[0],scaErrorLevels[1],alpha=0.15,color='r')
+  if k is not None and type(k) in [list, tuple, np.ndarray]:
+    absChart = ax.hlines(absErrorLevels,nMin,nMax,linestyle='solid',linewidth=0.5,color='b',alpha=0.5)
+    ax.axhspan(absErrorLevels[0],absErrorLevels[1],alpha=0.15,color='b')
+    
   if Bback is not None:
     m2 = find_intersections(scaChart,backChart)
     r1 = [np.round(x+y*1j,2) for x,y in zip(m1[0],m1[1])]
@@ -393,22 +464,31 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
   forwardCalculations = np.array(forwardCalculations)
   solutionErrors = np.array(solutionErrors)
 
-  proper = solutionErrors <= maxError
-  solution = []
-  for r,c in proper:
-    if r and c:
-      solution.append(True)
-    else:
-      solution.append(False)
-
-  solutionSet = solutionSet[solution]
-  forwardCalculations = forwardCalculations[solution]
-  solutionErrors = solutionErrors[solution]
-  nSolutionsToPlot,kSolutionsToPlot = [x.real for x in solutionSet],[x.imag for x in solutionSet]
-
+  if n is None and k is None:
+    proper = solutionErrors <= maxError
+    solution = []
+    for r,c in proper:
+      if r and c:
+        solution.append(True)
+      else:
+        solution.append(False)
+    
+    solutionSet = solutionSet[solution]
+    forwardCalculations = forwardCalculations[solution]
+    solutionErrors = solutionErrors[solution]
+    nSolutionsToPlot,kSolutionsToPlot = [x.real for x in solutionSet],[x.imag for x in solutionSet]
+  else:
+    nSolutionsToPlot,kSolutionsToPlot = m1[0],m1[1]
+    
   ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=1.5,edgecolor='k',facecolor='none',zorder=3)
   ax.scatter(nSolutionsToPlot,kSolutionsToPlot,marker='o',s=128,linewidth=0,edgecolor='none',facecolor='c',zorder=1,alpha=0.25)
   
+  for x,y,s in zip(nSolutionsToPlot,kSolutionsToPlot,solutionErrors):
+    if n is not None:
+      ax.axhline(y,linewidth=0.5,alpha=0.5,zorder=0)
+    if k is not None:
+      ax.axvline(x,linewidth=0.5,alpha=0.5,zorder=0)
+      
   for x,y,s in zip(nSolutionsToPlot,kSolutionsToPlot,solutionErrors):
     ax.axhline(y,linewidth=0.5,alpha=0.5,zorder=0)
     ax.axvline(x,linewidth=0.5,alpha=0.5,zorder=0)
@@ -484,24 +564,29 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0.0000
 def find_intersections(A,B):
   X = []
   Y = []
-  for p1 in A.collections[0].get_paths():
-    for p2 in B.collections[0].get_paths():
+  if isinstance(A, QuadContourSet):
+    pathOne = A.collections[0]
+  elif isinstance(A, LineCollection):
+    pathOne = A
+  if isinstance(B, QuadContourSet):
+    pathTwo = B.collections[0]
+  elif isinstance(B, LineCollection):
+    pathTwo = B
+  for p1 in pathOne.get_paths():
+    for p2 in pathTwo.get_paths():
       v1 = p1.vertices
       v2 = p2.vertices
-      
-      try:
-        poly1 = geometry.LineString(v1)
-        poly2 = geometry.LineString(v2)
-        sol = poly1.intersection(poly2)
-        if type(sol)==geometry.point.Point:
-          X.append(sol.x)
-          Y.append(sol.y)
-        else:
-          for s in sol:
-            X.append(s.x)
-            Y.append(s.y)
-      except:
-        pass
+
+      poly1 = geometry.LineString(v1)
+      poly2 = geometry.LineString(v2)
+      sol = poly1.intersection(poly2)
+      if type(sol)==geometry.point.Point:
+        X.append(sol.x)
+        Y.append(sol.y)
+      else:
+        for s in sol:
+          X.append(s.x)
+          Y.append(s.y)
 
   return X,Y
 

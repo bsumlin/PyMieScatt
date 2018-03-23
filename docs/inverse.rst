@@ -6,7 +6,7 @@ Contour Intersection Inversion Functions
 
 For more details on the contour intersection inversion method, please see Sumlin BJ, Heinson WR, Chakrabarty RK. *Retrieving the Aerosol Complex Refractive Index using PyMieScatt: A Mie Computational Package with Visualization Capabilities*. J. Quant. Spectros. Rad. Trans. 2017. DOI: `10.1016/j.jqsrt.2017.10.012 <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_ There's also a good example `here <http://pymiescatt.readthedocs.io/en/latest/examples.html#visualization-of-the-contour-intersection-inversion-method>`_.
 
-.. py:function:: ContourIntersection(Qsca, Qabs, wavelength, diameter[, nMin=1, nMax=3, kMin=0.00001, kMax=1, Qback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
+.. py:function:: ContourIntersection(Qsca, Qabs, wavelength, diameter[, n=None, k=None, nMin=1, nMax=3, kMin=0.00001, kMax=1, Qback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
 
    Computes complex *m = n+ik* from a particle diameter (in nm), incident wavelength (in nm), and scattering and absorption efficiencies. Optionally, backscatter efficiency may be specified to constrain the problem to produce a unique solution.
    
@@ -21,6 +21,10 @@ For more details on the contour intersection inversion method, please see Sumlin
 	The wavelength of incident light, in nm.
    diameter : float
 	The diameter of the particle, in nm.
+   n : float or list-like, optional
+	An assumed real refractive index. Can be used in case scattering data is not available. If specified as a list, it **must** have only two elements. The first is the assumed *n* and the second is an uncertainty, such as a standard deviation.
+   k : float or list-like, optional
+	An assumed imaginary refractive index. Useful if only considering nonabsorbing aerosols, so you can set k=0. If specified as a list, it **must** have only two elements. The first is the assumed *k* and the second is an uncertainty, such as a standard deviation. **Note: when specifying this in the function call, input it as a real number. Omit the imaginary unit.
    nMin : float, optional
 	The minimum value of *n* to search.
    nMax : float, optional
@@ -74,7 +78,7 @@ For more details on the contour intersection inversion method, please see Sumlin
 	- 'LeftSpine', 'RightSpine', 'BottomSpine', 'TopSpine' - graph spines;
 	- 'XAxis', 'YAxis' - the individual matplotlib axis objects.
 
-.. py:function:: ContourIntersection_SD(Bsca, Babs, wavelength, dp, ndp[, nMin=1, nMax=3, kMin=0.00001, kMax=1, Bback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
+.. py:function:: ContourIntersection_SD(Bsca, Babs, wavelength, dp, ndp[, n=None, k=None, nMin=1, nMax=3, kMin=0.00001, kMax=1, Bback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
 
    Computes effective complex *m = n+ik* from a measured or constructed size distribution (in cm\ :sup:`-3`), incident wavelength (in nm), and scattering and absorption coefficients (in Mm\ :sup:`-1`). Optionally, backscatter coefficient may be specified to constrain the problem to produce a unique solution.
    
@@ -91,6 +95,10 @@ For more details on the contour intersection inversion method, please see Sumlin
 	The diameter bins of the size distribution, in nm.
    ndp : list-like
 	The number of particles per diameter bin corresponding to **dp**, in cm\ :sup:`-3`. Must be same length as **dp**.
+   n : float or list-like, optional
+	An assumed real refractive index. Can be used in case scattering data is not available. If specified as a list, it **must** have only two elements. The first is the assumed *n* and the second is an uncertainty, such as a standard deviation.
+   k : float or list-like, optional
+	An assumed imaginary refractive index. Useful if only considering nonabsorbing aerosols, so you can set k=0. If specified as a list, it **must** have only two elements. The first is the assumed *k* and the second is an uncertainty, such as a standard deviation. **Note: when specifying this in the function call, input it as a real number. Omit the imaginary unit.
    nMin : float, optional
 	The minimum value of *n* to search.
    nMax : float, optional

@@ -21,7 +21,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip.
 
-The current version is 1.5.2. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.6.0a. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.5.2 (9 March, 2018)
+Revision Notes - version 1.6.0a (23 March, 2018)
 -------------------------------------------------
 
-  - Fixed a bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that would occasionally cause a single solution from two optical measurements to not be reported (thanks to Miriam Elser for pointing this bug out).
+  - Updated :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` to take optional constraint parameters of an assumed *n* or *k*. Please see the documentation for more information.
 
 Revision History
 ----------------
+
+- 1.5.2 (9 March, 2018)
+
+  - Fixed a bug in :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` that would occasionally cause a single solution from two optical measurements to not be reported (thanks to Miriam Elser for pointing this bug out).
 
 - 1.5.1 (7 March, 2018)
 
