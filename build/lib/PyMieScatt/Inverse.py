@@ -74,7 +74,7 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatter
 
 def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,gridPoints=100,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersectio
-  if Qabs == 0.0 or Qabs[0] == 0.0:
+  if (type(Qabs) == np.float64 and Qabs == 0.0) or (type(Qabs) in [list, tuple, np.ndarray] and Qabs[0]==0):
     k = 0.0
   if k == 0.0:
     kMin = -0.1
@@ -313,7 +313,7 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,n=None,k=None,n
 
 def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection_SD
-  if Babs == 0.0 or Babs[0] == 0.0:
+  if (type(Babs) == np.float64 and Babs == 0.0) or (type(Babs) in [list, tuple, np.ndarray] and Babs[0]==0):
     k = 0.0
   if k == 0.0:
     kMin = -0.1

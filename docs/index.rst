@@ -30,7 +30,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.6.0a (23 March, 2018)
+Revision Notes - version 1.6.0b0 (23 March, 2018)
 -------------------------------------------------
 
   - Updated :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` to take optional constraint parameters of an assumed *n* or *k*. Please see the documentation for more information.
