@@ -1,10 +1,94 @@
-# -*- coding: utf-8 -*-
-# http://pymiescatt.readthedocs.io/en/latest/inverse.html
-import PyMieScatt as ps
-m,w,d = 1.5+0.5j,532,500
-dp = (15.7,16.3,16.8,17.5,18.1,18.8,19.5,20.2,20.9,21.7,22.5,23.3,24.1,25,25.9,26.9,27.9,28.9,30,31.1,32.2,33.4,34.6,35.9,37.2,38.5,40,41.4,42.9,44.5,46.1,47.8,49.6,51.4,53.3,55.2,57.3,59.4,61.5,63.8,66.1,68.5,71,73.7,76.4,79.1,82,85.1,88.2,91.4,94.7,98.2,101.8,105.5,109.4,113.4,117.6,121.9,126.3,131,135.8,140.7,145.9,151.2,156.8,162.5,168.5,174.7,181.1,187.7,194.6,201.7,209.1,216.7,224.7,232.9,241.4,250.3,259.5,269,278.8,289,299.6,310.6,322,333.8,346,358.7,371.8,385.4,399.5,414.2,429.4,445.1,461.4,478.3,495.8,514,532.8,552.3,572.5,593.5,615.3,637.8,661.2,685.4,710.5,736.5,763.5,791.5,820.5,850.5,881.7,914,947.5,982.2)
-ndp = (0,0,0,0,20.007,22.604,28.565,30.236,35.303,40.97,44.946,53.688,57.714,70.388,75.05,76.691,89.164,102.936,112.255,113.609,132.423,151.342,164.092,172.006,195.124,213.077,233.145,262.117,279.707,313.686,346.505,386.169,422.061,472.318,531.711,570.058,615.129,689.183,735.801,796.658,866.776,937.752,1003.532,1074.711,1141.764,1189.764,1288.912,1336.65,1418.396,1415.48,1543.714,1610.163,1644.419,1646.855,1686.363,1811.085,1831.266,1840.095,1852.131,1874.75,1884.19,1882.413,1854.246,1830.001,1808.497,1784.443,1753.237,1695.941,1630.566,1600.728,1526.502,1475.664,1408.608,1339.624,1257.692,1193.99,1123.253,1064.108,1002.481,937.285,865.517,799.852,743.185,704.676,640.034,586.251,547.975,495.346,458.38,427.772,389.496,356.098,332.884,302.85,270.998,250.737,223.463,212.376,178.743,157.359,144.926,127.777,111.063,98.037,87.379,77.376,65.592,58.967,46.849,43.639,35.027,31.979,25.907,20.387,16.343,14.932)
+import numpy as np
+from PyMieScatt import RayleighMieQ
+from scipy.special import jv, yv
 
-Bsca,Babs,Bback = ps.fastMie_SD(m,w,dp,ndp)
+def MieQ(m, wavelength, diameter, nMedium=1, asDict=False, asCrossSection=False):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ
+  wavelength /= nMedium
+  m /= nMedium
+  x = np.pi*diameter/wavelength
+  if x==0:
+    return 0, 0, 0, 1.5, 0, 0, 0
+  elif x<=0.05:
+    return RayleighMieQ(m, wavelength, diameter, asDict)
+  elif x>0.05:
+    nmax = np.round(2+x+4*(x**(1/3)))
+    n = np.arange(1,nmax+1)
+    n1 = 2*n+1
+    n2 = n*(n+2)/(n+1)
+    n3 = n1/(n*(n+1))
+    x2 = x**2
 
-inv = ps.ContourIntersection_SD(Bsca,Babs,w,dp,ndp,n=1.75)
+    an,bn = Mie_ab(m,x)
+
+    qext = (2/x2)*np.sum(n1*(an.real+bn.real))
+    qsca = (2/x2)*np.sum(n1*(an.real**2+an.imag**2+bn.real**2+bn.imag**2))
+    qabs = qext-qsca
+
+    g1 = [an.real[1:int(nmax)],
+          an.imag[1:int(nmax)],
+          bn.real[1:int(nmax)],
+          bn.imag[1:int(nmax)]]
+    g1 = [np.append(x, 0.0) for x in g1]
+    g = (4/(qsca*x2))*np.sum((n2*(an.real*g1[0]+an.imag*g1[1]+bn.real*g1[2]+bn.imag*g1[3]))+(n3*(an.real*bn.real+an.imag*bn.imag)))
+
+    qpr = qext-qsca*g
+    qback = (1/x2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
+    qratio = qback/qsca
+    if asCrossSection:
+      css = np.pi*(diameter/2)**2
+      cext = css*qext
+      csca = css*qsca
+      cabs = css*qabs
+      cpr = css*qpr
+      cback = css*qback
+      cratio = css*qratio
+      if asDict:
+        return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
+      else:
+        return cext, csca, cabs, g, cpr, cback, cratio
+    else:
+      if asDict:
+        return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+      else:
+        return qext, qsca, qabs, g, qpr, qback, qratio
+
+def Mie_ab(m,x):
+#  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_ab
+  mx = m*x
+  nmax = np.round(2+x+4*(x**(1/3)))
+  nmx = np.round(max(nmax,np.abs(mx))+16)
+  n = np.arange(1,nmax+1)
+  nu = n + 0.5
+
+  sx = np.sqrt(0.5*np.pi*x)
+  px = sx*jv(nu,x)
+
+  p1x = np.append(np.sin(x), px[0:int(nmax)-1])
+  chx = -sx*yv(nu,x)
+
+  ch1x = np.append(np.cos(x), chx[0:int(nmax)-1])
+  gsx = px-(0+1j)*chx
+  gs1x = p1x-(0+1j)*ch1x
+
+  # B&H Equation 4.89
+  Dn = np.zeros(int(nmx),dtype=complex)
+  for i in range(int(nmx)-1,1,-1):
+    Dn[i-1] = (i/mx)-(1/(Dn[i]+i/mx))
+
+  D = Dn[1:int(nmax)+1] # Dn(mx), drop terms beyond nMax
+  da = D/m+n/x
+  db = m*D+n/x
+
+  an = (da*px-p1x)/(da*gsx-gs1x)
+  bn = (db*px-p1x)/(db*gsx-gs1x)
+
+  return an, bn
+
+m = 1.5+0.5j
+nMedium = 1.3
+
+q1 = MieQ(m, 530, 500, asDict=True)
+q2 = MieQ(m, 530, 500, nMedium=nMedium,asDict=True)
+
+m /= nMedium

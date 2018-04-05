@@ -21,7 +21,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip.
 
-The current version is 1.6.0a. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.7.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.6.0b0 (23 March, 2018)
+Revision Notes - version 1.7.0 (5 April, 2018)
 -------------------------------------------------
 
-  - Updated :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` to take optional constraint parameters of an assumed *n* or *k*. Please see the documentation for more information.
+  - Updated most of the forward homogeneous sphere functions with a new optional parameter **nMedium**, which allows for Mie calculations in media other than vacuum/air. Please see documentation.
 
 Revision History
 ----------------
+
+- 1.6.0b0 (23 March, 2018)
+
+  - Updated :py:func:`ContourIntersection` and :py:func:`ContourIntersection_SD` to take optional constraint parameters of an assumed *n* or *k*. Please see the documentation for more information.
 
 - 1.5.2 (9 March, 2018)
 

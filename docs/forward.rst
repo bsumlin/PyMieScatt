@@ -4,7 +4,7 @@ Functions for Forward Mie Calculations of Homogeneous Spheres
 Functions for single particles
 ---------------------------------
 
-.. py:function:: MieQ(m, wavelength, diameter[, asDict=False, asCrossSection=False])
+.. py:function:: MieQ(m, wavelength, diameter[, nMedium=1.0, asDict=False, asCrossSection=False])
 
    Computes Mie efficencies *Q* and asymmetry parameter *g* of a single, homogeneous particle. Uses :py:func:`Mie_ab` to calculate :math:`a_n` and :math:`b_n`, and then calculates *Q* via:
    
@@ -33,6 +33,8 @@ Functions for single particles
 	The wavelength of incident light, in nanometers.
    diameter : float
 	The diameter of the particle, in nanometers.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
    asCrossSection : bool, optional
@@ -102,7 +104,7 @@ Functions for single particles
    cn, dn : numpy.ndarray
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
-.. py:Function:: RayleighMieQ(m, wavelength, diameter[, asDict=False, asCrossSection=False])
+.. py:Function:: RayleighMieQ(m, wavelength, diameter[, nMedium=1.0, asDict=False, asCrossSection=False])
 
    Computes Mie efficencies of a spherical particle in the Rayleigh regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index *m*, *wavelength*, and *diameter*. Optionally returns the parameters as a dict when *asDict* is specified and set to True. Uses Rayleigh-regime approximations:
    
@@ -127,6 +129,8 @@ Functions for single particles
 	The wavelength of incident light, in nanometers.
    diameter : float
 	The diameter of the particle, in nanometers.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
    asCrossSection : bool, optional
@@ -157,7 +161,7 @@ Functions for single particles
 		 'g': 0}
    
    
-.. py:Function:: AutoMieQ(m, wavelength, diameter[, crossover=0.01, asDict=False, asCrossSection=False])
+.. py:Function:: AutoMieQ(m, wavelength, diameter[, nMedium=1.0, crossover=0.01, asDict=False, asCrossSection=False])
 
    Returns Mie efficencies of a spherical particle according to either :py:func:`MieQ` or :py:func:`RayleighMieQ` depending on the magnitude of the size parameter. Good for studying parameter ranges or size distributions. Thanks to `John Kendrick <https://github.com/JohnKendrick/PDielec>`_ for discussions about where to best place the crossover point.
    
@@ -169,6 +173,8 @@ Functions for single particles
 	The wavelength of incident light, in nanometers.
    diameter : float
 	The diameter of the particle, in nanometers.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    crossover : float, optional
 	The size parameter that dictates where calculations switch from Rayleigh approximation to actual Mie.
    asDict : bool, optional
@@ -189,7 +195,7 @@ Functions for single particles
 	If asDict==True and asCrossSection==True, returns a dict of the above cross-sections with appropriate keys.
 
 
-.. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, asDict=False, asCrossSection=False])
+.. py:Function:: LowFrequencyMieQ(m, wavelength, diameter[, nMedium=1.0, asDict=False, asCrossSection=False])
 
    Returns Mie efficencies of a spherical particle in the low-frequency regime (:math:`x=\pi\,d_p/\lambda \ll 1`) given refractive index **m**, **wavelength**, and **diameter**. Optionally returns the parameters as a dict when **asDict** is specified and set to True. Uses :py:func:`LowFrequencyMie_ab` to calculate a\ :sub:`n` and b\ :sub:`n`, and follows the same math as :py:func:`MieQ`.
    
@@ -202,6 +208,8 @@ Functions for single particles
 	The wavelength of incident light, in nanometers.
    diameter : float
 	The diameter of the particle, in nanometers.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
    asCrossSection : bool, optional
@@ -260,7 +268,7 @@ Functions for single particles
 Functions for single particles across various ranges
 ----------------------------------------------------
 
-.. py:Function:: MieQ_withDiameterRange(m, wavelength[, diameterRange=(10,1000), nd=1000, logD=False])
+.. py:Function:: MieQ_withDiameterRange(m, wavelength[, nMedium=1.0, diameterRange=(10,1000), nd=1000, logD=False])
 
    Computes the Mie efficencies of particles across a diameter range using :py:func:`AutoMieQ`.
    
@@ -271,6 +279,8 @@ Functions for single particles across various ranges
 	The complex refractive index with the convention *m = n+ik*.
    wavelength : float
 	The wavelength of incident light, in nanomaters
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    diameterRange : tuple or list, optional
 	The diameter range, in nanometers. Convention is (smallest, largest). Defaults to (10, 1000).
    nd : int, optional
@@ -286,7 +296,7 @@ Functions for single particles across various ranges
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
 	The Mie efficencies at each diameter in **diameters**.
 	
-.. py:Function:: MieQ_withWavelengthRange(m, diameter[, wavelengthRange=(100,1600), nw=1000, logW=False])
+.. py:Function:: MieQ_withWavelengthRange(m, diameter[, nMedium=1.0, wavelengthRange=(100,1600), nw=1000, logW=False])
 
    Computes the Mie efficencies of particles across a wavelength range using :py:func:`AutoMieQ`. This function can optionally take a list, tuple, or numpy.ndarray for **m**. If your particles have a wavelength-dependent refractive index, you can study it by specifying **m** as list-like. When doing so, **m** must be the same size as **wavelengthRange**, which is also specified as list-like in this situation. Otherwise, the function will construct a range from **wavelengthRange[0]** to **wavelengthRange[1]** with **nw** entries.
    
@@ -297,6 +307,8 @@ Functions for single particles across various ranges
 	The complex refractive index with the convention *m = n+ik*. If dealing with a dispersive material, then len(**m**) must be equal to len(**wavelengthRange**).
    diameter : float
 	The diameter of the particle, in nanometers.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded. A future update will allow the entry of a spectral range of refractive indices.
    wavelengthRange : tuple or list, optional
 	The wavelength range of incident light, in nanomaters. Convention is (smallest, largest). Defaults to (100, 1600). When **m** is list-like, len(**wavelengthRange**) must be equal to len(**m**).
    nw : int, optional
@@ -312,7 +324,7 @@ Functions for single particles across various ranges
    qext, qsca, qabs, g, qpr, qback, qratio : numpy.ndarray
 	The Mie efficencies at each wavelength in **wavelengths**.
 	
-.. py:Function:: MieQ_withSizeParameterRange(m[, xRange=(1,10), nx=1000, logX=False])
+.. py:Function:: MieQ_withSizeParameterRange(m[, nMedium=1.0, xRange=(1,10), nx=1000, logX=False])
 
    Computes the Mie efficencies of particles across a size parameter range (\ :math:`x=\pi\,d_p/\lambda`\ ) using :py:func:`AutoMieQ`.
    
@@ -321,6 +333,8 @@ Functions for single particles across various ranges
    
    m : complex
 	The complex refractive index with the convention *m = n+ik*.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    xRange : tuple or list, optional
 	The size parameter range. Convention is (smallest, largest). Defaults to (1, 10).
    nx : int, optional
@@ -351,7 +365,7 @@ The bulk asymmetry parameter *G* is calculated by:
 		:math:`${\displaystyle G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}}$`
 		
 
-.. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, asDict=False])
+.. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, nMedium=1.0, asDict=False])
 
    Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a continuous, compactly-supported distribution.
    
@@ -366,6 +380,8 @@ The bulk asymmetry parameter *G* is calculated by:
 	The diameter bin midpoints of the size distribution, in nanometers.
    sizeDistribution : list, tuple, or numpy.ndarray
 	The number concentrations of the size distribution bins. Must be the same size as sizeDistributionDiameterBins.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
 	
@@ -377,7 +393,7 @@ The bulk asymmetry parameter *G* is calculated by:
    q : dict
 	If asDict==True, :py:func:`MieQ_SD` returns a dict of the above values with appropriate keys.
 
-.. py:Function:: Mie_Lognormal(m, wavelength, geoStdDev, geoMean, numberOfParticles[, numberOfBins=1000, lower=1, upper=1000, gamma=[1], returnDistribution=False, decomposeMultimodal=False, asDict=False])
+.. py:Function:: Mie_Lognormal(m, wavelength, geoStdDev, geoMean, numberOfParticles[, nMedium=1.0, numberOfBins=1000, lower=1, upper=1000, gamma=[1], returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
    Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated k-modal lognormal particle number distribution. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
    
@@ -403,6 +419,8 @@ The bulk asymmetry parameter *G* is calculated by:
 	The geometric mean diameter(s) :math:`d_{pg}` or :math:`d_{pg_i}` if list-like, in nanometers.
    numberOfParticles : float
 	The total number of particles in the distribution.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    numberOfBins : int, optional
 	The number of discrete bins in the distribution. Defaults to 1000.
    lower : float, optional
@@ -449,7 +467,7 @@ Angular Functions
 
 These functions compute the angle-dependent scattered field intensities and scattering matrix elements. They return arrays that are useful for plotting.
 
-.. py:Function:: ScatteringFunction(m, wavelength, diameter[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normalization=None])
+.. py:Function:: ScatteringFunction(m, wavelength, diameter[, nMedium=1.0, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normalization=None])
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step. This angle can be in either degrees, radians, or gradians for some reason. The angles can either be geometrical angle or the qR vector (see `Sorensen, M. Q-space analysis of scattering by particles: a review. J. Quant. Spectrosc. Radiat. Transfer 2013, 131, 3-12 <http://www.sciencedirect.com/science/article/pii/S0022407313000083>`_). Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
@@ -468,6 +486,8 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The wavelength of incident light, in nanometers.
    diameter : float
 	The diameter of the particle, in nanometers.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    minAngle : float, optional
 	The minimum scattering angle (in degrees) to be calculated. Defaults to 0.
    maxAngle : float, optional
@@ -498,7 +518,7 @@ These functions compute the angle-dependent scattered field intensities and scat
 
 	
 
-.. py:Function:: SF_SD(m, wavelength, dp, ndp[, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normed=False])
+.. py:Function:: SF_SD(m, wavelength, dp, ndp[, nMedium=1.0, minAngle=0, maxAngle=180, angularResolution=0.5, space='theta', angleMeasure='radians', normalization=None])
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step for a distribution n\ :sub:`d`\ (d\ :sub:`p`). Uses :py:func:`ScatteringFunction` to compute scattering for each particle size, then sums the contributions from each bin.
    
@@ -513,6 +533,8 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The diameter bins of the distribution, in nanometers.
    ndp : list-like
 	The number of particles in each diameter bin in **dp**.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    minAngle : float, optional
 	The minimum scattering angle (in degrees) to be calculated. Defaults to 0.
    maxAngle : float, optional
@@ -542,7 +564,7 @@ These functions compute the angle-dependent scattered field intensities and scat
    SU : numpy.ndarray
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 	
-.. py:Function:: MatrixElements(m, wavelength, diameter, mu)
+.. py:Function:: MatrixElements(m, wavelength, diameter, mu[, nMedium=1.0])
 
    Calculates the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
    
@@ -550,7 +572,7 @@ These functions compute the angle-dependent scattered field intensities and scat
 		
 		:math:`${\displaystyle S_{12}=\frac{1}{2}\left(|S_2|^2-|S_1|^2\right)}$`
 		
-		:math:`${\displaystyle S_{33}=\frac{1}{2}(S_2^*S_1^*+S_2S_1^*)}$`
+		:math:`${\displaystyle S_{33}=\frac{1}{2}(S_2^*S_1+S_2S_1^*)}$`
 		
 		:math:`${\displaystyle S_{34}=\frac{i}{2}(S_1S_2^*-S_2S_1^*)}$`
 		
@@ -566,6 +588,8 @@ These functions compute the angle-dependent scattered field intensities and scat
 	The diameter of the particle, in nanometers.
    mu : float
 	The cosine of the scattering angle.
+   nMedium : float, optional
+	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
 
    **Returns**
    
