@@ -558,9 +558,9 @@ These functions compute the angle-dependent scattered field intensities and scat
    theta : numpy.ndarray
 	An array of the angles used in calculations. Values will be spaced according to **angularResolution**, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
    SL : numpy.ndarray
-	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **theta** array.
+	An array of the scattered intensity of left-polarized (perpendicular) light. Same size as the **theta** array.
    SR : numpy.ndarray
-	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **theta** array.
+	An array of the scattered intensity of right-polarized (parallel) light. Same size as the **theta** array.
    SU : numpy.ndarray
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 	
