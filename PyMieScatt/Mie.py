@@ -433,17 +433,17 @@ def MieQ_withDiameterRange(m, wavelength, nMedium=1.0, diameterRange=(10,1000), 
 def MieQ_withWavelengthRange(m, diameter, nMedium=1.0, wavelengthRange=(100,1600), nw=1000, logW=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withWavelengthRange
   nMedium = nMedium.real
-  m /= nMedium
-  wavelengthRange = tuple([x/nMedium for x in wavelengthRange])
-  if type(m) == complex and len(wavelengthRange)==2:
+  _m = m/nMedium
+  _wavelengthRange = tuple([x/nMedium for x in wavelengthRange])
+  if type(_m) == complex and len(_wavelengthRange)==2:
     if logW:
-      wavelengths = np.logspace(np.log10(wavelengthRange[0]),np.log10(wavelengthRange[1]),nw)
+      wavelengths = np.logspace(np.log10(_wavelengthRange[0]),np.log10(_wavelengthRange[1]),nw)
     else:
-      wavelengths = np.linspace(wavelengthRange[0],wavelengthRange[1],nw)
-    _qD = [AutoMieQ(m,wavelength,diameter) for wavelength in wavelengths]
-  elif type(m) in [np.ndarray,list,tuple] and len(wavelengthRange)==len(m):
-    wavelengths=wavelengthRange
-    _qD = [MieQ(emm,wavelength,diameter) for emm,wavelength in zip(m,wavelengths)]
+      wavelengths = np.linspace(_wavelengthRange[0],_wavelengthRange[1],nw)
+    _qD = [AutoMieQ(_m,wavelength,diameter) for wavelength in wavelengths]
+  elif type(_m) in [np.ndarray,list,tuple] and len(_wavelengthRange)==len(_m):
+    wavelengths=_wavelengthRange
+    _qD = [MieQ(emm,wavelength,diameter) for emm,wavelength in zip(_m,wavelengths)]
   else:
     warnings.warn("Error: the size of the input data is mismatched. Please examine your inputs and try again.")
     return
@@ -461,11 +461,11 @@ def MieQ_withSizeParameterRange(m, nMedium=1.0, xRange=(1,10), nx=1000, logX=Fal
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ_withSizeParameterRange
   nMedium = nMedium.real
   m /= nMedium
-  xRange = tuple([x*nMedium for x in xRange]) # I think
+  _xRange = tuple([x*nMedium for x in xRange]) # I think
   if logX:
-    xValues = list(np.logspace(np.log10(xRange[0]),np.log10(xRange[1]),nx))
+    xValues = list(np.logspace(np.log10(_xRange[0]),np.log10(_xRange[1]),nx))
   else:
-    xValues = list(np.linspace(xRange[0],xRange[1], nx))
+    xValues = list(np.linspace(_xRange[0],_xRange[1], nx))
   dValues = [1000*x/np.pi for x in xValues]
   _qD = [AutoMieQ(m,1000,d) for d in dValues]
   qext = np.array([q[0] for q in _qD])
