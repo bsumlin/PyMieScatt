@@ -33,7 +33,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 Revision Notes - version 1.7.1 (12 April, 2018)
 -------------------------------------------------
 
-  - Fixed a bug in :py:func:`MieQ_withWavelngthRange` where the inputs would be affected by in-place math performed within the function. This bug was also present in :py:func:`MieQ_withSizeParameterRange` and has been fixed.
+  - Fixed a bug in :py:func:`MieQ_withWavelengthRange` where the inputs would be affected by in-place math performed within the function. This bug was also present in :py:func:`MieQ_withSizeParameterRange` and has been fixed.
 
 Revision History
 ----------------
