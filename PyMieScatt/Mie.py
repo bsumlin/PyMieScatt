@@ -274,12 +274,12 @@ def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, interpolate=False, asDict=False)
   for i in range(_length):
     Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = AutoMieQ(m,wavelength,dp[i],nMedium)
 
-  Bext = trapz(Q_ext*aSDn)
-  Bsca = trapz(Q_sca*aSDn)
+  Bext = trapz(Q_ext*aSDn,dp)
+  Bsca = trapz(Q_sca*aSDn,dp)
   Babs = Bext-Bsca
-  Bback = trapz(Q_back*aSDn)
-  Bratio = trapz(Q_ratio*aSDn)
-  bigG = trapz(g*Q_sca*aSDn)/trapz(Q_sca*aSDn)
+  Bback = trapz(Q_back*aSDn,dp)
+  Bratio = trapz(Q_ratio*aSDn,dp)
+  bigG = trapz(g*Q_sca*aSDn,dp)/trapz(Q_sca*aSDn,dp)
   Bpr = Bext - bigG*Bsca
 
   if asDict:
