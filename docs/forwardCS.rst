@@ -122,7 +122,8 @@ Functions for Coated Spheres (Core-Shell Particles)
    S1, S2 : complex
 	The S\ :sub:`1` and S\ :sub:`2` values.
 	
-.. py:Function CoreShellMatrixElements(mCore, mShell, xCore, xShell, mu)
+	
+.. py:Function:: CoreShellMatrixElements(mCore, mShell, xCore, xShell, mu)
 
    Calculates the four nonzero scattering matrix elements S\ :sub:`11`, S\ :sub:`12`, S\ :sub:`33`, and S\ :sub:`34` as functions of *μ*\ =cos(*θ*\ ), where *θ* is the scattering angle:
    

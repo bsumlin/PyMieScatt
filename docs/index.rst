@@ -7,7 +7,7 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-LIP2018 and ELS-XVII Attendees: Welcome! I'll be speaking about PyMieScatt and Mie theory inversions Wednesday afternoon. To continue the discussion after the conference, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
+IAC 2018 Attendees: Welcome! I'll be speaking about PyMieScatt and Mie theory inversions Thursday afternoon at 2:15 PM, abstract 11AP.5. To continue the discussion after the conference, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
 
 Documentation is always under development, but mostly complete. A manuscript communicating the development of the inverse Mie algorithms was published by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. The JQSRT article is `available here <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
 
@@ -21,7 +21,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip.
 
-The current version is 1.7.1. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.7.3. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -30,13 +30,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.7.1 (12 April, 2018)
--------------------------------------------------
+Revision Notes - version 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\_(ツ)_/¯
+------------------------------------------------------------------------------
 
-  - Fixed a bug in :py:func:`MieQ_withWavelengthRange` where the inputs would be affected by in-place math performed within the function. This bug was also present in :py:func:`MieQ_withSizeParameterRange` and has been fixed.
+  - Added :py:func:`CoreShellS1S2` to __init__.py. Also added :py:func:`CoreShellMatrixElements` to the documentation. Thanks Jonathan Taylor for the heads up!
 
 Revision History
 ----------------
+
+- 1.7.1 (12 April, 2018)
+
+  - Fixed a bug in :py:func:`MieQ_withWavelengthRange` where the inputs would be affected by in-place math performed within the function. This bug was also present in :py:func:`MieQ_withSizeParameterRange` and has been fixed.
 
 - 1.7.0 (5 April, 2018)
 
