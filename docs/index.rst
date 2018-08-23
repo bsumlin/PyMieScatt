@@ -30,7 +30,7 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\_(ツ)_/¯
+Revision Notes - version 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\\_(ツ)_/¯
 ------------------------------------------------------------------------------
 
   - Added :py:func:`CoreShellS1S2` to __init__.py. Also added :py:func:`CoreShellMatrixElements` to the documentation. Thanks Jonathan Taylor for the heads up!
