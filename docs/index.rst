@@ -7,8 +7,6 @@
 Online user's guide for the Python Mie Scattering package (PyMieScatt)
 ======================================================================
 
-IAC 2018 Attendees: Welcome! I'll be speaking about PyMieScatt and Mie theory inversions Thursday afternoon at 2:15 PM, abstract 11AP.5. To continue the discussion after the conference, `e-mail me <http://pymiescatt.readthedocs.io/en/latest/#author-contact-information>`_.
-
 Documentation is always under development, but mostly complete. A manuscript communicating the development of the inverse Mie algorithms was published by the `Journal of Quantative Spectroscopy and Radiative Transfer <http://www.sciencedirect.com/science/journal/00224073>`_. The JQSRT article is `available here <https://doi.org/10.1016/j.jqsrt.2017.10.012>`_.
 
 **NOTE TO USERS:** When using PyMieScatt, pay close attention to the units of the your inputs and outputs. Wavelength and particle diameters are always in nanometers, efficiencies are unitless, cross-sections are in nm\ :sup:`2`, coefficients are in Mm\ :sup:`-1`, and size distribution concentration is always in cm\ :sup:`-3`. If you use other units, your outputs may not make sense.
@@ -19,7 +17,7 @@ Documentation is always under development, but mostly complete. A manuscript com
 Install PyMieScatt
 ------------------
 
-NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip.
+NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip. Conda works, too.
 
 The current version is 1.7.3. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
