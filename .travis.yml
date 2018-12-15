@@ -1,0 +1,23 @@
+# run on container-based infrastructure
+sudo: false
+
+language: python
+
+matrix:
+    include:
+    - python: 3.6
+      env:
+        - PYTHON_VERSION="3.6"
+    - python: 3.7
+      sudo: required
+      dist: xenial
+      env:
+        - PYTHON_VERSION="3.7"
+
+install:
+    - pip install flake8
+    - deactivate
+
+script:
+    # test PEP8 compliance
+    - flake8 .
