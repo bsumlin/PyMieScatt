@@ -9,11 +9,11 @@ def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell, asDict=False, asCrossSec
     xCore = np.pi*dCore/wavelength
     xShell = np.pi*dShell/wavelength
     if xCore==xShell:
-        return MieQ(mCore,wavelength,dShell)
+        return MieQ(mCore,wavelength,dShell, asDict, asCrossSection)
     elif xCore==0:
-        return MieQ(mShell,wavelength,dShell)
+        return MieQ(mShell,wavelength,dShell, asDict, asCrossSection)
     elif mCore==mShell:
-        return MieQ(mCore,wavelength,dShell)
+        return MieQ(mCore,wavelength,dShell, asDict, asCrossSection)
     elif xCore>0:
         nmax = np.round(2+xShell+4*(xShell**(1/3)))
         n = np.arange(1,nmax+1)
