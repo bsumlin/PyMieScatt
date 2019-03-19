@@ -46,7 +46,7 @@ Functions for single particles
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
    cext, csca, cabs, g, cpr, cback, cratio : float
-	If asCrossSection==True, :py:func:`MieQ` returns optical cross-sections.
+	If asCrossSection==True, :py:func:`MieQ` returns optical cross-sections with units of nm\ :sup:`2`.
    q : dict
 	If asDict==True, :py:func:`MieQ` returns a dict of the above efficiencies with appropriate keys.
    c : dict
