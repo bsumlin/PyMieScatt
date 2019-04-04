@@ -304,10 +304,10 @@ def ScatteringFunction(m, wavelength, diameter, nMedium=1.0, minAngle=0, maxAngl
     adjust = 1
 
   if space in ['q','qspace','QSPACE','qSpace']:
-    _steps *= 10
+    _steps += 1
     if minAngle==0:
-      minAngle = 1e-5
-    measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
+      minAngle = 1e-2
+    measure = np.linspace(minAngle,maxAngle,_steps)*np.pi/180
     _q = True
   else:
     measure = np.linspace(minAngle,maxAngle,_steps)*adjust
