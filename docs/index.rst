@@ -19,7 +19,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip. Conda works, too.
 
-The current version is 1.7.3. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.7.4. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -28,13 +28,17 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\\_(ツ)_/¯
+Revision Notes - version 1.7.4 (6 May, 2019)
 ------------------------------------------------------------------------------
 
-  - Added :py:func:`CoreShellS1S2` to __init__.py. Also added :py:func:`CoreShellMatrixElements` to the documentation. Thanks Jonathan Taylor for the heads up!
+  - Fixed :py:func:`ScatteringFunction` per discussions with @zcm73400 on GitHub. View the pull request for more info.
 
 Revision History
 ----------------
+
+- 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\\_(ツ)_/¯
+
+  - Added :py:func:`CoreShellS1S2` to __init__.py. Also added :py:func:`CoreShellMatrixElements` to the documentation. Thanks Jonathan Taylor for the heads up!
 
 - 1.7.1 (12 April, 2018)
 
