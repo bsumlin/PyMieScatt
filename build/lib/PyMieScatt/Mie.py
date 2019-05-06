@@ -68,18 +68,19 @@ def Mie_ab(m,x):
   mx = m*x
   nmax = np.round(2+x+4*(x**(1/3)))
   nmx = np.round(max(nmax,np.abs(mx))+16)
-  n = np.arange(1,nmax+1)
-  nu = n + 0.5
+  n = np.arange(1,nmax+1) #
+  nu = n + 0.5 #
 
   sx = np.sqrt(0.5*np.pi*x)
-  px = sx*jv(nu,x)
 
-  p1x = np.append(np.sin(x), px[0:int(nmax)-1])
-  chx = -sx*yv(nu,x)
+  px = sx*jv(nu,x) #
+  p1x = np.append(np.sin(x), px[0:int(nmax)-1]) #
 
-  ch1x = np.append(np.cos(x), chx[0:int(nmax)-1])
-  gsx = px-(0+1j)*chx
-  gs1x = p1x-(0+1j)*ch1x
+  chx = -sx*yv(nu,x) #
+  ch1x = np.append(np.cos(x), chx[0:int(nmax)-1]) #
+  
+  gsx = px-(0+1j)*chx #
+  gs1x = p1x-(0+1j)*ch1x #
 
   # B&H Equation 4.89
   Dn = np.zeros(int(nmx),dtype=complex)
@@ -304,10 +305,12 @@ def ScatteringFunction(m, wavelength, diameter, nMedium=1.0, minAngle=0, maxAngl
     adjust = 1
 
   if space in ['q','qspace','QSPACE','qSpace']:
-    _steps *= 10
+    # _steps *= 10
+    _steps += 1
     if minAngle==0:
       minAngle = 1e-5
-    measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
+    #measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
+    measure = np.linspace(minAngle, maxAngle, _steps)*np.pi/180
     _q = True
   else:
     measure = np.linspace(minAngle,maxAngle,_steps)*adjust
