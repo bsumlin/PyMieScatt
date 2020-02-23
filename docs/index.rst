@@ -19,7 +19,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip. Conda works, too.
 
-The current version is 1.7.4. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.7.5. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -28,13 +28,18 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.7.4 (6 May, 2019)
+Revision Notes - version 1.7.5 (23 February, 2020)
 ------------------------------------------------------------------------------
 
-  - Fixed :py:func:`ScatteringFunction` per discussions with @zcm73400 on GitHub. View the pull request for more info.
+  - Fixed :py:func:`AutoMieQ` per discussions with Gerard van Ewijk. In the case of nMedium!=1, :py:func:`AutoMieQ` was calculating effective n and wavelength, and then passing those parameters to the relevant Mie function. Those functions then re-calculated the effective n and wavelength, leading to errors.
+  - Fixed :py:func:`ContourIntersection_SD` per discussions with Hans Moosmuller. The inputs should now correctly scale for units of Mm-1.
 
 Revision History
 ----------------
+
+- 1.7.4 (6 May, 2019)
+
+  - Fixed :py:func:`ScatteringFunction` per discussions with @zcm73400 on GitHub. View the pull request for more info.
 
 - 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\\_(ツ)_/¯
 
