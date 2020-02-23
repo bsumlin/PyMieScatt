@@ -7,6 +7,7 @@ In addition to over twenty functions for Mie theory calculations, it contains an
   * numpy
   * scipy
   * matplotlib
+  * shapely
 
 ## Documentation
 
