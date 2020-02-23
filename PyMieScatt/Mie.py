@@ -172,12 +172,12 @@ def RayleighMieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSect
 def AutoMieQ(m, wavelength, diameter, nMedium=1.0, crossover=0.01, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#AutoMieQ
   nMedium = nMedium.real
-  m /= nMedium
-  wavelength /= nMedium
-  x = np.pi*diameter/wavelength
-  if x==0:
+  m_eff = m / nMedium
+  wavelength_eff = wavelength / nMedium
+  x_eff = np.pi*diameter/wavelength_eff
+  if x_eff==0:
     return 0, 0, 0, 1.5, 0, 0, 0
-  elif x<crossover:
+  elif x_eff<crossover:
     return RayleighMieQ(m, wavelength, diameter, nMedium, asDict=asDict, asCrossSection=asCrossSection)
   else:
     return MieQ(m, wavelength, diameter, nMedium, asDict=asDict, asCrossSection=asCrossSection)
