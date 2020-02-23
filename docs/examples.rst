@@ -3,6 +3,8 @@
 General Usage tips and Example Scripts
 ======================================
 
+PLEASE NOTE THAT MANY OF THESE EXAMPLES ARE OUTDATED. I WILL UPDATE THEM SOON, I PROMISE.
+
 PyMieScatt's functions are designed to work as a standalone calculator or as part of larger, more customized scripts. This page has a few selected examples which will expand as more innovative use cases appear. If you use PyMieScatt in your research in an unexpected or novel way, please `contact the author <mailto:bsumlin@wustl.edu>`_ to post an example here.
 
 Mie Efficiencies of a Single Homogeneous Particle
