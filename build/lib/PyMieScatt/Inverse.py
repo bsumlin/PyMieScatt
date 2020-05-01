@@ -313,6 +313,8 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,n=None,k=None,n
 
 def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection_SD
+  if Bback is not None:
+    Bback *= 1e6
   if (type(Babs) == np.float64 and Babs == 0.0) or (type(Babs) in [list, tuple, np.ndarray] and Babs[0]==0):
     k = 0.0
   if k == 0.0:
