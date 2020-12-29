@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: PyMieScatt
+Version: 1.7.5.1
+Summary: A collection of forward and inverse Mie solving routines based on Bohren and Huffman's Mie Theory derivations.
+Home-page: http://air.eece.wustl.edu/people/ben-sumlin/
+Author: Benjamin Sumlin
+Author-email: bsumlin@wustl.edu
+License: MIT
+Description: 1.7.5.1 - See `documentation <http://pymiescatt.readthedocs.io/>`_ for update notes.
+Keywords: Mie Rayleigh scattering absorption extinction light refraction
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Scientific/Engineering :: Physics

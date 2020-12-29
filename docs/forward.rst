@@ -474,9 +474,9 @@ These functions compute the angle-dependent scattered field intensities and scat
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step. This angle can be in either degrees, radians, or gradians for some reason. The angles can either be geometrical angle or the qR vector (see `Sorensen, M. Q-space analysis of scattering by particles: a review. J. Quant. Spectrosc. Radiat. Transfer 2013, 131, 3-12 <http://www.sciencedirect.com/science/article/pii/S0022407313000083>`_). Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
-		:math:`${\displaystyle SR(\theta)=|S_1|^2}$`
+		:math:`${\displaystyle SL(\theta)=|S_1|^2}$`
 		
-		:math:`${\displaystyle SL(\theta)=|S_2|^2}$`
+		:math:`${\displaystyle SR(\theta)=|S_2|^2}$`
 		
 		:math:`${\displaystyle SU(\theta)=\frac{1}{2}(SR+SL)}$`
    
@@ -513,9 +513,9 @@ These functions compute the angle-dependent scattered field intensities and scat
    theta : numpy.ndarray
 	An array of the angles used in calculations. Values will be spaced according to **angularResolution**, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
    SL : numpy.ndarray
-	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **theta** array.
+	An array of the scattered intensity of left-polarized (perpendicular) light. Same size as the **theta** array.
    SR : numpy.ndarray
-	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **theta** array.
+	An array of the scattered intensity of right-polarized (parallel) light. Same size as the **theta** array.
    SU : numpy.ndarray
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 
