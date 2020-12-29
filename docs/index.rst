@@ -19,7 +19,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip. Conda works, too.
 
-The current version is 1.7.6. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.8.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -28,10 +28,13 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.7.6 (32 April, 2020)
+Revision Notes - version 1.8.0 (29 December, 2020)
 ------------------------------------------------------------------------------
 
-  - Still debugging :py:func:`ContourIntersection_SD` per discussions with Professor Moosmuller. I recommend examining the source code if you have any questions.
+  - Tentatively fixed :py:func:`Mie_SD` per discussions with Kyle Gorkowski. Added a new optional parameter `SMPS` which informs the algorithm how the size distribution is reported. PyMieScatt assumes `SMPS` is `True`, that is, that the reported size distribution came from a laboratory measurement and not a mathematically-generated size distribution. Set `SMPS` to `False` if you constructed your distribution from an analytical expression.
+  - Following from that, :py:func:`Mie_Lognormal` is hardwired to use the analytical form and no additional input is needed.
+  - Also following from the fix to :py:func:`Mie_SD`, the inverse algorithms :py:func:`ContourIntersection_SD` and :py:func:`SurveyIteration_SD` now have the optional parameter `SMPS`, with the same assumptions as :py:func:`Mie_SD`. See the individual function documentation for more information.
+  - This fix does not apply to the scattered intensity function :py:func:`SF_SD`.
 
 Revision History
 ----------------
