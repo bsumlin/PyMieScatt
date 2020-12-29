@@ -252,7 +252,7 @@ def AutoMie_ab(m,x):
   else:
     return Mie_ab(m,x)
 
-def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, interpolate=False, asDict=False):
+def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, SMPS=True, interpolate=False, asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_SD
   nMedium = nMedium.real
   m /= nMedium
@@ -275,13 +275,22 @@ def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, interpolate=False, asDict=False)
   for i in range(_length):
     Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = AutoMieQ(m,wavelength,dp[i],nMedium)
 
-  Bext = trapz(Q_ext*aSDn,dp)
-  Bsca = trapz(Q_sca*aSDn,dp)
-  Babs = Bext-Bsca
-  Bback = trapz(Q_back*aSDn,dp)
-  Bratio = trapz(Q_ratio*aSDn,dp)
-  bigG = trapz(g*Q_sca*aSDn,dp)/trapz(Q_sca*aSDn,dp)
-  Bpr = Bext - bigG*Bsca
+  if SMPS:
+    Bext = np.sum(Q_ext*aSDn)
+    Bsca = np.sum(Q_sca*aSDn)
+    Babs = Bext-Bsca
+    Bback = np.sum(Q_back*aSDn)
+    Bratio = np.sum(Q_ratio*aSDn)
+    bigG = np.sum(g*Q_sca*aSDn)/np.sum(Q_sca*aSDn)
+    Bpr = Bext - bigG*Bsca
+  else:
+    Bext = trapz(Q_ext*aSDn,dp)
+    Bsca = trapz(Q_sca*aSDn,dp)
+    Babs = Bext-Bsca
+    Bback = trapz(Q_back*aSDn,dp)
+    Bratio = trapz(Q_ratio*aSDn,dp)
+    bigG = trapz(g*Q_sca*aSDn,dp)/trapz(Q_sca*aSDn,dp)
+    Bpr = Bext - bigG*Bsca
 
   if asDict:
     return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, G=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio)
@@ -510,7 +519,7 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,nMedium=1.0, 
     ndp = numberOfParticles*ithPart(1,dp,geoMean,geoStdDev)
   if ndp[-1]>np.max(ndp)/100 or ndp[0]>np.max(ndp)/100:
     warnings.warn("Warning: distribution may not be compact on the specified interval. Consider using a higher upper bound.")
-  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_SD(m,wavelength,dp,ndp)
+  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_SD(m,wavelength,dp,ndp,SMPS=False)
   if returnDistribution:
     if decomposeMultimodal:
       if asDict==True:
