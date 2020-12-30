@@ -5,6 +5,7 @@ from scipy.special import jv, yv
 from PyMieScatt.Mie import MieQ, MiePiTau
 import warnings
 
+
 def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell,nMedium=1.0,asDict=False, asCrossSection=False):
 #    http://pymiescatt.readthedocs.io/en/latest/forwardCS.html#MieQCoreShell
     if(nMedium != 1.0):
@@ -15,12 +16,19 @@ def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell,nMedium=1.0,asDict=False,
     xCore = np.pi*dCore/wavelength
     xShell = np.pi*dShell/wavelength
     if xCore==xShell:
-        return MieQ(mCore,wavelength,dShell)
+        return MieQ(mCore,wavelength,dShell,nMedium=nMedium, asDict=asDict, asCrossSection=asCrossSection)
     elif xCore==0:
-        return MieQ(mShell,wavelength,dShell)
+        return MieQ(mShell,wavelength,dShell,nMedium=nMedium, asDict=asDict, asCrossSection=asCrossSection)
     elif mCore==mShell:
-        return MieQ(mCore,wavelength,dShell)
+        return MieQ(mCore,wavelength,dShell,nMedium=nMedium, asDict=asDict, asCrossSection=asCrossSection)
     elif xCore>0:
+        nMedium = nMedium.real
+        # wavelength /= nMedium  # The choice was either to redefine the wavelength, or the xCore & xShell, I left just for indication, your call.
+        mCore /= nMedium
+        mShell /= nMedium
+        xCore = np.pi*dCore * nMedium/wavelength # Not ideal to redefine xCore and xShell, but it seems need in order to keep MieQ conditions in place
+        xShell = np.pi*dShell * nMedium/wavelength
+        
         nmax = np.round(2+xShell+4*(xShell**(1/3)))
         n = np.arange(1,nmax+1)
         n1 = 2*n+1
