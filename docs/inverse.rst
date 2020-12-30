@@ -108,7 +108,7 @@ For more details on the contour intersection inversion method, please see Sumlin
    kMax : float, optional
 	The maximum value of *k* to search.
    SMPS : bool, optional
-	The switch determining the source of the size distribution data. Omit or set to `True` for laboratory measurements, set to `False` for analytical distributions.
+	The switch determining the source of the size distribution data. Omit or set to ``True`` for laboratory measurements, set to ``False`` for analytical distributions.
    Bback : float or list-like, optional
 	The backscatter coefficient, or optionally, a list, tuple, or numpy.ndarray of backscatter coefficient and its associated error.
    gridPoints : int, optional
@@ -209,7 +209,7 @@ The survey-iteration inversion algorithm is discussed in detail in the Supplemen
    tolerance : float, optional
 	The maximum error allowed in forward Mie calculations of retrieved indices.
    SMPS : bool, optional
-	The switch determining the source of the size distribution data. Omit or set to `True` for laboratory measurements, set to `False` for analytical distributions.
+	The switch determining the source of the size distribution data. Omit or set to ``True`` for laboratory measurements, set to ``False`` for analytical distributions.
 	
    **Returns**
 

@@ -384,7 +384,7 @@ There is an important distinction in how the size distribution is reported from 
    nMedium : float, optional
 	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
    SMPS : bool, optional
-	The switch determining the source of the size distribution data. Omit or set to `True` for laboratory measurements, set to `False` for analytical distributions.
+	The switch determining the source of the size distribution data. Omit or set to ``True`` for laboratory measurements, set to ``False`` for analytical distributions.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
 	
