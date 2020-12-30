@@ -3,9 +3,15 @@
 import numpy as np
 from scipy.special import jv, yv
 from PyMieScatt.Mie import MieQ, MiePiTau
+import warnings
 
-def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell, asDict=False, asCrossSection=False):
+def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell,nMedium=1.0,asDict=False, asCrossSection=False):
 #    http://pymiescatt.readthedocs.io/en/latest/forwardCS.html#MieQCoreShell
+    if(nMedium != 1.0):
+        warnings.warn("Note: the use of nMedium was incorporated naievely and the result should be carefully scrutinized.")
+        mCore /= nMedium
+        mShell /= nMedium
+        wavelength /= nMedium
     xCore = np.pi*dCore/wavelength
     xShell = np.pi*dShell/wavelength
     if xCore==xShell:
@@ -43,7 +49,7 @@ def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell, asDict=False, asCrossSec
             cabs = css*qabs
             cpr = css*qpr
             cback = css*qback
-            cratio = css*qratio
+            cratio = qratio
             if asDict:
                 return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
             else:
@@ -112,8 +118,13 @@ def CoreShell_ab(mCore,mShell,xCore,xShell):
 
     return an, bn
 
-def CoreShellScatteringFunction(mCore,mShell,wavelength,dCore,dShell,minAngle=0, maxAngle=180, angularResolution=0.5, normed=False):
+def CoreShellScatteringFunction(mCore,mShell,wavelength,dCore,dShell,nMedium=1.0, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False):
 #    http://pymiescatt.readthedocs.io/en/latest/forwardCS.html#CoreShellScatteringFunction
+    if(nMedium != 1.0):
+        warnings.warn("Note: the use of nMedium was incorporated naievely and the result should be carefully scrutinized.")
+        mCore /= nMedium
+        mShell /= nMedium
+        wavelength /= nMedium
     xCore = np.pi*dCore/wavelength
     xShell = np.pi*dShell/wavelength
     theta = np.linspace(minAngle,maxAngle,int((maxAngle-minAngle)/angularResolution))*np.pi/180
