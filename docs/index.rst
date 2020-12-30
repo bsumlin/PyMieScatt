@@ -31,10 +31,10 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 Revision Notes - version 1.8.0 (29 December, 2020)
 ------------------------------------------------------------------------------
 
-  - Tentatively fixed :py:func:`Mie_SD` per discussions with Kyle Gorkowski. Added a new optional parameter `SMPS` which informs the algorithm how the size distribution is reported. PyMieScatt assumes `SMPS` is `True`, that is, that the reported size distribution came from a laboratory measurement and not a mathematically-generated size distribution. Set `SMPS` to `False` if you constructed your distribution from an analytical expression.
+  - Tentatively fixed :py:func:`Mie_SD` per discussions with Kyle Gorkowski. Added a new optional parameter ``SMPS`` which informs the algorithm how the size distribution is reported. PyMieScatt assumes ``SMPS`` is ``True``, that is, that the reported size distribution came from a laboratory measurement and not a mathematically-generated size distribution. Set ``SMPS`` to ``False`` if you constructed your distribution from an analytical expression.
   - Following from that, :py:func:`Mie_Lognormal` is hardwired to use the analytical form and no additional input is needed.
-  - Also following from the fix to :py:func:`Mie_SD`, the inverse algorithms :py:func:`ContourIntersection_SD` and :py:func:`SurveyIteration_SD` now have the optional parameter `SMPS`, with the same assumptions as :py:func:`Mie_SD`. See the individual function documentation for more information.
-  - This fix does not apply to the scattered intensity function :py:func:`SF_SD`.
+  - Also following from the fix to :py:func:`Mie_SD`, the inverse algorithms :py:func:`ContourIntersection_SD` and :py:func:`SurveyIteration_SD` now have the optional parameter ``SMPS``, with the same assumptions as :py:func:`Mie_SD`. See the individual function documentation for more information.
+  - This fix does not apply to the scattered intensity function :py:func:`SF_SD`, since the scattering intensity function is additive in the way it is formulated here.
 
 Revision History
 ----------------
