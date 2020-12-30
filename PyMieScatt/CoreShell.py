@@ -10,9 +10,6 @@ def MieQCoreShell(mCore,mShell,wavelength,dCore,dShell,nMedium=1.0,asDict=False,
 #    http://pymiescatt.readthedocs.io/en/latest/forwardCS.html#MieQCoreShell
     if(nMedium != 1.0):
         warnings.warn("Note: the use of nMedium was incorporated naievely and the result should be carefully scrutinized.")
-        mCore /= nMedium
-        mShell /= nMedium
-        wavelength /= nMedium
     xCore = np.pi*dCore/wavelength
     xShell = np.pi*dShell/wavelength
     if xCore==xShell:
