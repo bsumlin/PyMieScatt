@@ -46,7 +46,7 @@ Functions for single particles
    qext, qsca, qabs, g, qpr, qback, qratio : float
 	The Mie efficencies described above.
    cext, csca, cabs, g, cpr, cback, cratio : float
-	If asCrossSection==True, :py:func:`MieQ` returns optical cross-sections.
+	If asCrossSection==True, :py:func:`MieQ` returns optical cross-sections with units of nm\ :sup:`2`.
    q : dict
 	If asDict==True, :py:func:`MieQ` returns a dict of the above efficiencies with appropriate keys.
    c : dict
@@ -364,8 +364,9 @@ The bulk asymmetry parameter *G* is calculated by:
 
 		:math:`${\displaystyle G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}}$`
 		
+There is an important distinction in how the size distribution is reported from an instrument vs. the way it is computed analytically. From a laboratory instruments such as an SMPS, total N is the sum of the concentrations in each bin. When computed analytically, total N is the integral area. This can cause issues when dealing with laboratory data, and so a new parameter ``SMPS`` is introduced as of version 1.8.0. ``SMPS`` is assumed ``True``, that is, **PyMieScatt assumes laboratory measurements by default**. Set this parameter to ``False`` when dealing with theoretical data from analytical distribution functions.
 
-.. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, nMedium=1.0, asDict=False])
+.. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, nMedium=1.0, SMPS=True, asDict=False])
 
    Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a continuous, compactly-supported distribution.
    
@@ -382,6 +383,8 @@ The bulk asymmetry parameter *G* is calculated by:
 	The number concentrations of the size distribution bins. Must be the same size as sizeDistributionDiameterBins.
    nMedium : float, optional
 	The refractive index of the surrounding medium. This must be positive, nonzero, and real. Any imaginary part will be discarded.
+   SMPS : bool, optional
+	The switch determining the source of the size distribution data. Omit or set to ``True`` for laboratory measurements, set to ``False`` for analytical distributions.
    asDict : bool, optional
 	If specified and set to True, returns the results as a dict.
 	
@@ -471,9 +474,9 @@ These functions compute the angle-dependent scattered field intensities and scat
 
    Creates arrays for plotting the angular scattering intensity functions in theta-space with parallel, perpendicular, and unpolarized light. Also includes an array of the angles for each step. This angle can be in either degrees, radians, or gradians for some reason. The angles can either be geometrical angle or the qR vector (see `Sorensen, M. Q-space analysis of scattering by particles: a review. J. Quant. Spectrosc. Radiat. Transfer 2013, 131, 3-12 <http://www.sciencedirect.com/science/article/pii/S0022407313000083>`_). Uses :py:func:`MieS1S2` to compute S\ :sub:`1` and S\ :sub:`2`, then computes parallel, perpendicular, and unpolarized intensities by
    
-		:math:`${\displaystyle SR(\theta)=|S_1|^2}$`
+		:math:`${\displaystyle SL(\theta)=|S_1|^2}$`
 		
-		:math:`${\displaystyle SL(\theta)=|S_2|^2}$`
+		:math:`${\displaystyle SR(\theta)=|S_2|^2}$`
 		
 		:math:`${\displaystyle SU(\theta)=\frac{1}{2}(SR+SL)}$`
    
@@ -510,9 +513,9 @@ These functions compute the angle-dependent scattered field intensities and scat
    theta : numpy.ndarray
 	An array of the angles used in calculations. Values will be spaced according to **angularResolution**, and the size of the array will be *(maxAngle-minAngle)/angularResolution*.
    SL : numpy.ndarray
-	An array of the scattered intensity of left-polarized (parallel) light. Same size as the **theta** array.
+	An array of the scattered intensity of left-polarized (perpendicular) light. Same size as the **theta** array.
    SR : numpy.ndarray
-	An array of the scattered intensity of right-polarized (perpendicular) light. Same size as the **theta** array.
+	An array of the scattered intensity of right-polarized (parallel) light. Same size as the **theta** array.
    SU : numpy.ndarray
 	An array of the scattered intensity of unpolarized light, which is the average of SL and SR. Same size as the **theta** array.
 

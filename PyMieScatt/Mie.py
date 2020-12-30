@@ -68,18 +68,19 @@ def Mie_ab(m,x):
   mx = m*x
   nmax = np.round(2+x+4*(x**(1/3)))
   nmx = np.round(max(nmax,np.abs(mx))+16)
-  n = np.arange(1,nmax+1)
-  nu = n + 0.5
+  n = np.arange(1,nmax+1) #
+  nu = n + 0.5 #
 
   sx = np.sqrt(0.5*np.pi*x)
-  px = sx*jv(nu,x)
 
-  p1x = np.append(np.sin(x), px[0:int(nmax)-1])
-  chx = -sx*yv(nu,x)
+  px = sx*jv(nu,x) #
+  p1x = np.append(np.sin(x), px[0:int(nmax)-1]) #
 
-  ch1x = np.append(np.cos(x), chx[0:int(nmax)-1])
-  gsx = px-(0+1j)*chx
-  gs1x = p1x-(0+1j)*ch1x
+  chx = -sx*yv(nu,x) #
+  ch1x = np.append(np.cos(x), chx[0:int(nmax)-1]) #
+  
+  gsx = px-(0+1j)*chx #
+  gs1x = p1x-(0+1j)*ch1x #
 
   # B&H Equation 4.89
   Dn = np.zeros(int(nmx),dtype=complex)
@@ -171,12 +172,12 @@ def RayleighMieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSect
 def AutoMieQ(m, wavelength, diameter, nMedium=1.0, crossover=0.01, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#AutoMieQ
   nMedium = nMedium.real
-  m /= nMedium
-  wavelength /= nMedium
-  x = np.pi*diameter/wavelength
-  if x==0:
+  m_eff = m / nMedium
+  wavelength_eff = wavelength / nMedium
+  x_eff = np.pi*diameter/wavelength_eff
+  if x_eff==0:
     return 0, 0, 0, 1.5, 0, 0, 0
-  elif x<crossover:
+  elif x_eff<crossover:
     return RayleighMieQ(m, wavelength, diameter, nMedium, asDict=asDict, asCrossSection=asCrossSection)
   else:
     return MieQ(m, wavelength, diameter, nMedium, asDict=asDict, asCrossSection=asCrossSection)
@@ -251,7 +252,7 @@ def AutoMie_ab(m,x):
   else:
     return Mie_ab(m,x)
 
-def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, interpolate=False, asDict=False):
+def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, SMPS=True, interpolate=False, asDict=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_SD
   nMedium = nMedium.real
   m /= nMedium
@@ -274,13 +275,22 @@ def Mie_SD(m, wavelength, dp, ndp, nMedium=1.0, interpolate=False, asDict=False)
   for i in range(_length):
     Q_ext[i], Q_sca[i], Q_abs[i], g[i], Q_pr[i], Q_back[i], Q_ratio[i] = AutoMieQ(m,wavelength,dp[i],nMedium)
 
-  Bext = trapz(Q_ext*aSDn,dp)
-  Bsca = trapz(Q_sca*aSDn,dp)
-  Babs = Bext-Bsca
-  Bback = trapz(Q_back*aSDn,dp)
-  Bratio = trapz(Q_ratio*aSDn,dp)
-  bigG = trapz(g*Q_sca*aSDn,dp)/trapz(Q_sca*aSDn,dp)
-  Bpr = Bext - bigG*Bsca
+  if SMPS:
+    Bext = np.sum(Q_ext*aSDn)
+    Bsca = np.sum(Q_sca*aSDn)
+    Babs = Bext-Bsca
+    Bback = np.sum(Q_back*aSDn)
+    Bratio = np.sum(Q_ratio*aSDn)
+    bigG = np.sum(g*Q_sca*aSDn)/np.sum(Q_sca*aSDn)
+    Bpr = Bext - bigG*Bsca
+  else:
+    Bext = trapz(Q_ext*aSDn,dp)
+    Bsca = trapz(Q_sca*aSDn,dp)
+    Babs = Bext-Bsca
+    Bback = trapz(Q_back*aSDn,dp)
+    Bratio = trapz(Q_ratio*aSDn,dp)
+    bigG = trapz(g*Q_sca*aSDn,dp)/trapz(Q_sca*aSDn,dp)
+    Bpr = Bext - bigG*Bsca
 
   if asDict:
     return dict(Bext=Bext, Bsca=Bsca, Babs=Babs, G=bigG, Bpr=Bpr, Bback=Bback, Bratio=Bratio)
@@ -304,10 +314,12 @@ def ScatteringFunction(m, wavelength, diameter, nMedium=1.0, minAngle=0, maxAngl
     adjust = 1
 
   if space in ['q','qspace','QSPACE','qSpace']:
-    _steps *= 10
+    # _steps *= 10
+    _steps += 1
     if minAngle==0:
       minAngle = 1e-5
-    measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
+    #measure = np.logspace(np.log10(minAngle),np.log10(maxAngle),_steps)*np.pi/180
+    measure = np.linspace(minAngle, maxAngle, _steps)*np.pi/180
     _q = True
   else:
     measure = np.linspace(minAngle,maxAngle,_steps)*adjust
@@ -507,7 +519,7 @@ def Mie_Lognormal(m,wavelength,geoStdDev,geoMean,numberOfParticles,nMedium=1.0, 
     ndp = numberOfParticles*ithPart(1,dp,geoMean,geoStdDev)
   if ndp[-1]>np.max(ndp)/100 or ndp[0]>np.max(ndp)/100:
     warnings.warn("Warning: distribution may not be compact on the specified interval. Consider using a higher upper bound.")
-  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_SD(m,wavelength,dp,ndp)
+  Bext, Bsca, Babs, bigG, Bpr, Bback, Bratio = Mie_SD(m,wavelength,dp,ndp,SMPS=False)
   if returnDistribution:
     if decomposeMultimodal:
       if asDict==True:

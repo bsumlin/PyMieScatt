@@ -1,9 +1,11 @@
 Functions for Coated Spheres (Core-Shell Particles)
 ===================================================
 
-.. py:Function:: MieQCoreShell(mCore, mShell, wavelength, dCore, dShell[, asDict=False, asCrossSection=False])
+.. py:Function:: MieQCoreShell(mCore, mShell, wavelength, dCore, dShell[, nMedium=1.0, asDict=False, asCrossSection=False])
 
    Compute Mie efficencies *Q* and asymmetry parameter *g* of a single, coated particle. Uses :py:func:`CoreShell_ab` to calculate a\ :sub:`n` and b\ :sub:`n` , and then calculates Q\ :sub:`i` following closely from the original BHMIE.
+
+   The code will return a warning if a non-unity nMedium is specified, since it was added naively. The mathematics to compute the effective index is the same as in the homogeneous particle functions.
    
    **Parameters**
    
@@ -18,6 +20,8 @@ Functions for Coated Spheres (Core-Shell Particles)
 	The diameter of the core, in nanometers.
    dShell : float
 	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
+   nMedium : float, optional
+	The refractive index of the medium.  This must be positive, nonzero, and real. Any imaginary part will be discarded.
    asDict : bool, optional
 	If True, returns the results as a dict.
    asCrossSection : bool, optional
@@ -64,7 +68,7 @@ Functions for Coated Spheres (Core-Shell Particles)
    :math:`a_n`, :math:`b_n` : numpy.ndarray
 	Arrays of size n\ :sub:`max` = 2+x+4x\ :sup:`1/3`
 
-.. py:Function:: CoreShellScatteringFunction(mCore, mShell, wavelength, dCore, dShell[, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
+.. py:Function:: CoreShellScatteringFunction(mCore, mShell, wavelength, dCore, dShell[, nMedium=1.0, minAngle=0, maxAngle=180, angularResolution=0.5, normed=False])
    
    Computes the angle-dependent scattering intensity of a coated sphere.
    
@@ -81,8 +85,16 @@ Functions for Coated Spheres (Core-Shell Particles)
 	The diameter of the core, in nanometers.
    dShell : float
 	The diameter of the shell, in nanomaters. This is equal to the total diameter of the particle.
-   thetaSteps : int
-	The number of points between 0 and 180 degrees to use in calculations.
+   nMedium : float, optional
+	The refractive index of the medium.  This must be positive, nonzero, and real. Any imaginary part will be discarded.
+   minAngle : int, optional
+	The minimum scattering angle returned by the calculations.
+   maxAngle : int, optional
+	The maximum scattering angle returned by the calculations.
+   angularResolution : float, optional
+	The angular resolution returned by the calculations.
+   normed : bool, optional
+	Set to ``True`` to return normalized results.
 
    **Returns**
    

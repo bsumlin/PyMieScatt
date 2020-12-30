@@ -19,7 +19,7 @@ Install PyMieScatt
 
 NOTE: You must install `Shapely <https://shapely.readthedocs.io/>`_ first, preferably from GitHub. Users have reported difficulty installing it with pip. Conda works, too.
 
-The current version is 1.7.3. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
+The current version is 1.8.0. You can install PyMieScatt from `The Python Package Index (PyPI) <https://pypi.python.org/pypi/PyMieScatt>`_ with ::
 
    $ pip install PyMieScatt
 
@@ -28,13 +28,30 @@ or from `GitHub <https://github.com/bsumlin/PyMieScatt>`_. Clone the repository 
 
    $ python setup.py install
 
-Revision Notes - version 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\\_(ツ)_/¯
+Revision Notes - version 1.8.1 (29 December, 2020)
 ------------------------------------------------------------------------------
 
-  - Added :py:func:`CoreShellS1S2` to __init__.py. Also added :py:func:`CoreShellMatrixElements` to the documentation. Thanks Jonathan Taylor for the heads up!
+  - Tentatively fixed :py:func:`Mie_SD` per discussions with Kyle Gorkowski. Added a new optional parameter ``SMPS`` which informs the algorithm how the size distribution is reported. PyMieScatt assumes ``SMPS`` is ``True``, that is, that the reported size distribution came from a laboratory measurement and not a mathematically-generated size distribution. Set ``SMPS`` to ``False`` if you constructed your distribution from an analytical expression.
+  - Following from that, :py:func:`Mie_Lognormal` is hardwired to use the analytical form and no additional input is needed.
+  - Also following from the fix to :py:func:`Mie_SD`, the inverse algorithms :py:func:`ContourIntersection_SD` and :py:func:`SurveyIteration_SD` now have the optional parameter ``SMPS``, with the same assumptions as :py:func:`Mie_SD`. See the individual function documentation for more information.
+  - This fix does not apply to the scattered intensity function :py:func:`SF_SD`, since the scattering intensity function is additive in the way it is formulated here.
+  - 1.8.1 minor update: fixed a bug in ``cRatio`` where the result was off by a factor of the physical cross-sectional area (thank you, TalfanBarnie on Github) and added ``nMedium`` to the core-shell functions (thank you, willmendil on Github).
 
 Revision History
 ----------------
+
+- 1.7.5 (23 February, 2020)
+
+  - Fixed :py:func:`AutoMieQ` per discussions with Gerard van Ewijk. In the case of nMedium!=1, :py:func:`AutoMieQ` was calculating effective n and wavelength, and then passing those parameters to the relevant Mie function. Those functions then re-calculated the effective n and wavelength, leading to errors.
+  - Fixed :py:func:`ContourIntersection_SD` per discussions with Hans Moosmuller. The inputs should now correctly scale for units of Mm-1.
+
+- 1.7.4 (6 May, 2019)
+
+  - Fixed :py:func:`ScatteringFunction` per discussions with @zcm73400 on GitHub. View the pull request for more info.
+
+- 1.7.3 (23 August, 2018) - 1.7.2 was skipped ¯\\_(ツ)_/¯
+
+  - Added :py:func:`CoreShellS1S2` to __init__.py. Also added :py:func:`CoreShellMatrixElements` to the documentation. Thanks Jonathan Taylor for the heads up!
 
 - 1.7.1 (12 April, 2018)
 

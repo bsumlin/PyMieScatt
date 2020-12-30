@@ -78,7 +78,7 @@ For more details on the contour intersection inversion method, please see Sumlin
 	- 'LeftSpine', 'RightSpine', 'BottomSpine', 'TopSpine' - graph spines;
 	- 'XAxis', 'YAxis' - the individual matplotlib axis objects.
 
-.. py:function:: ContourIntersection_SD(Bsca, Babs, wavelength, dp, ndp[, n=None, k=None, nMin=1, nMax=3, kMin=0.00001, kMax=1, Bback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
+.. py:function:: ContourIntersection_SD(Bsca, Babs, wavelength, dp, ndp[, n=None, k=None, nMin=1, nMax=3, kMin=0.00001, kMax=1, SMPS=True, Bback=None, gridPoints=100, interpolationFactor=2, maxError=0.005, fig=None, ax=None, axisOption=0])
 
    Computes effective complex *m = n+ik* from a measured or constructed size distribution (in cm\ :sup:`-3`), incident wavelength (in nm), and scattering and absorption coefficients (in Mm\ :sup:`-1`). Optionally, backscatter coefficient may be specified to constrain the problem to produce a unique solution.
    
@@ -107,6 +107,8 @@ For more details on the contour intersection inversion method, please see Sumlin
 	The minimum value of *k* to search.
    kMax : float, optional
 	The maximum value of *k* to search.
+   SMPS : bool, optional
+	The switch determining the source of the size distribution data. Omit or set to ``True`` for laboratory measurements, set to ``False`` for analytical distributions.
    Bback : float or list-like, optional
 	The backscatter coefficient, or optionally, a list, tuple, or numpy.ndarray of backscatter coefficient and its associated error.
    gridPoints : int, optional
@@ -187,7 +189,7 @@ The survey-iteration inversion algorithm is discussed in detail in the Supplemen
    resultAbsErr : list-like
 	The relative error in absorption efficiency for each retrieved *m*.
 
-.. py:function:: SurveyIteration_SD(Bsca, Babs, wavelength, dp, ndp[, tolerance=0.0005])
+.. py:function:: SurveyIteration_SD(Bsca, Babs, wavelength, dp, ndp[, tolerance=0.0005, SMPS=True])
 
    Computes complex *m=n+ik* for given scattering and absorption coefficients, incident wavelength, and particle diameter.
    
@@ -206,6 +208,8 @@ The survey-iteration inversion algorithm is discussed in detail in the Supplemen
 	The particle concentrations (in cm\ :sup:`-3`) corresponding to each of the bins in **dp**.
    tolerance : float, optional
 	The maximum error allowed in forward Mie calculations of retrieved indices.
+   SMPS : bool, optional
+	The switch determining the source of the size distribution data. Omit or set to ``True`` for laboratory measurements, set to ``False`` for analytical distributions.
 	
    **Returns**
 

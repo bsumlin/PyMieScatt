@@ -44,7 +44,7 @@ def Inversion(Qsca,Qabs,wavelength,diameter,nMin=1,nMax=3,kMin=0.001,kMax=1,scat
 
   return solution
 
-def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatteringPrecision=0.001,absorptionPrecision=0.001,spaceSize=40,interp=2):
+def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,SMPS=True,nMin=1,nMax=3,kMin=0,kMax=1,scatteringPrecision=0.001,absorptionPrecision=0.001,spaceSize=40,interp=2):
   dp = coerceDType(dp)
   ndp = coerceDType(ndp)
 
@@ -55,7 +55,7 @@ def Inversion_SD(Bsca,Babs,wavelength,dp,ndp,nMin=1,nMax=3,kMin=0,kMax=1,scatter
 
   for ni,n in enumerate(nRange):
     for ki,k in enumerate(kRange):
-      _derp = fastMie_SD(n+(1j*k),wavelength,dp,ndp)
+      _derp = fastMie_SD(n+(1j*k),wavelength,dp,ndp,_smps=SMPS)
       scaSpace[ni][ki] = _derp[0]
       absSpace[ni][ki] = _derp[1]
   if interp is not None:
@@ -311,8 +311,10 @@ def ContourIntersection(Qsca,Qabs,wavelength,diameter,Qback=None,n=None,k=None,n
   
   return solutionSet,forwardCalculations,solutionErrors, fig, ax, graphElements
 
-def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
+def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax=3,kMin=0.00001,kMax=1,SMPS=True,Bback=None,gridPoints=60,interpolationFactor=2,maxError=0.005,fig=None,ax=None,axisOption=0):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#ContourIntersection_SD
+  if Bback is not None:
+    Bback *= 1e6
   if (type(Babs) == np.float64 and Babs == 0.0) or (type(Babs) in [list, tuple, np.ndarray] and Babs[0]==0):
     k = 0.0
   if k == 0.0:
@@ -367,7 +369,7 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax
     s, a, b = [], [], []
     for _k in kRange:
       m = _n+_k*1.0j
-      _Bsca,_Babs,_Bback = fastMie_SD(m,wavelength,dp,ndp)
+      _Bsca,_Babs,_Bback = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
       s.append(_Bsca)
       a.append(_Babs)
       b.append(_Bback)
@@ -454,7 +456,7 @@ def ContourIntersection_SD(Bsca,Babs,wavelength,dp,ndp,n=None,k=None,nMin=1,nMax
 
   forwardCalculations = []
   for s in solutionSet:
-    _s,_a,_ = fastMie_SD(s,wavelength,dp,ndp)
+    _s,_a,_ = fastMie_SD(s,wavelength,dp,ndp,_smps=SMPS)
     forwardCalculations.append([_s,_a])
   solutionErrors = []
   for f in forwardCalculations:
@@ -687,7 +689,7 @@ def SurveyIteration(Qsca,Qabs,wavelength,diameter,tolerance=0.0005):
 
   return resultM, resultScaErr, resultAbsErr
 
-def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
+def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005,SMPS=True):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#IterativeInversion_SD
   dp = coerceDType(dp)
   ndp = coerceDType(ndp)
@@ -703,7 +705,7 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
   for m in initial_m:
     nResolution = 100
     kResolution = 1000
-    trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+    trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
 
     scaError = error(Bsca,trialBsca)
     absError = error(Babs,trialBabs)
@@ -716,7 +718,7 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
           break
         scaError_prev = scaError
         m = m+nStep
-        trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+        trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
         scaError = error(Bsca,trialBsca)
         if scaError_prev - scaError < 0:
           nStep *= -1
@@ -730,7 +732,7 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
           break
         absError_prev = absError
         m = m + kStep
-        trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+        trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
         absError = error(Babs,trialBabs)
         if absError_prev-absError < 0:
           kStep *= -1
@@ -744,7 +746,7 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
         break
       scaError_prev = scaError
       m += nStep
-      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
       scaError = error(Bsca,trialBsca)
       if scaError_prev - scaError < 0:
         nStep *= -1
@@ -758,7 +760,7 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
         break
       absError_prev = absError
       m += kStep
-      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
       absError = error(Babs,trialBabs)
       if absError_prev - absError < 0:
         kStep *= -1
@@ -772,13 +774,13 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
         break
       scaError_prev = scaError
       m += nStep
-      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+      trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
       scaError = error(Bsca,trialBsca)
       if scaError_prev - scaError < 0:
         nStep *= -1
         flippyFloppy += 1
 
-    trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp)
+    trialBsca,trialBabs,_ = fastMie_SD(m,wavelength,dp,ndp,_smps=SMPS)
     scaError = error(Bsca,trialBsca)
     absError = error(Babs,trialBabs)
     resultM.append(m)
@@ -790,7 +792,7 @@ def SurveyIteration_SD(Bsca,Babs,wavelength,dp,ndp,tolerance=0.0005):
   else:
     return resultM, resultScaErr, resultAbsErr
 
-def fastMie_SD(m, wavelength, dp, ndp):
+def fastMie_SD(m, wavelength, dp, ndp, _smps=True):
 #  http://pymiescatt.readthedocs.io/en/latest/inverse.html#fastMie_SD
   dp = coerceDType(dp)
   ndp = coerceDType(ndp)
@@ -804,9 +806,14 @@ def fastMie_SD(m, wavelength, dp, ndp):
   for i in range(_length):
     Q_sca[i],Q_abs[i],Q_back[i] = fastMieQ(m,wavelength,dp[i])
 
-  Bsca = trapz(Q_sca*aSDn,dp)
-  Babs = trapz(Q_abs*aSDn,dp)
-  Bback = trapz(Q_back*aSDn,dp)
+  if _smps:
+    Bsca = np.sum(Q_sca*aSDn)
+    Babs = np.sum(Q_abs*aSDn)
+    Bback = np.sum(Q_back*aSDn)
+  else:
+    Bsca = trapz(Q_sca*aSDn,dp)
+    Babs = trapz(Q_abs*aSDn,dp)
+    Bback = trapz(Q_back*aSDn,dp)
 
   return Bsca, Babs, Bback
 
