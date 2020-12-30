@@ -364,7 +364,7 @@ The bulk asymmetry parameter *G* is calculated by:
 
 		:math:`${\displaystyle G=\frac{\int g(d_p)\beta_{sca}(d_p)dd_p}{\int \beta_{sca}(d_p)dd_p}}$`
 		
-There is an important distinction in how the size distribution is reported from an instrument vs. the way it is computed analytically. From a laboratory instruments such as an SMPS, total N is the sum of the concentrations in each bin. When computed analytically, total N is the integral area. This can cause issues when dealing with laboratory data, and so a new parameter ``SMPS`` is introduced as of version 1.8.0. ``SMPS`` is assumed ``True``, that is, PyMieScatt assumes laboratory measurements by default. Set this parameter to ``False`` when dealing with theoretical data from analytical distribution functions.
+There is an important distinction in how the size distribution is reported from an instrument vs. the way it is computed analytically. From a laboratory instruments such as an SMPS, total N is the sum of the concentrations in each bin. When computed analytically, total N is the integral area. This can cause issues when dealing with laboratory data, and so a new parameter ``SMPS`` is introduced as of version 1.8.0. ``SMPS`` is assumed ``True``, that is, **PyMieScatt assumes laboratory measurements by default**. Set this parameter to ``False`` when dealing with theoretical data from analytical distribution functions.
 
 .. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, nMedium=1.0, SMPS=True, asDict=False])
 
