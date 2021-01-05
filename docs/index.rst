@@ -145,9 +145,9 @@ Publications Using PyMieScatt
 
 If you use PyMieScatt in your research, please let me know and I'll link the publications here.
 
-- `Google scholar link with all current citations <https://scholar.google.com/scholar?cites=17069755164099851469&as_sdt=5,36&sciodt=0,36&hl=en>`_
+- `Google scholar link with all citations. <https://scholar.google.com/scholar?cites=17069755164099851469&as_sdt=5,36&sciodt=0,36&hl=en>`_
 
-- My own work using PyMieScatt
+- My own work using PyMieScatt:
 
   - Sumlin BJ, Pandey A, Walker MJ, Pattison RS, Williams BJ, Chakrabarty RK. Atmospheric Photooxidation Diminishes Light Absorption by Primary Brown Carbon Aerosol from Biomass Burning. Environ Sci Tech Let. 2017 4 (12) 540-545 (`Cover article <http://pubs.acs.org/toc/estlcu/4/12>`_). DOI: `10.1021/acs.estlett.7b00393 <http://doi.org/10.1021/acs.estlett.7b00393>`_
 
