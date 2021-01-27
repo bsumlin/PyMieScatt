@@ -3,7 +3,7 @@
 General Usage tips and Example Scripts
 ======================================
 
-PLEASE NOTE THAT MANY OF THESE EXAMPLES ARE ***EXTREMELY*** OUTDATED. I WILL UPDATE THEM, I PROMISE.
+Examples are now more or less up-to-date with PyMieScatt's modern syntax.
 
 PyMieScatt's functions are designed to work as a standalone calculator or as part of larger, more customized scripts. This page has a few selected examples which will expand as more innovative use cases appear. If you use PyMieScatt in your research in an unexpected or novel way, please `contact the author <mailto:bsumlin@wustl.edu>`_ to post an example here.
 
@@ -64,7 +64,7 @@ The `angular functions <http://pymiescatt.readthedocs.io/en/latest/forward.html#
    d=5000
    
    theta,SL,SR,SU = ps.ScatteringFunction(m,w,d)
-   qR,SLQ,SRQ,SUQ = ps.ScatteringFunction(m,w,d,space='qspace',normed=False)
+   qR,SLQ,SRQ,SUQ = ps.ScatteringFunction(m,w,d,space='qspace')
    
    plt.close('all')
    
@@ -124,7 +124,7 @@ First, install ffmpeg exe using conda:
    for i,d in enumerate(drange):
      if 250%(i+1)==0:
        print("Working on image " + str(i) + "...",flush=True)
-     theta,SL,SR,SU = ps.ScatteringFunction(m,wavelength,d,space='theta',normed=True)
+     theta,SL,SR,SU = ps.ScatteringFunction(m,wavelength,d,space='theta',normalization='t')
        
      plt.close('all')
      
@@ -198,7 +198,7 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
    sigma_g = 1.5 # geometric standard deviation - replace with your own (unitless)
    N = 1e5 # total number of particles - replace with your own (cm^-3)
    
-   B = ps.Mie_Lognormal(m,wavelength,sigma_g,dp_g,N,returnDistribution=True) # Calculate optical properties
+   B = ps.Mie_Lognormal(m,wavelength,sigma_g,dp_g,N,numberOfBins=1000,returnDistribution=True) # Calculate optical properties
    
    S = ps.SF_SD(m,wavelength,B[7],B[8])
    
@@ -239,13 +239,13 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
    # Annotate plot with integral results
    ax1.annotate("Integrated value = {i:1.3f}".format(i=int_sixty),
                xy=(np.pi/3, S[3][120]), xycoords='data',
-               xytext=(np.pi/6, 0.8), textcoords='data',
+               xytext=(np.pi/3, 12000), textcoords='data',
                arrowprops=dict(arrowstyle="->",
                                connectionstyle="arc3"),
                )
    ax1.annotate("Integrated value = {i:1.3f}".format(i=int_ninety),
                xy=(np.pi/2, S[3][180]), xycoords='data',
-               xytext=(2*np.pi/5, 2), textcoords='data',
+               xytext=(np.pi/2, 8000), textcoords='data',
                arrowprops=dict(arrowstyle="->",
                                connectionstyle="arc3"),
                )
