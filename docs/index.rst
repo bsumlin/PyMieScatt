@@ -156,6 +156,12 @@ If you use PyMieScatt in your research, please let me know and I'll link the pub
   - Sumlin BJ, Heinson YW, Shetty N, Pandey A, Pattison RS, Baker S, Hao WM, Chakrabarty RK. UV-Vis-IR Spectral Complex Refractive Indices and Optical Properties of Brown Carbon Aerosol fro Biomass Burning. J. Quant. Spectros. Rad. Trans. 2018 (206) 392-398 DOI: `10.1016/j.jqsrt.2017.12.009 <https://doi.org/10.1016/j.jqsrt.2017.12.009>`_
 
   - Sumlin BJ, Oxford C, Seo B, Pattison R, Williams B, Chakrabarty RK. Density and Homogeneous Internal Composition of Primary Brown Carbon Aerosol. Environ. Sci. Tech., In press. DOI: `10.1021/acs.est.8b00093 <https://doi.org/10.1021/acs.est.8b00093>`_
+  
+- Works by others
+
+  - Carrico, C. M., Capek, T. J., Gorkowski, K. J., Lam, J. T., Gulick, S., Karacaoglu, J., Lee, J. E., Dungan, C., Aiken, A. C., Onasch, T. B., Freedman, A., Mazzoleni, C., & Dubey, M. K. (2021). Humidified single-scattering albedometer (H-CAPS-PM SSA ): Design, data analysis, and validation. Aerosol Science and Technology, 1–20. DOI: `10.1080/02786826.2021.1895430 <https://doi.org/10.1080/02786826.2021.1895430>`
+
+  - Gorkowski, K., Benedict, K. B., Carrico, C. M., & Dubey, M. K. (2022). Complexities in Modeling Organic Aerosol Light Absorption. The Journal of Physical Chemistry A, 126(29), 4827–4833. DOI: `10.1021/acs.jpca.2c02236 <https://doi.org/10.1021/acs.jpca.2c02236>`
 
 Author Contact Information
 --------------------------
