@@ -159,9 +159,9 @@ If you use PyMieScatt in your research, please let me know and I'll link the pub
   
 - Works by others
 
-  - Carrico, C. M., Capek, T. J., Gorkowski, K. J., Lam, J. T., Gulick, S., Karacaoglu, J., Lee, J. E., Dungan, C., Aiken, A. C., Onasch, T. B., Freedman, A., Mazzoleni, C., & Dubey, M. K. (2021). Humidified single-scattering albedometer (H-CAPS-PM SSA ): Design, data analysis, and validation. Aerosol Science and Technology, 1–20. DOI: `10.1080/02786826.2021.1895430 <https://doi.org/10.1080/02786826.2021.1895430>`
+  - Carrico, C. M., Capek, T. J., Gorkowski, K. J., Lam, J. T., Gulick, S., Karacaoglu, J., Lee, J. E., Dungan, C., Aiken, A. C., Onasch, T. B., Freedman, A., Mazzoleni, C., & Dubey, M. K. (2021). Humidified single-scattering albedometer (H-CAPS-PM SSA ): Design, data analysis, and validation. Aerosol Science and Technology, 1–20. DOI: `10.1080/02786826.2021.1895430 <https://doi.org/10.1080/02786826.2021.1895430>`_
 
-  - Gorkowski, K., Benedict, K. B., Carrico, C. M., & Dubey, M. K. (2022). Complexities in Modeling Organic Aerosol Light Absorption. The Journal of Physical Chemistry A, 126(29), 4827–4833. DOI: `10.1021/acs.jpca.2c02236 <https://doi.org/10.1021/acs.jpca.2c02236>`
+  - Gorkowski, K., Benedict, K. B., Carrico, C. M., & Dubey, M. K. (2022). Complexities in Modeling Organic Aerosol Light Absorption. The Journal of Physical Chemistry A, 126(29), 4827–4833. DOI: `10.1021/acs.jpca.2c02236 <https://doi.org/10.1021/acs.jpca.2c02236>`_
 
 Author Contact Information
 --------------------------
