@@ -514,21 +514,21 @@ This example illustrates the algorithm used by the contour intersection method. 
    qbackerrs = [Qm[2]-Qm[2]*err,Qm[2]+Qm[2]*err]
    
    ax1.plot_surface(nSurf,kSurf,QscaSurf,rstride=1,cstride=1,cmap=c1,alpha=0.5)
-   ax1.contour(nSurf,kSurf,QscaSurf,Qm[0],linewidths=2,colors='r',linestyles='dashdot')
+   ax1.contour(nSurf,kSurf,QscaSurf,[Qm[0]],linewidths=2,colors='r',linestyles='dashdot')
    ax1.contour(nSurf,kSurf,QscaSurf,qscaerrs,linewidths=0.5,colors='r',linestyles='dashdot',alpha=0.75)
-   ax1.contour(nSurf,kSurf,QscaSurf,Qm[0],linewidths=2,colors='r',linestyles='dashdot',offset=0)
+   ax1.contour(nSurf,kSurf,QscaSurf,[Qm[0]],linewidths=2,colors='r',linestyles='dashdot',offset=0)
    ax1.contourf(nSurf,kSurf,QscaSurf,qscaerrs,colors='r',offset=0,alpha=0.25)
    
    ax2.plot_surface(nSurf,kSurf,QabsSurf,rstride=1,cstride=1,cmap=c2,alpha=0.5)
-   ax2.contour(nSurf,kSurf,QabsSurf,Qm[1],linewidths=2,colors='b',linestyles='solid')
+   ax2.contour(nSurf,kSurf,QabsSurf,[Q]m[1]],linewidths=2,colors='b',linestyles='solid')
    ax2.contour(nSurf,kSurf,QabsSurf,qabserrs,linewidths=0.5,colors='b',linestyles='solid',alpha=0.75)
-   ax2.contour(nSurf,kSurf,QabsSurf,Qm[1],linewidths=2,colors='b',linestyles='solid',offset=0)
+   ax2.contour(nSurf,kSurf,QabsSurf,[Qm[1]],linewidths=2,colors='b',linestyles='solid',offset=0)
    ax2.contourf(nSurf,kSurf,QabsSurf,qabserrs,colors='b',offset=0,alpha=0.25)
    
    ax3.plot_surface(nSurf,kSurf,QbackSurf,rstride=1,cstride=1,cmap=c3,alpha=0.5)
-   ax3.contour(nSurf,kSurf,QbackSurf,Qm[2],linewidths=2,colors='g',linestyles='dotted')
+   ax3.contour(nSurf,kSurf,QbackSurf,[Qm[2]],linewidths=2,colors='g',linestyles='dotted')
    ax3.contour(nSurf,kSurf,QbackSurf,qbackerrs,linewidths=0.5,colors='g',linestyles='dotted',alpha=0.75)
-   ax3.contour(nSurf,kSurf,QbackSurf,Qm[2],linewidths=2,colors='g',linestyles='dotted',offset=0)
+   ax3.contour(nSurf,kSurf,QbackSurf,[Qm[2]],linewidths=2,colors='g',linestyles='dotted',offset=0)
    ax3.contourf(nSurf,kSurf,QbackSurf,qbackerrs,colors='g',offset=0,alpha=0.25)
    
    boxLabels = ["Qsca","Qabs","Qback"]
