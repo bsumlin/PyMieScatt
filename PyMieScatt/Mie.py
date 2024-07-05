@@ -2,7 +2,10 @@
 # http://pymiescatt.readthedocs.io/en/latest/forward.html
 import numpy as np
 from scipy.special import jv, yv
-from scipy.integrate import trapz
+try:
+  from scipy.integrate import trapz
+except ImportError:
+  from scipy.integrate import trapezoid as trapz
 import warnings
 
 def coerceDType(d):

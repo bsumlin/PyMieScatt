@@ -189,7 +189,10 @@ Recently, a colleague needed to know how much light a distribution of salt aeros
    import PyMieScatt as ps # import PyMieScatt and abbreviate as ps
    import matplotlib.pyplot as plt # import standard plotting library and abbreviate as plt
    import numpy as np # import numpy and abbreviate as np
-   from scipy.integrate import trapz # import a single function for integration using trapezoidal rule
+   try:
+     from scipy.integrate import trapz # import a single function for integration using trapezoidal rule
+   except ImportError:
+     from scipy.integrate import trapezoid as trapz # for scipy>=1.14.0
    
    m = 1.536 # refractive index of NaCl
    wavelength = 405 # replace with the laser wavelength (nm)

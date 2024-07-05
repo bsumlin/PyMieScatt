@@ -368,7 +368,7 @@ There is an important distinction in how the size distribution is reported from 
 
 .. py:Function:: Mie_SD(m, wavelength, sizeDistributionDiameterBins, sizeDistribution[, nMedium=1.0, SMPS=True, asDict=False])
 
-   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a continuous, compactly-supported distribution.
+   Returns Mie coefficients β\ :sub:`ext`, β\ :sub:`sca`, β\ :sub:`abs`, G, β\ :sub:`pr`, β\ :sub:`back`, β\ :sub:`ratio`. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ (or `scipy.integrate.trapezoid <https://docs.scipy.org/doc/scipy-1.14.0/reference/generated/scipy.integrate.trapezoid.html>`_ )to compute the integral, which can introduce errors if your distribution is too sparse. Best used with a continuous, compactly-supported distribution.
    
    **Parameters**
    
@@ -398,7 +398,7 @@ There is an important distinction in how the size distribution is reported from 
 
 .. py:Function:: Mie_Lognormal(m, wavelength, geoStdDev, geoMean, numberOfParticles[, nMedium=1.0, numberOfBins=1000, lower=1, upper=1000, gamma=[1], returnDistribution=False, decomposeMultimodal=False, asDict=False])
 
-   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated k-modal lognormal particle number distribution. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ to compute the integral.
+   Returns Mie coefficients :math:`\beta_{ext}`, :math:`\beta_{sca}`, :math:`\beta_{abs}`, :math:`G`, :math:`\beta_{pr}`, :math:`\beta_{back}`,  and :math:`\beta_{ratio}`, integrated over a mathematically-generated k-modal lognormal particle number distribution. Uses `scipy.integrate.trapz <https://docs.scipy.org/doc/scipy-0.10.1/reference/generated/scipy.integrate.trapz.html>`_ (or `scipy.integrate.trapezoid <https://docs.scipy.org/doc/scipy-1.14.0/reference/generated/scipy.integrate.trapezoid.html>`_) to compute the integral.
    
    The general form of a k-modal lognormal distribution is given by:
    
