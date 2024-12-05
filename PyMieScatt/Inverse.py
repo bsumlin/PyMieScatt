@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt
 from matplotlib.contour import QuadContourSet
 from matplotlib.collections import LineCollection
 from scipy.ndimage import zoom
-from scipy.integrate import trapz
+try:
+  from scipy.integrate import trapz
+except ImportError:
+  from scipy.integrate import trapezoid as trapz
 from shapely import geometry
 
 def coerceDType(d):
