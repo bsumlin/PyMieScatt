@@ -8,6 +8,10 @@ except ImportError:
   from scipy.integrate import trapezoid as trapz
 import warnings
 
+# Parameter to determine wavelength crossover between methods for treating
+# long and short wavelengths
+crossover = 0.01
+
 def coerceDType(d):
   if type(d) is not np.ndarray:
     return np.array(d)
@@ -20,51 +24,46 @@ def MieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=Fals
   m /= nMedium
   wavelength /= nMedium
   x = np.pi*diameter/wavelength
-  if x==0:
-    return 0, 0, 0, 1.5, 0, 0, 0
-  elif x<=0.05:
-    return RayleighMieQ(m, wavelength, diameter, nMedium, asDict)
-  elif x>0.05:
-    nmax = np.round(2+x+4*(x**(1/3)))
-    n = np.arange(1,nmax+1)
-    n1 = 2*n+1
-    n2 = n*(n+2)/(n+1)
-    n3 = n1/(n*(n+1))
-    x2 = x**2
+  nmax = np.round(2+x+4*(x**(1/3)))
+  n = np.arange(1,nmax+1)
+  n1 = 2*n+1
+  n2 = n*(n+2)/(n+1)
+  n3 = n1/(n*(n+1))
+  x2 = x**2
 
-    an,bn = Mie_ab(m,x)
+  an,bn = Mie_ab(m,x)
 
-    qext = (2/x2)*np.sum(n1*(an.real+bn.real))
-    qsca = (2/x2)*np.sum(n1*(an.real**2+an.imag**2+bn.real**2+bn.imag**2))
-    qabs = qext-qsca
+  qext = (2/x2)*np.sum(n1*(an.real+bn.real))
+  qsca = (2/x2)*np.sum(n1*(an.real**2+an.imag**2+bn.real**2+bn.imag**2))
+  qabs = qext-qsca
 
-    g1 = [an.real[1:int(nmax)],
-          an.imag[1:int(nmax)],
-          bn.real[1:int(nmax)],
-          bn.imag[1:int(nmax)]]
-    g1 = [np.append(x, 0.0) for x in g1]
-    g = (4/(qsca*x2))*np.sum((n2*(an.real*g1[0]+an.imag*g1[1]+bn.real*g1[2]+bn.imag*g1[3]))+(n3*(an.real*bn.real+an.imag*bn.imag)))
+  g1 = [an.real[1:int(nmax)],
+        an.imag[1:int(nmax)],
+        bn.real[1:int(nmax)],
+        bn.imag[1:int(nmax)]]
+  g1 = [np.append(x, 0.0) for x in g1]
+  g = (4/(qsca*x2))*np.sum((n2*(an.real*g1[0]+an.imag*g1[1]+bn.real*g1[2]+bn.imag*g1[3]))+(n3*(an.real*bn.real+an.imag*bn.imag)))
 
-    qpr = qext-qsca*g
-    qback = (1/x2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
-    qratio = qback/qsca
-    if asCrossSection:
-      css = np.pi*(diameter/2)**2
-      cext = css*qext
-      csca = css*qsca
-      cabs = css*qabs
-      cpr = css*qpr
-      cback = css*qback
-      cratio = css*qratio
-      if asDict:
-        return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
-      else:
-        return cext, csca, cabs, g, cpr, cback, cratio
+  qpr = qext-qsca*g
+  qback = (1/x2)*(np.abs(np.sum(n1*((-1)**n)*(an-bn)))**2)
+  qratio = qback/qsca
+  if asCrossSection:
+    css = np.pi*(diameter/2)**2
+    cext = css*qext
+    csca = css*qsca
+    cabs = css*qabs
+    cpr = css*qpr
+    cback = css*qback
+    cratio = css*qratio
+    if asDict:
+      return dict(Cext=cext,Csca=csca,Cabs=cabs,g=g,Cpr=cpr,Cback=cback,Cratio=cratio)
     else:
-      if asDict:
-        return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
-      else:
-        return qext, qsca, qabs, g, qpr, qback, qratio
+      return cext, csca, cabs, g, cpr, cback, cratio
+  else:
+    if asDict:
+      return dict(Qext=qext,Qsca=qsca,Qabs=qabs,g=g,Qpr=qpr,Qback=qback,Qratio=qratio)
+    else:
+      return qext, qsca, qabs, g, qpr, qback, qratio
 
 def Mie_ab(m,x):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#Mie_ab
@@ -172,7 +171,7 @@ def RayleighMieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSect
       else:
         return qext, qsca, qabs, g, qpr, qback, qratio
 
-def AutoMieQ(m, wavelength, diameter, nMedium=1.0, crossover=0.01, asDict=False, asCrossSection=False):
+def AutoMieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=False):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#AutoMieQ
   nMedium = nMedium.real
   m_eff = m / nMedium
@@ -250,7 +249,7 @@ def LowFrequencyMie_ab(m,x):
   return an,bn
 
 def AutoMie_ab(m,x):
-  if x<0.5:
+  if x<crossover:
     return LowFrequencyMie_ab(m,x)
   else:
     return Mie_ab(m,x)
