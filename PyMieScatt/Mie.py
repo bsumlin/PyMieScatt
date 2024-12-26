@@ -14,7 +14,8 @@ def coerceDType(d):
   else:
     return d
 
-def MieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=False):
+def MieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=False,
+         rayleigh_thresh=0.05):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ
   nMedium = nMedium.real
   m /= nMedium
@@ -22,9 +23,9 @@ def MieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=Fals
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
-  elif x<=0.05:
+  elif x<=rayleigh_thresh:
     return RayleighMieQ(m, wavelength, diameter, nMedium, asDict)
-  elif x>0.05:
+  elif x>rayleigh_thresh:
     nmax = np.round(2+x+4*(x**(1/3)))
     n = np.arange(1,nmax+1)
     n1 = 2*n+1
