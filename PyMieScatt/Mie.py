@@ -14,7 +14,7 @@ def coerceDType(d):
   else:
     return d
 
-def MieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=False,
+def MieQ(m, wavelength, diameter, nMedium=1.00027316, asDict=False, asCrossSection=False,
          rayleigh_thresh=0.05):
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ
   nMedium = nMedium.real
