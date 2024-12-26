@@ -19,7 +19,6 @@ def MieQ(m, wavelength, diameter, nMedium=1.0, asDict=False, asCrossSection=Fals
 #  http://pymiescatt.readthedocs.io/en/latest/forward.html#MieQ
   nMedium = nMedium.real
   m /= nMedium
-  wavelength /= nMedium
   x = np.pi*diameter/wavelength
   if x==0:
     return 0, 0, 0, 1.5, 0, 0, 0
