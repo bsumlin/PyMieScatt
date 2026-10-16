@@ -21,6 +21,11 @@ def MieQ(m, wavelength, diameter, nMedium=1.00027316, asDict=False, asCrossSecti
   m /= nMedium
   x = np.pi*diameter/wavelength
   if x==0:
+    if asDict:
+      if asCrossSection:
+        return dict(Cext=0,Csca=0,Cabs=0,g=1.5,Cpr=0,Cback=0,Cratio=0)
+      else:
+        return dict(Qext=0,Qsca=0,Qabs=0,g=1.5,Qpr=0,Qback=0,Qratio=0)
     return 0, 0, 0, 1.5, 0, 0, 0
   elif x<=rayleigh_thresh:
     return RayleighMieQ(m, wavelength, diameter, nMedium, asDict)
